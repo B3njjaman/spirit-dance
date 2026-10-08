@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+    --papel: 248 245 252;
+    --superficie: 255 255 255;
+    --tinta: 42 19 64;
+    --suave: 104 86 125;
+    --morado: 126 47 208;
+    --lavanda: 217 200 242;
+    --rosa: 255 79 163;
+    --linea: 42 19 64;
+  }
+
+  html {
+    background: rgb(var(--papel));
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background: rgb(var(--papel));
+    color: rgb(var(--tinta));
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p,
+  li,
+  figcaption {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: rgb(var(--lavanda));
+  }
+
+  :focus-visible {
+    outline: 2px solid rgb(var(--morado));
+    outline-offset: 3px;
+  }
+}
+
+@keyframes llenar {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@media (max-width: 1023px) {
+  header {
+    transition: translate 250ms ease-out;
+  }
+  html[data-inmersivo] header {
+    translate: 0 -100%;
+  }
+}

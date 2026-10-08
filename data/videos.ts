@@ -17,18 +17,25 @@ export const CAPITULOS: { titulo: string; inicio: number }[] = [
   { titulo: 'Bailar para crecer', inicio: 66.98 },
 ];
 
-// Fotos y reels de @academiaspiritdance. La proporción define el ancho de cada pieza en la tira.
-export type PiezaSala =
-  | { tipo: 'foto'; src: string; alt: string; proporcion: number }
-  | { tipo: 'video'; src: string; poster: string; alt: string; proporcion: number };
+export type Categoria = 'clases' | 'gala' | 'historias' | 'trayectoria';
 
-export const SALA: PiezaSala[] = [
-  { tipo: 'video', src: ruta('/videos/reel-gala.mp4'), poster: ruta('/videos/reel-gala.jpg'), alt: 'Bailarinas en la Gala, sobre la plataforma con burbujas', proporcion: 9 / 16 },
-  { tipo: 'foto', src: ruta('/img/momentos/CqEQD37vhYU.jpg'), alt: 'Team La Florida con sus profesoras después de una presentación', proporcion: 1 },
-  { tipo: 'foto', src: ruta('/img/momentos/CjwUvuWDOSW.jpg'), alt: 'Grupo mini preparando la Gala 2022', proporcion: 1 },
-  { tipo: 'video', src: ruta('/videos/reel-ensayo.mp4'), poster: ruta('/videos/reel-ensayo.jpg'), alt: 'Ensayo de una coreografía en el auditorio', proporcion: 16 / 9 },
-  { tipo: 'foto', src: ruta('/img/momentos/CwyQGMcvNQp.jpg'), alt: 'Dos alumnas practicando elongación junto a la ventana', proporcion: 1 },
-  { tipo: 'video', src: ruta('/videos/reel-historias.mp4'), poster: ruta('/videos/reel-historias.jpg'), alt: 'Fotos de las alumnas compartidas por sus familias', proporcion: 9 / 16 },
-  { tipo: 'foto', src: ruta('/img/momentos/CqWO2ysP_NO_1.jpg'), alt: 'Clase de elongación del Team La Florida', proporcion: 4 / 3 },
-  { tipo: 'foto', src: ruta('/img/momentos/CkUKwULvWQy.jpg'), alt: 'Alumnas de Spirit Dance en el escenario', proporcion: 1 },
+export type Video = { id: string; titulo: string; categoria: Categoria; duracion: string; src: string; poster: string };
+
+// Reels de @academiaspiritdance y el video de trayectoria con sus tres cortes.
+export const VIDEOS: Video[] = [
+  { id: 'trayectoria', titulo: 'Paulina en 76 segundos', categoria: 'trayectoria', duracion: '1:17', src: ruta('/videos/trayectoria.mp4'), poster: ruta('/videos/trayectoria.jpg') },
+  { id: 'clase', titulo: 'Aprende distintas técnicas', categoria: 'clases', duracion: '0:18', src: ruta('/videos/reel-clase.mp4'), poster: ruta('/videos/reel-clase.jpg') },
+  { id: 'gala', titulo: 'Noche de Gala', categoria: 'gala', duracion: '0:14', src: ruta('/videos/reel-gala.mp4'), poster: ruta('/videos/reel-gala.jpg') },
+  { id: 'ensayo', titulo: 'Ensayo en el escenario', categoria: 'clases', duracion: '0:19', src: ruta('/videos/reel-ensayo.mp4'), poster: ruta('/videos/reel-ensayo.jpg') },
+  { id: 'historias', titulo: 'Nuestras bailarinas', categoria: 'historias', duracion: '0:33', src: ruta('/videos/reel-historias.mp4'), poster: ruta('/videos/reel-historias.jpg') },
+  { id: 'formacion', titulo: 'Su formación', categoria: 'trayectoria', duracion: '0:11', src: ruta('/videos/clip-formacion.mp4'), poster: ruta('/videos/clip-formacion.jpg') },
+  { id: 'escenario', titulo: 'Trece años en el escenario', categoria: 'trayectoria', duracion: '0:12', src: ruta('/videos/clip-escenario.mp4'), poster: ruta('/videos/clip-escenario.jpg') },
+  { id: 'academia', titulo: 'Así nació Spirit Dance', categoria: 'trayectoria', duracion: '0:11', src: ruta('/videos/clip-academia.mp4'), poster: ruta('/videos/clip-academia.jpg') },
 ];
+
+export const ETIQUETA_CATEGORIA: Record<Categoria, string> = {
+  clases: 'Clases',
+  gala: 'Gala',
+  historias: 'Historias',
+  trayectoria: 'Trayectoria',
+};

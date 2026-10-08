@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { BailarinaFlotante } from '@/components/BailarinaFlotante';
 import { Movimiento } from '@/components/Movimiento';
 import { Contacto } from '@/sections/Contacto';
 import { Navegacion } from '@/sections/Navegacion';
@@ -18,6 +19,7 @@ const SobreNosotros = () => {
         <Paulina />
         <Contacto />
       </main>
+      <BailarinaFlotante />
     </>
   );
 };

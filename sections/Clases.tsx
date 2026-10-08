@@ -1,60 +1,64 @@
-import { Historias } from '@/components/Historias';
-import { CONTACTO } from '@/data/contacto';
+'use client';
 
-// Grupos y sede según las publicaciones de @academiaspiritdance. Los horarios cambian
-// cada temporada, por eso no se publican: se consultan por WhatsApp.
-const GRUPOS = [
-  {
-    nombre: 'Grupo mini',
-    edad: 'Desde los 4 años',
-    texto: 'Juego, ritmo y los primeros pasos de danza. Cada niña y cada niño aprende a seguir la música y a moverse con otros.',
-  },
-  {
-    nombre: 'Danza infantil',
-    edad: 'Desde los 6 años',
-    texto: 'Técnica, elongación y coreografía. El grupo prepara durante el año lo que va a bailar en la Gala.',
-  },
-];
+import { useCallback, useState, type FC } from 'react';
+import { Historias } from '@/components/Historias';
+import { HISTORIAS } from '@/data/historias';
+import { cn } from '@/lib/cn';
+
+type CapituloProps = { indice: number; titulo: string; detalle: string; activo: boolean; alElegir: (i: number) => void };
+
+const Capitulo: FC<CapituloProps> = ({ indice, titulo, detalle, activo, alElegir }) => {
+  const elegir = useCallback(() => alElegir(indice), [alElegir, indice]);
+  return (
+    <li>
+      <button
+        type="button"
+        onClick={elegir}
+        aria-current={activo || undefined}
+        className={cn('flex w-full items-start gap-4 rounded-2xl px-4 py-3 text-left transition-[background-color,box-shadow] duration-300 ease-fidelya', activo ? 'bg-white/80 shadow-suave' : 'hover:bg-white/40')}
+      >
+        <span className={cn('mt-0.5 grid h-6 min-w-8 place-items-center rounded-full font-mono text-[11px] font-bold', activo ? 'bg-degradado text-white' : 'bg-tinta/5 text-tenue')}>
+          {String(indice + 1).padStart(2, '0')}
+        </span>
+        <span>
+          <span className={cn('block text-[17px] font-bold tracking-tight', activo ? 'text-tinta' : 'text-suave')}>{titulo}</span>
+          <span className={cn('grid transition-[grid-template-rows,opacity] duration-300 ease-fidelya', activo ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0')}>
+            <span className="overflow-hidden text-sm text-suave">{detalle}</span>
+          </span>
+        </span>
+      </button>
+    </li>
+  );
+};
 
 export const Clases = () => {
-  return (
-    <section id="clases" className="px-6 py-28 sm:px-10 lg:py-40">
-      <div className="mx-auto grid max-w-6xl gap-16 lg:grid-cols-[1fr_24.75rem] lg:gap-24">
-        <div>
-          <h2 className="font-display text-seccion">Las clases</h2>
-          <p className="mt-6 max-w-xl text-entrada text-suave">
-            Los grupos se arman por edad, y en cada clase se combinan el juego, la técnica y la coreografía. El año termina en una Gala sobre el
-            escenario, con familia y público.
-          </p>
+  const [actual, setActual] = useState(0);
 
-          <dl className="mt-14 border-t border-linea/15">
-            {GRUPOS.map((grupo) => {
-              return (
-                <div key={grupo.nombre} className="grid gap-2 border-b border-linea/15 py-8 sm:grid-cols-[13rem_1fr] sm:gap-8">
-                  <dt>
-                    <span className="block font-display text-3xl">{grupo.nombre}</span>
-                    <span className="mt-1 block text-morado">{grupo.edad}</span>
-                  </dt>
-                  <dd className="max-w-md text-suave">{grupo.texto}</dd>
-                </div>
-              );
+  return (
+    <section id="clases" className="py-20 lg:py-32">
+      <div className="mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-[1fr_auto] lg:gap-16 lg:px-6">
+        <div className="px-4 text-center sm:px-6 lg:px-0 lg:text-left">
+          <span className="pastilla">
+            <i />
+            Una clase en Spirit Dance
+          </span>
+          <h2 className="mt-5 text-seccion">
+            Así se vive una clase, <span className="degradado-texto">por dentro.</span>
+          </h2>
+          <p className="mx-auto mt-4 max-w-lg text-entrada text-suave lg:mx-0">
+            Míralo como historias de Instagram: toca a la derecha para avanzar y mantén presionado para pausar.
+          </p>
+          <ol className="mt-8 hidden max-w-md flex-col gap-1 lg:flex">
+            {HISTORIAS.map((h, i) => {
+              return <Capitulo key={h.id} indice={i} titulo={h.titulo} detalle={h.texto ?? h.antetitulo} activo={i === actual} alElegir={setActual} />;
             })}
-            <div className="grid gap-2 py-8 sm:grid-cols-[13rem_1fr] sm:gap-8">
-              <dt className="font-display text-3xl">Dónde</dt>
-              <dd className="max-w-md text-suave">
-                En La Araucana, La Florida. Para conocer los horarios y cupos de esta temporada,{' '}
-                <a href={CONTACTO.whatsapp} target="_blank" rel="noreferrer" className="text-morado underline decoration-lavanda decoration-2 underline-offset-4 hover:decoration-morado">
-                  escríbele a Paulina
-                </a>
-                .
-              </dd>
-            </div>
-          </dl>
+          </ol>
         </div>
 
-        <div className="-mx-6 sm:-mx-10 lg:mx-0 lg:pt-6">
-          <Historias />
-          <p className="mt-4 hidden text-nota text-suave lg:block">Toca los lados para avanzar o retroceder; mantén presionado para pausar.</p>
+        {/* En celular las historias van a pantalla completa; desde lg, dentro de un teléfono como el de fidelya.cl. */}
+        <div className="relative lg:h-[44rem] lg:w-[22.5rem] lg:rounded-[2.75rem] lg:border lg:border-white/90 lg:bg-white/80 lg:p-2.5 lg:shadow-vidrio lg:backdrop-blur-xl">
+          <div aria-hidden className="absolute left-1/2 top-4 z-30 hidden h-6 w-24 -translate-x-1/2 rounded-full bg-tinta lg:block" />
+          <Historias actual={actual} setActual={setActual} />
         </div>
       </div>
     </section>

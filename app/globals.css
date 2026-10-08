@@ -5,14 +5,16 @@
 @layer base {
   :root {
     color-scheme: light;
-    --papel: 248 245 252;
+    --papel: 252 248 254;
     --superficie: 255 255 255;
-    --tinta: 42 19 64;
-    --suave: 104 86 125;
-    --morado: 126 47 208;
-    --lavanda: 217 200 242;
+    --tinta: 42 33 64;
+    --suave: 98 90 118;
+    --tenue: 159 151 178;
     --rosa: 255 79 163;
-    --linea: 42 19 64;
+    --lila: 157 92 255;
+    --magenta: 230 38 140;
+    --lavanda: 238 227 255;
+    --verde: 31 169 122;
   }
 
   html {
@@ -24,6 +26,7 @@
   body {
     background: rgb(var(--papel));
     color: rgb(var(--tinta));
+    overflow-x: clip;
   }
 
   h1,
@@ -34,7 +37,8 @@
 
   p,
   li,
-  figcaption {
+  figcaption,
+  dd {
     text-wrap: pretty;
   }
 
@@ -43,8 +47,47 @@
   }
 
   :focus-visible {
-    outline: 2px solid rgb(var(--morado));
+    outline: 2px solid rgb(var(--lila));
     outline-offset: 3px;
+  }
+}
+
+@layer components {
+  /* Piezas del sistema de fidelya.cl: vidrio, pastilla con punto, texto en degradado y botones. */
+  .vidrio {
+    @apply rounded-3xl border border-white/90 bg-white/65 shadow-vidrio;
+    backdrop-filter: blur(18px) saturate(1.5);
+    -webkit-backdrop-filter: blur(18px) saturate(1.5);
+  }
+  .pastilla {
+    @apply inline-flex items-center gap-2 rounded-full border border-white/90 bg-white/70 py-1.5 pl-2.5 pr-3.5 text-[13px] font-semibold text-suave shadow-suave;
+    backdrop-filter: blur(10px);
+  }
+  .pastilla > i {
+    @apply size-2 rounded-full bg-degradado;
+    box-shadow: 0 0 0 4px rgba(255, 79, 163, 0.14);
+  }
+  .degradado-texto {
+    @apply bg-degradado bg-clip-text text-transparent;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+  .boton {
+    @apply relative inline-flex h-[52px] items-center justify-center gap-2 whitespace-nowrap rounded-full px-6 text-[15.5px] font-bold transition-[box-shadow,background-color,scale] duration-300 ease-fidelya active:scale-[0.96];
+  }
+  .boton-principal {
+    @apply boton bg-degradado text-white shadow-boton hover:shadow-boton-alto;
+  }
+  .boton-vidrio {
+    @apply boton border border-white/90 bg-white/70 text-tinta shadow-suave hover:bg-white;
+    backdrop-filter: blur(10px);
+  }
+  .check {
+    @apply flex items-center gap-2 text-sm font-medium text-suave;
+  }
+  .check::before {
+    content: '✓';
+    @apply grid size-[18px] shrink-0 place-items-center rounded-full bg-verde/15 text-[11px] font-bold text-verde;
   }
 }
 
@@ -63,5 +106,15 @@
   }
   html[data-inmersivo] header {
     translate: 0 -100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-flota1,
+  .animate-flota2,
+  .animate-flota3,
+  .animate-cinta,
+  .animate-flotar {
+    animation: none;
   }
 }

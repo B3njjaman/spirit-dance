@@ -1,21 +1,30 @@
+import Image from 'next/image';
 import Link from 'next/link';
+import profesoras from '@/public/img/portada-5.jpg';
 
-// Franja breve en el inicio: quién enseña, con el paso a la página completa.
+// Como el banner de "App de meseros" en fidelya.cl: una tarjeta que lleva a la página Sobre nosotros.
 export const Presentacion = () => {
   return (
-    <section className="bg-superficie px-6 py-24 sm:px-10 lg:py-32">
-      <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[1fr_1fr] lg:gap-24">
-        <h2 className="font-display text-seccion">Quién enseña</h2>
-        <div className="lg:pt-3">
-          <p className="text-entrada text-suave">
-            Paulina Quezada es profesora de Educación Física y especialista en danza. Antes de fundar la academia en 2020 pasó trece años en el
-            American British School y enseñó danza en la Universidad Diego Portales.
+    <section className="px-4 py-12 sm:px-6">
+      <div className="vidrio mx-auto grid max-w-6xl items-center gap-8 overflow-hidden p-3 lg:grid-cols-[1fr_1.1fr] lg:gap-14 lg:p-4">
+        <div className="relative aspect-[4/3] overflow-hidden rounded-[18px] lg:aspect-[5/4]">
+          <Image src={profesoras} alt="Team La Florida en el escenario y sus profesoras con flores" fill sizes="(min-width: 1024px) 40vw, 92vw" className="object-cover" placeholder="blur" />
+        </div>
+        <div className="px-3 pb-5 lg:px-0 lg:pb-0 lg:pr-10">
+          <span className="pastilla">
+            <i />
+            Quién enseña
+          </span>
+          <h2 className="mt-5 text-seccion">
+            Paulina Quezada <span className="degradado-texto">y su equipo.</span>
+          </h2>
+          <p className="mt-4 text-entrada text-suave">
+            Profesora de Educación Física especialista en danza. Antes de fundar la academia pasó trece años en el American British School y enseñó
+            danza en la Universidad Diego Portales.
           </p>
-          <Link
-            href="/sobre-nosotros"
-            className="mt-8 inline-flex font-medium text-morado underline decoration-lavanda decoration-2 underline-offset-[6px] transition-[text-decoration-color] hover:decoration-morado"
-          >
-            Conoce su historia y su trayectoria
+          <Link href="/sobre-nosotros" className="boton-principal mt-7">
+            Conoce su historia
+            <span aria-hidden>→</span>
           </Link>
         </div>
       </div>

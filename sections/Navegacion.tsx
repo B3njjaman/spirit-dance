@@ -1,18 +1,30 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { CONTACTO } from '@/data/contacto';
 import { cn } from '@/lib/cn';
 
 const ENLACES = [
   { href: '/#clases', texto: 'Clases' },
+  { href: '/#grupos', texto: 'Grupos' },
+  { href: '/#videos', texto: 'Videos' },
   { href: '/sobre-nosotros', texto: 'Sobre nosotros' },
-  { href: '/#sala', texto: 'En la sala' },
+  { href: '/#preguntas', texto: 'Preguntas' },
 ];
+
+const Marca = () => {
+  return (
+    <Link href="/" className="flex items-center gap-2 text-[15px] font-extrabold uppercase tracking-[0.08em] text-tinta">
+      <span aria-hidden className="size-2.5 rounded-full bg-degradado shadow-[0_0_0_4px_rgba(255,79,163,0.14)]" />
+      Spirit Dance
+    </Link>
+  );
+};
 
 export const Navegacion = () => {
   const [conFondo, setConFondo] = useState(false);
+  const [abierto, setAbierto] = useState(false);
 
   useEffect(() => {
     const alBajar = () => setConFondo(window.scrollY > 24);
@@ -21,29 +33,72 @@ export const Navegacion = () => {
     return () => window.removeEventListener('scroll', alBajar);
   }, []);
 
+  useEffect(() => {
+    if (!abierto) return;
+    const alTecla = (e: KeyboardEvent) => e.key === 'Escape' && setAbierto(false);
+    window.addEventListener('keydown', alTecla);
+    return () => window.removeEventListener('keydown', alTecla);
+  }, [abierto]);
+
+  const alternar = useCallback(() => setAbierto((a) => !a), []);
+  const cerrar = useCallback(() => setAbierto(false), []);
+
   return (
-    <header className={cn('fixed inset-x-0 top-0 z-30 transition-[background-color,box-shadow] duration-300', conFondo && 'bg-papel/85 shadow-[0_1px_0_rgb(var(--linea)/0.08)] backdrop-blur-md')}>
-      <nav aria-label="Principal" className="mx-auto flex h-[72px] max-w-[90rem] items-center justify-between px-6 sm:px-10">
-        <Link href="/" className="font-display text-xl italic text-morado">
-          Spirit Dance Academy
-        </Link>
-        <div className="flex items-center gap-8">
-          <ul className="hidden items-center gap-8 text-suave md:flex">
+    <header className={cn('fixed inset-x-0 top-0 z-40 transition-[background-color,box-shadow] duration-300', (conFondo || abierto) && 'bg-papel/80 shadow-[0_1px_0_rgba(42,33,64,0.06)] backdrop-blur-xl')}>
+      <nav aria-label="Principal" className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:h-[72px]">
+        <Marca />
+        <ul className="hidden items-center gap-7 text-sm font-medium text-suave lg:flex">
+          {ENLACES.map((enlace) => {
+            return (
+              <li key={enlace.href}>
+                <Link href={enlace.href} className="transition-colors duration-150 hover:text-tinta">
+                  {enlace.texto}
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+        <div className="hidden items-center gap-5 lg:flex">
+          <a href={CONTACTO.instagram} target="_blank" rel="noreferrer" className="text-sm font-semibold text-tinta">
+            Instagram
+          </a>
+          <a href={CONTACTO.whatsapp} target="_blank" rel="noreferrer" className="boton-principal !h-10 !px-5 !text-sm">
+            Inscribir
+          </a>
+        </div>
+        <button
+          type="button"
+          onClick={alternar}
+          aria-expanded={abierto}
+          aria-controls="menu-movil"
+          aria-label={abierto ? 'Cerrar menú' : 'Abrir menú'}
+          className="grid size-11 place-items-center rounded-2xl border border-white/90 bg-white/80 shadow-suave transition-[scale] duration-150 active:scale-[0.96] lg:hidden"
+        >
+          <span aria-hidden className="relative block h-3 w-4">
+            <span className={cn('absolute inset-x-0 top-0 h-0.5 rounded-full bg-tinta transition-transform duration-300', abierto && 'translate-y-[5px] rotate-45')} />
+            <span className={cn('absolute inset-x-0 bottom-0 h-0.5 rounded-full bg-tinta transition-transform duration-300', abierto && '-translate-y-[5px] -rotate-45')} />
+          </span>
+        </button>
+      </nav>
+
+      <div id="menu-movil" hidden={!abierto} className="px-4 pb-5 lg:hidden">
+        <div className="vidrio p-3">
+          <ul className="flex flex-col">
             {ENLACES.map((enlace) => {
               return (
                 <li key={enlace.href}>
-                  <Link href={enlace.href} className="transition-colors duration-150 hover:text-tinta">
+                  <Link href={enlace.href} onClick={cerrar} className="flex h-12 items-center rounded-2xl px-4 text-[17px] font-semibold text-tinta active:bg-white">
                     {enlace.texto}
                   </Link>
                 </li>
               );
             })}
           </ul>
-          <a href={CONTACTO.whatsapp} target="_blank" rel="noreferrer" className="rounded-full border border-morado/30 px-5 py-2.5 text-nota font-medium text-morado transition-[background-color,color,scale] duration-150 ease-out hover:bg-morado hover:text-white active:scale-[0.96]">
-            WhatsApp
+          <a href={CONTACTO.whatsapp} target="_blank" rel="noreferrer" className="boton-principal mt-3 w-full">
+            Escribir por WhatsApp
           </a>
         </div>
-      </nav>
+      </div>
     </header>
   );
 };

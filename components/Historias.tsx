@@ -77,7 +77,7 @@ const Diapositiva: FC<{ historia: Historia; pausado: boolean }> = ({ historia, p
           <p className="text-nota text-white/80">{historia.antetitulo}</p>
         </Escalonado>
         <Escalonado retraso={0.1}>
-          <h3 className="mt-2 font-display text-5xl leading-[0.95]">{historia.titulo}</h3>
+          <h3 className="mt-2 text-[2.5rem] font-extrabold leading-[1.02] tracking-[-0.035em]">{historia.titulo}</h3>
         </Escalonado>
         {historia.texto && (
           <Escalonado retraso={0.2}>
@@ -101,9 +101,11 @@ const Diapositiva: FC<{ historia: Historia; pausado: boolean }> = ({ historia, p
   );
 };
 
-export const Historias = () => {
+type HistoriasProps = { actual: number; setActual: React.Dispatch<React.SetStateAction<number>> };
+
+// El índice vive afuera para que la lista de capítulos de la sección quede sincronizada con el teléfono.
+export const Historias: FC<HistoriasProps> = ({ actual, setActual }) => {
   const contenedor = useRef<HTMLDivElement>(null);
-  const [actual, setActual] = useState(0);
   const [pausado, setPausado] = useState(false);
   const [visible, setVisible] = useState(false);
   const [reducir, setReducir] = useState(false);
@@ -132,9 +134,9 @@ export const Historias = () => {
     };
   }, []);
 
-  const siguiente = useCallback(() => setActual((i) => (i < total - 1 ? i + 1 : 0)), [total]);
-  const anterior = useCallback(() => setActual((i) => Math.max(i - 1, 0)), []);
-  const alTerminarBarra = useCallback(() => setActual((i) => Math.min(i + 1, total - 1)), [total]);
+  const siguiente = useCallback(() => setActual((i) => (i < total - 1 ? i + 1 : 0)), [setActual, total]);
+  const anterior = useCallback(() => setActual((i) => Math.max(i - 1, 0)), [setActual]);
+  const alTerminarBarra = useCallback(() => setActual((i) => Math.min(i + 1, total - 1)), [setActual, total]);
 
   const presionar = useCallback(() => {
     manteniendo.current = false;
@@ -184,7 +186,7 @@ export const Historias = () => {
       aria-label={`Historia ${actual + 1} de ${total}: ${historia.titulo}`}
       tabIndex={0}
       onKeyDown={alTeclado}
-      className="relative h-[100svh] w-full select-none overflow-hidden bg-tinta lg:h-[44rem] lg:max-w-[24.75rem] lg:rounded-[2rem] lg:shadow-[0_40px_90px_-40px_rgb(var(--morado)/0.6)]"
+      className="relative h-[100svh] w-full select-none overflow-hidden bg-tinta lg:h-full lg:rounded-[2.1rem]"
     >
       <AnimatePresence mode="wait">
         <motion.div key={historia.id} initial={ENTRADA} animate={VISIBLE} exit={SALIDA} transition={CAMBIO} className="absolute inset-0">
@@ -192,10 +194,10 @@ export const Historias = () => {
         </motion.div>
       </AnimatePresence>
 
-      <div className="absolute inset-x-0 top-0 z-20 px-3 pt-[max(0.75rem,env(safe-area-inset-top))]">
+      <div className="absolute inset-x-0 top-0 z-20 px-3 pt-[max(0.75rem,env(safe-area-inset-top))] lg:pt-12">
         <Barras total={total} actual={actual} detenido={detenido} alTerminar={alTerminarBarra} />
         <div className="mt-3 flex items-center gap-2.5 text-white">
-          <span className="grid size-8 place-items-center rounded-full bg-white font-display text-sm italic text-morado ring-2 ring-rosa">S</span>
+          <span className="grid size-8 place-items-center rounded-full bg-degradado text-xs font-extrabold text-white ring-2 ring-white">SD</span>
           <span className="text-nota font-medium">academiaspiritdance</span>
           {pausado && <span className="text-nota text-white/70">En pausa</span>}
         </div>

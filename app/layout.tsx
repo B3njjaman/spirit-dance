@@ -35,9 +35,19 @@ export const viewport: Viewport = {
   ],
 };
 
+// Último resguardo para que la página siga clara: si el navegador igual fuerza su modo oscuro (algunos Samsung
+// Internet ignoran el meta color-scheme), el color de sistema "canvas" de un elemento marcado como claro deja
+// de ser blanco. Al detectarlo, la página se declara de esquema oscuro: Chromium entiende que ya tiene modo oscuro
+// propio y apaga su oscurecimiento, y como los colores del sitio están fijos, se sigue viendo clara.
+// Corre en el <head>, antes de pintar, para que no haya ni un instante oscuro.
+const SIEMPRE_CLARO = `(function(){try{var r=document.documentElement,d=document.createElement('div');d.style.cssText='display:none;background-color:canvas;color-scheme:light';r.appendChild(d);var c=getComputedStyle(d).backgroundColor;r.removeChild(d);if(c!=='rgb(255, 255, 255)'){r.style.colorScheme='dark';r.setAttribute('data-oscuro-forzado','')}}catch(e){}})();`;
+
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <html lang="es" className={`${sans.variable} ${mono.variable} ${script.variable}`}>
+    <html lang="es" suppressHydrationWarning className={`${sans.variable} ${mono.variable} ${script.variable}`}>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: SIEMPRE_CLARO }} />
+      </head>
       <body className="font-sans text-cuerpo">
         <Fondo />
         <Movimiento />

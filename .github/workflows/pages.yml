@@ -27,6 +27,8 @@ jobs:
       - run: npx next build
         env:
           PAGES: '1'
+          # Dirección del Worker de Estrella (worker/). Vacía, el asistente responde sin IA.
+          NEXT_PUBLIC_ASISTENTE_URL: ${{ vars.ASISTENTE_URL }}
       - run: touch out/.nojekyll
       - uses: actions/upload-pages-artifact@v3
         with:

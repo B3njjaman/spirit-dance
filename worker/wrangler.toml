@@ -1,0 +1,9 @@
+# Worker de Estrella, la asistente del sitio. Recibe la conversación desde la página y responde con Claude.
+# La clave de Anthropic no va aquí: se guarda como secreto con `npx wrangler secret put ANTHROPIC_API_KEY`.
+name = "spirit-dance-asistente"
+main = "src/index.ts"
+compatibility_date = "2026-09-01"
+
+[vars]
+# Páginas que pueden usar el asistente (CORS), separadas por coma.
+ORIGENES = "https://b3njjaman.github.io,http://localhost:3100"

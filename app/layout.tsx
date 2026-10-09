@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Allura, JetBrains_Mono, Plus_Jakarta_Sans } from 'next/font/google';
-import { BailarinaFlotante } from '@/components/BailarinaFlotante';
+import { Asistente } from '@/components/Asistente';
 import { Fondo } from '@/components/Fondo';
 import { Movimiento } from '@/components/Movimiento';
 import { Telon } from '@/components/Telon';
@@ -69,7 +69,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         <Navegacion />
         <main>{children}</main>
         <Contacto />
-        <BailarinaFlotante />
+        <Asistente />
         <Telon />
       </body>
     </html>

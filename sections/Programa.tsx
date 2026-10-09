@@ -12,7 +12,7 @@ const ACTOS: Acto[] = [
   { href: '/clases', numero: 'Primer acto', titulo: 'Clases', texto: 'Grupos desde los 4 años y cómo es una clase por dentro.', foto: ruta('/img/galeria/min/CqWV1EKvQ-n_01.jpg'), giro: -4 },
   { href: '/galeria', numero: 'Segundo acto', titulo: 'Galería', texto: 'Cuatro años de fotos sobre una mesa que puedes recorrer.', foto: ruta('/img/galeria/min/CqWUDCLPVvj_01.jpg'), giro: 3 },
   { href: '/videos', numero: 'Tercer acto', titulo: 'Videos', texto: 'Ensayos, la Gala y la historia de Paulina en un minuto.', foto: ruta('/videos/reel-ensayo.jpg'), adelanto: ruta('/videos/reel-ensayo.mp4'), giro: -2 },
-  { href: '/sobre-nosotros', numero: 'Cuarto acto', titulo: 'Nosotros', texto: 'Paulina, su equipo y veinte años enseñando a moverse.', foto: ruta('/img/momentos/CqEQD37vhYU.jpg'), encuadre: 'object-bottom', giro: 4 },
+  { href: '/sobre-nosotros', numero: 'Cuarto acto', titulo: 'Nosotros', texto: 'Paulina, su equipo y veinte años enseñando a moverse.', foto: ruta('/img/galeria/min/paulina-copa-2019.jpg'), encuadre: 'object-[50%_25%]', giro: 4 },
 ];
 
 const Entrada: FC<{ acto: Acto }> = ({ acto }) => {

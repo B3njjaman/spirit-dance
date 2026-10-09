@@ -1,13 +1,14 @@
 import { ruta } from '@/lib/ruta';
 
-// Fotos de las publicaciones de @academiaspiritdance (instagram/completo), de la más nueva a la más antigua.
-// Generado por la herramienta de galería: cada foto tiene versión grande y miniatura en public/img/galeria.
-export const MOMENTOS = ['En clase', 'El equipo', 'Retratos', 'La Gala', 'Al aire libre'] as const;
+// Fotos de las publicaciones de @academiaspiritdance (instagram/completo), de la más nueva a la más antigua,
+// más las de 2019 con la selección de Cheerdance del American British School, que mandó la familia.
+// Cada foto tiene versión grande y miniatura en public/img/galeria.
+export const MOMENTOS = ['En clase', 'El equipo', 'Retratos', 'La Gala', 'Al aire libre', 'Competencias'] as const;
 export type Momento = (typeof MOMENTOS)[number];
 
-export type FotoGaleria = { id: string; grande: string; miniatura: string; ancho: number; alto: number; alt: string; momento: Momento; fecha: string; publicacion: string };
+export type FotoGaleria = { id: string; grande: string; miniatura: string; ancho: number; alto: number; alt: string; momento: Momento; fecha: string; publicacion?: string };
 
-const foto = (id: string, ancho: number, alto: number, alt: string, momento: Momento, fecha: string, codigo: string): FotoGaleria => ({
+const foto = (id: string, ancho: number, alto: number, alt: string, momento: Momento, fecha: string, codigo?: string): FotoGaleria => ({
   id,
   grande: ruta(`/img/galeria/${id}.jpg`),
   miniatura: ruta(`/img/galeria/min/${id}.jpg`),
@@ -16,10 +17,14 @@ const foto = (id: string, ancho: number, alto: number, alt: string, momento: Mom
   alt,
   momento,
   fecha,
-  publicacion: `https://www.instagram.com/p/${codigo}/`,
+  publicacion: codigo && `https://www.instagram.com/p/${codigo}/`,
 });
 
+// Paulina con la copa va primera aunque sea de 2019: es la foto que más queremos que se vea.
+export const FOTO_COPA = foto('paulina-copa-2019', 825, 1280, 'Paulina sonriendo con la copa del Super Nacional 2019 de Bars Classic', 'Competencias', '2019-12-08');
+
 export const GALERIA: FotoGaleria[] = [
+  FOTO_COPA,
   foto('C0ZPTvkAO5S_01', 403, 726, 'Alumna en la plataforma 360 de la Gala', 'La Gala', '2023-12-03', 'C0ZPTvkAO5S'),
   foto('CwyQGMcvNQp_01', 1400, 1400, 'Elongación de pie con ayuda de una compañera', 'En clase', '2023-09-04', 'CwyQGMcvNQp'),
   foto('CvDoM7-PArO_01', 693, 693, 'Alumna y profesora en la fiesta de la Barbie', 'La Gala', '2023-07-23', 'CvDoM7-PArO'),
@@ -62,4 +67,9 @@ export const GALERIA: FotoGaleria[] = [
   foto('CXTogUKM2CC_01', 1120, 1400, 'Calentamiento en la cancha techada', 'Al aire libre', '2021-12-10', 'CXTogUKM2CC'),
   foto('CWb-m-_g4NY_01', 1400, 1050, 'Elongación en la cancha de pasto', 'Al aire libre', '2021-11-19', 'CWb-m-_g4NY'),
   foto('CIau0P7h_Yt_01', 1280, 960, 'El grupo en el parque, cada una con su diploma', 'Al aire libre', '2020-12-05', 'CIau0P7h_Yt'),
+  foto('copa-super-nacional-2019', 1050, 1400, 'La copa del Super Nacional 2019 entre las alumnas de la selección', 'Competencias', '2019-12-08'),
+  foto('seleccion-escenario-2019', 1400, 1050, 'La selección de Cheerdance con vestidos azules sentada en el escenario', 'Competencias', '2019-12-08'),
+  foto('mini-fila-2019', 1050, 1400, 'Las más chicas en fila con vestidos rosados y moños', 'Competencias', '2019-11-30'),
+  foto('mini-pompones-2019', 1050, 1400, 'Las más chicas con pompones fucsia antes de salir a competir', 'Competencias', '2019-11-30'),
+  foto('selecciones-cancha-2019', 1400, 1050, 'Las selecciones juntas en la cancha después de competir', 'Competencias', '2019-08-31'),
 ];

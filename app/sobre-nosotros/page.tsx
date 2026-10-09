@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Encabezado } from '@/components/Encabezado';
+import { Copa } from '@/sections/Copa';
 import { Cinta } from '@/sections/Cinta';
 import { Frase } from '@/sections/Frase';
 import { Paulina } from '@/sections/Paulina';
@@ -17,6 +18,7 @@ const SobreNosotros = () => {
         en el American British School, donde dirigió la Muestra Artística Internacional y la selección de Cheerdance. En 2020 fundó Spirit Dance
         Academy.
       </Encabezado>
+      <Copa />
       <Paulina />
       <Frase />
       <Cinta />

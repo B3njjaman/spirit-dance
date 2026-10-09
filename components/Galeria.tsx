@@ -228,9 +228,11 @@ const Visor: FC<VisorProps> = ({ fotos, abierta, alCambiar }) => {
             <div>
               <p className="font-script text-4xl leading-none text-tinta/80">{fechaLarga(foto.fecha)}</p>
               <p className="mt-1 text-[15px] text-suave">{foto.alt}</p>
-              <a href={foto.publicacion} target="_blank" rel="noreferrer" className="mt-1 inline-block text-sm font-semibold text-magenta underline decoration-rosa/30 underline-offset-4">
-                Ver la publicación en Instagram
-              </a>
+              {foto.publicacion && (
+                <a href={foto.publicacion} target="_blank" rel="noreferrer" className="mt-1 inline-block text-sm font-semibold text-magenta underline decoration-rosa/30 underline-offset-4">
+                  Ver la publicación en Instagram
+                </a>
+              )}
             </div>
             <div className="flex items-center gap-2">
               <span className="mr-1 text-sm tabular-nums text-tenue">

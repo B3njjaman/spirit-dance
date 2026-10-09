@@ -6,16 +6,17 @@ const COLUMNAS = [
   {
     titulo: 'Academia',
     enlaces: [
-      { href: '/#clases', texto: 'Clases' },
-      { href: '/#grupos', texto: 'Grupos' },
-      { href: '/#videos', texto: 'Videos' },
-      { href: '/#preguntas', texto: 'Preguntas' },
+      { href: '/clases', texto: 'Clases' },
+      { href: '/clases#grupos', texto: 'Grupos' },
+      { href: '/clases#preguntas', texto: 'Preguntas' },
+      { href: '/videos', texto: 'Videos' },
     ],
   },
   {
     titulo: 'Nosotros',
     enlaces: [
-      { href: '/sobre-nosotros', texto: 'Sobre nosotros' },
+      { href: '/sobre-nosotros', texto: 'Paulina y su equipo' },
+      { href: '/galeria', texto: 'Galería' },
       { href: CONTACTO.instagram, texto: 'Instagram' },
     ],
   },

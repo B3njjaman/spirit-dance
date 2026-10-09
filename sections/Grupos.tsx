@@ -1,10 +1,13 @@
+import { FotoEncuadrada } from '@/components/FotoEncuadrada';
 import { CONTACTO } from '@/data/contacto';
 import { cn } from '@/lib/cn';
+import { ruta } from '@/lib/ruta';
 
 // Formato de las tarjetas de planes de fidelya.cl, con lo que se sabe de cada grupo por las publicaciones.
 const GRUPOS = [
   {
     nombre: 'Grupo mini',
+    foto: { src: ruta('/img/grupo-mini.jpg'), alt: 'El Grupo mini ensayando en el salón' },
     etiqueta: 'Desde los 4 años',
     texto: 'El primer contacto con la danza, a través del juego.',
     incluye: ['Juego, ritmo y musicalidad', 'Primeros pasos de danza', 'Coreografía para la Gala'],
@@ -12,6 +15,7 @@ const GRUPOS = [
   },
   {
     nombre: 'Danza infantil',
+    foto: { src: ruta('/img/danza-infantil.jpg'), alt: 'Alumna elongando con ayuda de una compañera' },
     etiqueta: 'Desde los 6 años',
     texto: 'Técnica y coreografía para las que ya quieren más.',
     incluye: ['Técnica de danza', 'Elongación', 'Coreografía de grupo', 'Gala de fin de año'],
@@ -19,6 +23,7 @@ const GRUPOS = [
   },
   {
     nombre: 'Dónde y cuándo',
+    foto: { src: ruta('/img/team-la-florida.jpg'), alt: 'Team La Florida sentado en el escenario de La Araucana' },
     etiqueta: 'La Florida',
     texto: 'Las clases son en La Araucana, La Florida.',
     incluye: ['Grupos por edad y nivel', 'Horarios según la temporada', 'Dirigida por Paulina Quezada'],
@@ -42,14 +47,16 @@ export const Grupos = () => {
       <div className="mx-auto mt-12 grid max-w-6xl gap-5 lg:grid-cols-3">
         {GRUPOS.map((g) => {
           return (
-            <article key={g.nombre} className={cn('vidrio flex flex-col p-7', g.destacado && 'lg:-translate-y-3 lg:shadow-[0_1px_1px_rgba(80,40,120,.04),0_40px_80px_-30px_rgba(198,83,240,.55)]')}>
-              <div className="flex items-center justify-between gap-3">
+            <article key={g.nombre} className={cn('vidrio flex flex-col p-3 pb-7', g.destacado && 'lg:-translate-y-3 lg:shadow-[0_1px_1px_rgba(80,40,120,.04),0_40px_80px_-30px_rgba(198,83,240,.55)]')}>
+              <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
+                <FotoEncuadrada src={g.foto.src} alt={g.foto.alt} sizes="(min-width: 1024px) 22rem, 92vw" />
+              </div>
+              <div className="mt-5 flex items-center justify-between gap-3 px-4">
                 <h3 className="text-2xl font-bold">{g.nombre}</h3>
                 <span className={cn('rounded-full px-3 py-1 text-xs font-bold', g.destacado ? 'bg-degradado text-white' : 'bg-tinta/5 text-suave')}>{g.etiqueta}</span>
               </div>
-              <p className="mt-2 text-suave">{g.texto}</p>
-              <p className="mt-6 font-mono text-[11px] font-bold uppercase tracking-[0.12em] text-tenue">Incluye</p>
-              <ul className="mt-3 flex flex-col gap-2.5">
+              <p className="mt-2 px-4 text-suave">{g.texto}</p>
+              <ul className="mt-5 flex flex-col gap-2.5 px-4" aria-label={`Qué incluye ${g.nombre}`}>
                 {g.incluye.map((item) => {
                   return (
                     <li key={item} className="check !text-[15px]">
@@ -58,7 +65,7 @@ export const Grupos = () => {
                   );
                 })}
               </ul>
-              <a href={CONTACTO.whatsapp} target="_blank" rel="noreferrer" className={cn('mt-8 w-full', g.destacado ? 'boton-principal' : 'boton-vidrio')}>
+              <a href={CONTACTO.whatsapp} target="_blank" rel="noreferrer" className={cn('mx-4 mt-8 w-auto', g.destacado ? 'boton-principal' : 'boton-vidrio')}>
                 Consultar cupos
               </a>
             </article>

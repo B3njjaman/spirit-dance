@@ -144,6 +144,127 @@
   }
 }
 
+/* "desde los 4 años." de la portada: fucsia fuerte con escarcha y un destello que lo cruza, como la bailarina. */
+.brillo-fucsia {
+  background-image:
+    linear-gradient(110deg, transparent 38%, rgba(255, 255, 255, 0.95) 47%, transparent 56%),
+    radial-gradient(circle, rgba(255, 255, 255, 0.95) 0.7px, transparent 1.3px),
+    radial-gradient(circle, rgba(255, 214, 242, 0.85) 0.6px, transparent 1.1px),
+    linear-gradient(115deg, #ff0f9b 0%, #e6007e 50%, #ff2fae 100%);
+  background-size:
+    260% 100%,
+    7px 7px,
+    11px 13px,
+    100% 100%;
+  background-position:
+    160% 0,
+    0 0,
+    3px 5px,
+    0 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 10px rgba(255, 15, 155, 0.35));
+  animation: destello 4.5s ease-in-out 1.5s infinite;
+}
+@keyframes destello {
+  0% {
+    background-position:
+      160% 0,
+      0 0,
+      3px 5px,
+      0 0;
+  }
+  45%,
+  100% {
+    background-position:
+      -60% 0,
+      0 0,
+      3px 5px,
+      0 0;
+  }
+}
+.chispa {
+  position: absolute;
+  font-style: normal;
+  line-height: 1;
+  color: #ffd76b;
+  text-shadow: 0 0 6px rgba(255, 200, 90, 0.9), 0 0 14px rgba(255, 15, 155, 0.6);
+  animation: chispa 2.6s ease-in-out infinite;
+}
+.chispa::before {
+  content: '✦';
+}
+@keyframes chispa {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: scale(0.6) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15) rotate(25deg);
+  }
+}
+
+/* Telón entre páginas (components/Telon): terciopelo morado con pliegues y un ribete dorado en el borde que se junta. */
+.telon-panel {
+  transform: scaleX(0);
+  background:
+    repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.28) 0 3%, rgba(255, 255, 255, 0.07) 6%, rgba(0, 0, 0, 0.28) 9%),
+    linear-gradient(180deg, #6a2bbf 0%, #4b1d8f 55%, #2a1150 100%);
+}
+.telon-panel:first-child {
+  box-shadow: inset -6px 0 0 #e7b8ff, inset -10px 0 18px rgba(0, 0, 0, 0.35);
+}
+.telon-panel:nth-child(2) {
+  box-shadow: inset 6px 0 0 #e7b8ff, inset 10px 0 18px rgba(0, 0, 0, 0.35);
+}
+
+/* Entradas de la función (sections/Programa): papel blanco con talón troquelado. */
+.entrada {
+  position: relative;
+  border-radius: 22px;
+  background: #fff;
+  padding: 8px 8px 14px;
+  box-shadow: 0 1px 1px rgba(80, 40, 120, 0.05), 0 26px 50px -26px rgba(110, 50, 160, 0.45);
+}
+.entrada-talon {
+  position: relative;
+  border-top: 2px dashed rgba(157, 92, 255, 0.28);
+}
+.entrada-talon::before,
+.entrada-talon::after {
+  content: '';
+  position: absolute;
+  top: -10px;
+  width: 18px;
+  height: 18px;
+  border-radius: 9999px;
+  background: rgb(var(--papel));
+}
+.entrada-talon::before {
+  left: -25px;
+}
+.entrada-talon::after {
+  right: -25px;
+}
+
+/* Polaroids de Instagram (galería y momentos del inicio). */
+.polaroid {
+  border-radius: 4px;
+  background: #fff;
+  padding: 7px 7px 9px;
+  box-shadow: 0 1px 1px rgba(80, 40, 120, 0.06), 0 16px 30px -14px rgba(80, 40, 120, 0.4);
+}
+
+/* La mesa de la galería: papel lavanda con una trama de puntos para que se note al arrastrar. */
+.mesa {
+  background-color: #f3eafd;
+  background-image: radial-gradient(rgba(157, 92, 255, 0.16) 1.2px, transparent 1.3px);
+  background-size: 22px 22px;
+}
+
 @keyframes llenar {
   from {
     transform: scaleX(0);
@@ -167,8 +288,12 @@
   .animate-flota2,
   .animate-flota3,
   .animate-cinta,
+  .animate-cinta-lenta,
+  .animate-cinta-reversa,
   .animate-flotar,
-  .animate-candileja {
+  .animate-candileja,
+  .brillo-fucsia,
+  .chispa {
     animation: none;
   }
   .encendido {

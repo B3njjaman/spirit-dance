@@ -86,17 +86,19 @@ export const Portada = () => {
         </div>
 
         <div className="order-2 pb-6 pt-2 text-center lg:order-1 lg:pb-0 lg:pt-0">
-          <span className="pastilla">
-            <i />
-            Academia de danza infantil · La Florida
-          </span>
-          <h1 className="mt-3 lg:mt-5">
+          <h1>
             <span className="inline-block bg-degradado bg-clip-text px-4 pb-1 font-script text-[clamp(3.75rem,8vw,6.5rem)] leading-[1.05] text-transparent">Spirit Dance</span>
             <span className="-mt-1 block text-xs font-bold uppercase tracking-[0.55em] text-suave lg:text-sm">Academy</span>
             <span className="sr-only">, danza infantil en La Florida</span>
           </h1>
           <p className="mt-4 text-[clamp(1.875rem,3.3vw,3rem)] font-bold leading-[1.06] tracking-[-0.035em] lg:mt-6">
-            Danza para niñas y niños <span className="degradado-texto">desde los 4&nbsp;años.</span>
+            Danza para niñas y niños{' '}
+            <span className="relative inline-block">
+              <span className="brillo-fucsia">desde los 4&nbsp;años.</span>
+              <i aria-hidden className="chispa -right-4 -top-3 text-[1.1rem]" />
+              <i aria-hidden className="chispa -left-3 top-1/2 text-[0.7rem] [animation-delay:-1.1s]" />
+              <i aria-hidden className="chispa -bottom-2 right-[28%] text-[0.85rem] [animation-delay:-2s]" />
+            </span>
           </p>
           <p className="mx-auto mt-5 hidden max-w-md text-entrada text-suave [@media(min-height:820px)]:block">
             Clases con Paulina Quezada, profesora de Educación Física con más de veinte años enseñando danza en colegios y universidades.
@@ -106,7 +108,7 @@ export const Portada = () => {
               Escribir por WhatsApp
               <span aria-hidden>→</span>
             </a>
-            <a href="#clases" className="boton-vidrio hidden sm:inline-flex">
+            <a href="/clases" className="boton-vidrio hidden sm:inline-flex">
               Ver una clase
             </a>
           </div>

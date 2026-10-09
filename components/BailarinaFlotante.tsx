@@ -1,22 +1,24 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { CONTACTO } from '@/data/contacto';
 import { cn } from '@/lib/cn';
 import { ruta } from '@/lib/ruta';
 
 // Como la mascota AURA de fidelya.cl: la bailarina flota abajo a la derecha con un globo que lleva a WhatsApp.
-// Aparece cuando termina la portada, donde ya está la bailarina grande.
+// En el inicio aparece cuando termina la portada, donde ya está la bailarina grande; en las demás páginas, al bajar un poco.
 export const BailarinaFlotante = () => {
   const [visible, setVisible] = useState(false);
+  const pagina = usePathname();
 
   useEffect(() => {
     const portada = document.getElementById('inicio');
-    const alBajar = () => setVisible(window.scrollY > (portada ? portada.offsetHeight - window.innerHeight * 0.6 : 600));
+    const alBajar = () => setVisible(window.scrollY > (portada ? portada.offsetHeight - window.innerHeight * 0.6 : 240));
     alBajar();
     window.addEventListener('scroll', alBajar, { passive: true });
     return () => window.removeEventListener('scroll', alBajar);
-  }, []);
+  }, [pagina]);
 
   return (
     <a

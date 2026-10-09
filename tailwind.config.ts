@@ -60,6 +60,8 @@ const config: Config = {
         flota2: 'flota2 26s ease-in-out infinite',
         flota3: 'flota1 30s ease-in-out infinite reverse',
         cinta: 'cinta 40s linear infinite',
+        'cinta-lenta': 'cinta 70s linear infinite',
+        'cinta-reversa': 'cinta 80s linear infinite reverse',
         flotar: 'flotar 6s ease-in-out infinite',
       },
     },

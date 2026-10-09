@@ -2,16 +2,18 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { CONTACTO } from '@/data/contacto';
 import { cn } from '@/lib/cn';
 
 const ENLACES = [
-  { href: '/#clases', texto: 'Clases' },
-  { href: '/#grupos', texto: 'Grupos' },
-  { href: '/#videos', texto: 'Videos' },
-  { href: '/sobre-nosotros', texto: 'Sobre nosotros' },
-  { href: '/#preguntas', texto: 'Preguntas' },
+  { href: '/clases', texto: 'Clases' },
+  { href: '/galeria', texto: 'Galería' },
+  { href: '/videos', texto: 'Videos' },
+  { href: '/sobre-nosotros', texto: 'Nosotros' },
 ];
+
+const esActual = (pagina: string, href: string) => pagina.replace(/\/+$/, '') === href;
 
 const Marca = () => {
   return (
@@ -25,6 +27,7 @@ const Marca = () => {
 export const Navegacion = () => {
   const [conFondo, setConFondo] = useState(false);
   const [abierto, setAbierto] = useState(false);
+  const pagina = usePathname();
 
   useEffect(() => {
     const alBajar = () => setConFondo(window.scrollY > 24);
@@ -51,7 +54,11 @@ export const Navegacion = () => {
           {ENLACES.map((enlace) => {
             return (
               <li key={enlace.href}>
-                <Link href={enlace.href} className="transition-colors duration-150 hover:text-tinta">
+                <Link
+                  href={enlace.href}
+                  aria-current={esActual(pagina, enlace.href) ? 'page' : undefined}
+                  className="relative transition-colors duration-150 hover:text-tinta aria-[current=page]:font-bold aria-[current=page]:text-tinta aria-[current=page]:after:absolute aria-[current=page]:after:-bottom-2 aria-[current=page]:after:left-1/2 aria-[current=page]:after:size-1.5 aria-[current=page]:after:-translate-x-1/2 aria-[current=page]:after:rounded-full aria-[current=page]:after:bg-rosa"
+                >
                   {enlace.texto}
                 </Link>
               </li>
@@ -87,7 +94,12 @@ export const Navegacion = () => {
             {ENLACES.map((enlace) => {
               return (
                 <li key={enlace.href}>
-                  <Link href={enlace.href} onClick={cerrar} className="flex h-12 items-center rounded-2xl px-4 text-[17px] font-semibold text-tinta active:bg-white">
+                  <Link
+                    href={enlace.href}
+                    onClick={cerrar}
+                    aria-current={esActual(pagina, enlace.href) ? 'page' : undefined}
+                    className="flex h-12 items-center rounded-2xl px-4 text-[17px] font-semibold text-tinta active:bg-white aria-[current=page]:bg-white/80 aria-[current=page]:text-magenta"
+                  >
                     {enlace.texto}
                   </Link>
                 </li>

@@ -1,25 +1,25 @@
 import type { Metadata } from 'next';
-import { BailarinaFlotante } from '@/components/BailarinaFlotante';
-import { Movimiento } from '@/components/Movimiento';
-import { Contacto } from '@/sections/Contacto';
-import { Navegacion } from '@/sections/Navegacion';
+import { Encabezado } from '@/components/Encabezado';
+import { Cinta } from '@/sections/Cinta';
+import { Frase } from '@/sections/Frase';
 import { Paulina } from '@/sections/Paulina';
 
 export const metadata: Metadata = {
-  title: 'Sobre nosotros · Spirit Dance Academy',
+  title: 'Nosotros',
   description: 'La historia de Paulina Quezada, fundadora de Spirit Dance Academy: formación, trayectoria en colegios y universidades, y el video de su recorrido.',
 };
 
 const SobreNosotros = () => {
   return (
     <>
-      <Movimiento />
-      <Navegacion />
-      <main>
-        <Paulina />
-        <Contacto />
-      </main>
-      <BailarinaFlotante />
+      <Encabezado titulo="Nosotros">
+        Paulina Quezada es licenciada en Educación y profesora de Educación Física, con un diplomado en Danza Educativa y Expresión Corporal. Trece años
+        en el American British School, donde dirigió la Muestra Artística Internacional y la selección de Cheerdance. En 2020 fundó Spirit Dance
+        Academy.
+      </Encabezado>
+      <Paulina />
+      <Frase />
+      <Cinta />
     </>
   );
 };

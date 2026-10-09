@@ -29,11 +29,11 @@ type TarjetaProps = { video: Video; alAbrir: (v: Video) => void };
 const Tarjeta: FC<TarjetaProps> = ({ video, alAbrir }) => {
   const abrir = useCallback(() => alAbrir(video), [alAbrir, video]);
   return (
-    <li className="w-[15.5rem] shrink-0 snap-start">
+    <li>
       <button type="button" onClick={abrir} className="group block w-full text-left">
         <span className="vidrio relative block aspect-[4/5] overflow-hidden !rounded-[22px] p-1.5">
           <span className="relative block size-full overflow-hidden rounded-2xl">
-            <FotoEncuadrada src={video.poster} alt="" sizes="15.5rem" className="transition-transform duration-500 ease-fidelya group-hover:scale-[1.03]" />
+            <FotoEncuadrada src={video.poster} alt="" sizes="(min-width: 1024px) 18rem, 46vw" className="transition-transform duration-500 ease-fidelya group-hover:scale-[1.03]" />
           </span>
           <span className="absolute bottom-4 left-4 grid size-11 place-items-center rounded-full bg-degradado text-white shadow-boton">
             <span aria-hidden className="ml-0.5 text-sm">▶</span>
@@ -64,23 +64,15 @@ export const Videos = () => {
   const alClicFondo = useCallback((e: React.MouseEvent<HTMLDialogElement>) => e.target === e.currentTarget && setAbierto(null), []);
 
   return (
-    <section id="videos" className="py-20 lg:py-32">
+    <section id="videos" aria-label="Videos de la academia" className="pb-16">
       <div className="mx-auto max-w-6xl px-4 text-center sm:px-6">
-        <span className="pastilla">
-          <i />
-          Videos
-        </span>
-        <h2 className="mt-5 text-seccion">
-          Todo Spirit Dance, <span className="degradado-texto">en videos cortos.</span>
-        </h2>
-        <p className="mx-auto mt-4 max-w-lg text-entrada text-suave">Clases, ensayos, la Gala y la historia de Paulina, en menos de un minuto cada uno.</p>
-        <div className="mx-auto mt-8 flex max-w-full gap-1 overflow-x-auto rounded-full p-1 sm:inline-flex sm:bg-white/50" role="group" aria-label="Filtrar videos">
+        <div className="mx-auto flex max-w-full gap-1 overflow-x-auto rounded-full p-1 sm:inline-flex sm:bg-white/50" role="group" aria-label="Filtrar videos">
           {FILTROS.map((f) => {
             return <Chip key={f} filtro={f} activo={f === filtro} alElegir={setFiltro} />;
           })}
         </div>
       </div>
-      <ul className="mx-auto mt-10 flex max-w-6xl snap-x snap-mandatory gap-4 overflow-x-auto scroll-px-4 px-4 pb-6 sm:scroll-px-6 sm:px-6">
+      <ul className="mx-auto mt-8 grid max-w-6xl grid-cols-2 gap-x-4 gap-y-6 px-4 sm:grid-cols-3 sm:px-6 lg:grid-cols-4">
         {visibles.map((v) => {
           return <Tarjeta key={v.id} video={v} alAbrir={setAbierto} />;
         })}

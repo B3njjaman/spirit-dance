@@ -13,6 +13,9 @@ const FOCO = 1.2;
 const APERTURA = 1.2;
 const PENUMBRA = 0.42;
 
+// Solo la primera visita parte a oscuras; al volver al inicio desde otra página ya está encendida.
+let yaEncendida = false;
+
 type Props = { objetivo: RefObject<HTMLElement | null> };
 
 export const Encendido: FC<Props> = ({ objetivo }) => {
@@ -21,7 +24,7 @@ export const Encendido: FC<Props> = ({ objetivo }) => {
   useGSAP(
     () => {
       const caja = objetivo.current?.getBoundingClientRect();
-      if (!caja || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      if (yaEncendida || !caja || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         gsap.set(telon.current, { autoAlpha: 0 });
         return;
       }
@@ -35,7 +38,7 @@ export const Encendido: FC<Props> = ({ objetivo }) => {
       gsap.set('.encendido-haz', { left: x - anchoHaz / 2, width: anchoHaz, height: pies, opacity: 0 });
 
       gsap
-        .timeline({ delay: OSCURIDAD })
+        .timeline({ delay: OSCURIDAD, onComplete: () => (yaEncendida = true) })
         .to('.encendido-haz', { opacity: 0.75, duration: FOCO * 0.8, ease: 'power1.inOut' })
         .to('.encendido-oscuridad', { '--dentro': PENUMBRA, duration: FOCO, ease: 'sine.inOut' }, '<')
         .addLabel('abrir', '+=0.15')

@@ -104,6 +104,42 @@ const Burbuja: FC<{ mensaje: Mensaje }> = ({ mensaje }) => {
   );
 };
 
+type Area = { arriba: number; alto: number };
+
+// En celular el chat ocupa justo lo que se ve sobre el teclado. visualViewport es el área visible real: cuando se
+// abre el teclado se achica (y en iPhone además se corre), mientras que lo "fixed" sigue anclado a la pantalla entera.
+const useAreaVisible = (activo: boolean) => {
+  const [area, setArea] = useState<Area | null>(null);
+  useEffect(() => {
+    const vista = window.visualViewport;
+    if (!activo || !vista) {
+      setArea(null);
+      return;
+    }
+    const medir = () => setArea({ arriba: vista.offsetTop, alto: vista.height });
+    medir();
+    vista.addEventListener('resize', medir);
+    vista.addEventListener('scroll', medir);
+    return () => {
+      vista.removeEventListener('resize', medir);
+      vista.removeEventListener('scroll', medir);
+    };
+  }, [activo]);
+  return area;
+};
+
+const useEsCelular = () => {
+  const [celular, setCelular] = useState(false);
+  useEffect(() => {
+    const consulta = window.matchMedia('(max-width: 639px)');
+    const actualizar = () => setCelular(consulta.matches);
+    actualizar();
+    consulta.addEventListener('change', actualizar);
+    return () => consulta.removeEventListener('change', actualizar);
+  }, []);
+  return celular;
+};
+
 export const Asistente = () => {
   const [visible, setVisible] = useState(false);
   const [abierto, setAbierto] = useState(false);
@@ -113,6 +149,20 @@ export const Asistente = () => {
   const lista = useRef<HTMLOListElement>(null);
   const entrada = useRef<HTMLInputElement>(null);
   const pagina = usePathname();
+  const celular = useEsCelular();
+  const enPantallaCompleta = abierto && celular;
+  const area = useAreaVisible(enPantallaCompleta);
+
+  // Con el chat abierto en celular la página de fondo no se mueve: así el dedo desliza solo los mensajes.
+  useEffect(() => {
+    if (!enPantallaCompleta) return;
+    const raiz = document.documentElement;
+    const previo = raiz.style.overflow;
+    raiz.style.overflow = 'hidden';
+    return () => {
+      raiz.style.overflow = previo;
+    };
+  }, [enPantallaCompleta]);
 
   // En el inicio aparece cuando termina la portada, donde ya está la bailarina grande; en las demás páginas, al bajar un poco.
   useEffect(() => {
@@ -127,15 +177,18 @@ export const Asistente = () => {
 
   useEffect(() => {
     if (!abierto) return;
-    entrada.current?.focus();
+    // En celular no se enfoca solo: abriría el teclado antes de que la persona elija una pregunta sugerida.
+    if (!celular) entrada.current?.focus();
     const alTecla = (e: KeyboardEvent) => e.key === 'Escape' && setAbierto(false);
     window.addEventListener('keydown', alTecla);
     return () => window.removeEventListener('keydown', alTecla);
-  }, [abierto]);
+  }, [abierto, celular]);
 
+  // Baja la lista al último mensaje moviendo solo la lista (scrollIntoView movería también la página y el panel).
   useEffect(() => {
-    lista.current?.lastElementChild?.scrollIntoView({ behavior: 'smooth', block: 'end' });
-  }, [mensajes, pensando]);
+    const l = lista.current;
+    if (l) l.scrollTo({ top: l.scrollHeight, behavior: 'smooth' });
+  }, [mensajes, pensando, area]);
 
   const preguntar = useCallback(
     async (texto: string) => {
@@ -178,10 +231,14 @@ export const Asistente = () => {
         hidden={!abierto}
         // La clase "flex" le gana al atributo hidden (misma especificidad, va después): el display depende del estado,
         // si no el chat aparece abierto al cargar la página.
+        // data-lenis-prevent: el scroll suave del sitio no se queda con los gestos dentro del chat.
+        data-lenis-prevent=""
         className={cn(
-          'fixed inset-x-2 bottom-[calc(96px+env(safe-area-inset-bottom))] z-40 max-h-[min(78svh,40rem)] flex-col overflow-hidden rounded-[26px] border border-white/90 bg-papel shadow-vidrio sm:inset-x-auto sm:right-6 sm:w-[24rem] lg:bottom-36 lg:right-8',
+          'fixed inset-x-2 bottom-[calc(96px+env(safe-area-inset-bottom))] z-50 max-h-[min(78svh,40rem)] flex-col overflow-hidden rounded-[26px] border border-white/90 bg-papel shadow-vidrio sm:inset-x-auto sm:right-6 sm:w-[24rem] lg:bottom-36 lg:right-8',
           abierto ? 'flex' : 'hidden',
         )}
+        // En celular ocupa exactamente el área visible sobre el teclado.
+        style={enPantallaCompleta && area ? { top: area.arriba + 8, height: area.alto - 16, bottom: 'auto', maxHeight: 'none' } : undefined}
       >
         <header className="flex items-center gap-3 bg-degradado px-4 py-3 text-white">
           <img src={ruta('/render/giro_012.webp')} alt="" className="h-11 w-auto drop-shadow-[0_4px_8px_rgba(0,0,0,0.25)]" />
@@ -238,7 +295,8 @@ export const Asistente = () => {
             maxLength={500}
             placeholder="Escribe tu pregunta…"
             autoComplete="off"
-            className="h-11 min-w-0 flex-1 rounded-full border border-tinta/10 bg-white px-4 text-[15px] text-tinta placeholder:text-tenue focus:border-lila focus:outline-none"
+            // 16px: con letra más chica iPhone y algunos Android hacen zoom al tocar el campo y descuadran el chat.
+            className="h-11 min-w-0 flex-1 rounded-full border border-tinta/10 bg-white px-4 text-base text-tinta placeholder:text-tenue focus:border-lila focus:outline-none"
           />
           <button type="submit" disabled={!borrador.trim() || pensando} aria-label="Enviar pregunta" className="grid size-11 shrink-0 place-items-center rounded-full bg-degradado text-white shadow-boton transition-[opacity,scale] active:scale-[0.96] disabled:opacity-40">
             <span aria-hidden>➤</span>

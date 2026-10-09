@@ -135,9 +135,8 @@
   }
 }
 
-/* Foco que se queda sobre la bailarina una vez encendida la página. */
 /* Muro de alumnas detrás del escenario en celular (sections/Portada): fotos con un velo lavanda para que la
-   bailarina siga siendo la protagonista, y dos focos cruzados que las iluminan con un vaivén lento. */
+   bailarina siga siendo la protagonista. */
 .muro-ninas {
   -webkit-mask-image: radial-gradient(ellipse 75% 85% at 50% 45%, #000 45%, transparent 100%);
   mask-image: radial-gradient(ellipse 75% 85% at 50% 45%, #000 45%, transparent 100%);
@@ -148,44 +147,7 @@
   inset: 0;
   background: radial-gradient(ellipse 36% 60% at 50% 70%, rgb(var(--papel) / 0.92) 30%, rgb(var(--papel) / 0.2) 100%);
 }
-.foco-grupo {
-  position: absolute;
-  top: 2%;
-  width: 44%;
-  height: 110%;
-  background: linear-gradient(to bottom, rgba(255, 79, 163, 0.22), rgba(198, 83, 240, 0.1) 65%, transparent);
-  clip-path: polygon(45% 0, 55% 0, 100% 100%, 0 100%);
-  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 30%);
-  mask-image: linear-gradient(to bottom, transparent, #000 30%);
-  mix-blend-mode: multiply;
-  transform-origin: 50% 0;
-  animation: vaiven 7s ease-in-out infinite;
-}
-.foco-grupo-izquierda {
-  left: -6%;
-  --giro: -18deg;
-}
-.foco-grupo-derecha {
-  right: -6%;
-  --giro: 18deg;
-  animation-delay: -3.5s;
-}
-@keyframes vaiven {
-  0%,
-  100% {
-    transform: rotate(var(--giro));
-  }
-  50% {
-    transform: rotate(calc(var(--giro) * 0.55));
-  }
-}
 
-.foco-escenario {
-  background: linear-gradient(to bottom, rgba(198, 83, 240, 0.16), rgba(157, 92, 255, 0.06) 75%, rgba(198, 83, 240, 0.12));
-  clip-path: polygon(45% 0, 55% 0, 92% 100%, 8% 100%);
-  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 35%);
-  mask-image: linear-gradient(to bottom, transparent, #000 35%);
-}
 .animate-candileja {
   animation: candileja 3.2s ease-in-out infinite;
   filter: drop-shadow(0 0 4px #ffd36b) drop-shadow(0 0 9px rgba(255, 190, 90, 0.6));
@@ -200,66 +162,39 @@
   }
 }
 
-/* "desde los 4 años." de la portada: fucsia fuerte con escarcha y un destello que lo cruza, como la bailarina. */
-.brillo-fucsia {
-  background-image:
-    linear-gradient(110deg, transparent 38%, rgba(255, 255, 255, 0.95) 47%, transparent 56%),
-    radial-gradient(circle, rgba(255, 255, 255, 0.95) 0.7px, transparent 1.3px),
-    radial-gradient(circle, rgba(255, 214, 242, 0.85) 0.6px, transparent 1.1px),
-    linear-gradient(115deg, #ff0f9b 0%, #e6007e 50%, #ff2fae 100%);
-  background-size:
-    260% 100%,
-    7px 7px,
-    11px 13px,
-    100% 100%;
-  background-position:
-    160% 0,
-    0 0,
-    3px 5px,
-    0 0;
+/* "desde los 4 años." de la portada: el morado de la bailarina (tomado de su render), sin brillos. */
+.texto-bailarina {
+  background-image: linear-gradient(115deg, #8134c1 0%, #b343eb 55%, #c44ff5 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  filter: drop-shadow(0 0 10px rgba(255, 15, 155, 0.35));
-  animation: destello 4.5s ease-in-out 1.5s infinite;
 }
-@keyframes destello {
-  0% {
-    background-position:
-      160% 0,
-      0 0,
-      3px 5px,
-      0 0;
-  }
-  45%,
-  100% {
-    background-position:
-      -60% 0,
-      0 0,
-      3px 5px,
-      0 0;
-  }
-}
-.chispa {
+/* Estrellitas que se desprenden de las letras y suben despacio hasta desaparecer. */
+.estrellita {
   position: absolute;
+  bottom: 35%;
   font-style: normal;
   line-height: 1;
-  color: #ffd76b;
-  text-shadow: 0 0 6px rgba(255, 200, 90, 0.9), 0 0 14px rgba(255, 15, 155, 0.6);
-  animation: chispa 2.6s ease-in-out infinite;
+  color: #c77dff;
+  text-shadow: 0 0 6px rgba(179, 67, 235, 0.55);
+  opacity: 0;
+  pointer-events: none;
+  animation: estrellita 4s ease-out infinite;
 }
-.chispa::before {
+.estrellita::before {
   content: '✦';
 }
-@keyframes chispa {
-  0%,
-  100% {
-    opacity: 0.25;
-    transform: scale(0.6) rotate(0deg);
+@keyframes estrellita {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.4) rotate(0deg);
   }
-  50% {
-    opacity: 1;
-    transform: scale(1.15) rotate(25deg);
+  20% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(6px, -44px) scale(1) rotate(40deg);
   }
 }
 
@@ -347,12 +282,10 @@
   .animate-cinta-lenta,
   .animate-cinta-reversa,
   .animate-flotar,
-  .animate-candileja,
-  .brillo-fucsia,
-  .chispa,
-  .foco-grupo {
+  .animate-candileja {
     animation: none;
   }
+  .estrellita,
   .encendido {
     display: none;
   }

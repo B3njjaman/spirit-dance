@@ -22,7 +22,7 @@ const GRUPOS = fotos(['CkUKwULvWQy_01', 'CYmnhW0vmek_01', 'CeG9lgmOybp_01', 'CIa
 const RETRATOS = fotos(['CqWUDCLPVvj_01', 'CqWUDCLPVvj_02', 'CqWUDCLPVvj_03', 'CqWUDCLPVvj_04', 'CqWUDCLPVvj_05', 'CqWUDCLPVvj_06', 'CqWUDCLPVvj_07', 'CqWUDCLPVvj_08']);
 
 // En celular la bailarina baila frente a sus alumnas: un muro de fotos detrás del escenario,
-// iluminado por dos focos laterales que se mecen, como el fondo de una función.
+// como el fondo de una función. Los focos solo lo encienden en la entrada (components/Encendido).
 const MuroNinas: FC<{ muro: RefObject<HTMLDivElement | null> }> = ({ muro }) => {
   return (
     <div ref={muro} aria-hidden inert className="absolute -inset-x-4 top-0 h-[62%] sm:-inset-x-6 lg:hidden">
@@ -30,9 +30,36 @@ const MuroNinas: FC<{ muro: RefObject<HTMLDivElement | null> }> = ({ muro }) => 
         <CintaFotos fotos={GRUPOS} altoFoto="h-[4.5rem]" className="!py-1.5" />
         <CintaFotos fotos={RETRATOS} reversa altoFoto="h-[4.5rem]" className="!py-1.5" />
       </div>
-      <div className="foco-grupo foco-grupo-izquierda" />
-      <div className="foco-grupo foco-grupo-derecha" />
     </div>
+  );
+};
+
+// Estrellitas que se desprenden de las letras y suben despacio hasta desaparecer.
+const ESTRELLITAS = [
+  { x: 6, retraso: 0, duracion: 3.8, tamano: 0.7 },
+  { x: 22, retraso: 1.6, duracion: 4.4, tamano: 0.55 },
+  { x: 37, retraso: 0.8, duracion: 3.6, tamano: 0.8 },
+  { x: 52, retraso: 2.4, duracion: 4.2, tamano: 0.6 },
+  { x: 66, retraso: 0.4, duracion: 4.8, tamano: 0.75 },
+  { x: 81, retraso: 3.1, duracion: 3.9, tamano: 0.55 },
+  { x: 95, retraso: 1.2, duracion: 4.5, tamano: 0.7 },
+];
+
+const LetrasConEstrellas: FC<{ children: ReactNode }> = ({ children }) => {
+  return (
+    <span className="relative inline-block">
+      <span className="texto-bailarina">{children}</span>
+      {ESTRELLITAS.map((e) => {
+        return (
+          <i
+            key={e.x}
+            aria-hidden
+            className="estrellita"
+            style={{ left: `${e.x}%`, fontSize: `${e.tamano}rem`, animationDelay: `${e.retraso}s`, animationDuration: `${e.duracion}s` }}
+          />
+        );
+      })}
+    </span>
   );
 };
 
@@ -55,13 +82,10 @@ const TarjetaFoto: FC<{ tarjeta: RefObject<HTMLElement | null> }> = ({ tarjeta }
   );
 };
 
-// La bailarina quieta sobre su tarima, bajo un foco morado, con estrellitas cayendo.
+// La bailarina quieta sobre su tarima, con estrellitas cayendo.
 const Bailarina: FC<{ caja: RefObject<HTMLDivElement | null> }> = ({ caja }) => {
   return (
     <div ref={caja} className="absolute bottom-[11%] left-1/2 aspect-[597/900] h-[74%] -translate-x-1/2 lg:h-[80%]">
-      <div aria-hidden className="absolute -top-[30%] left-[-30%] h-[126%] w-[160%] blur-xl">
-        <div className="foco-escenario size-full" />
-      </div>
       <div className="absolute left-[-35%] top-[77.7%] aspect-[3/1] w-[170%]">
         <Escenario />
       </div>
@@ -118,12 +142,7 @@ export const Portada = () => {
           </h1>
           <p className="mt-4 text-[clamp(1.875rem,3.3vw,3rem)] font-bold leading-[1.06] tracking-[-0.035em] lg:mt-6">
             Danza para niñas y niños{' '}
-            <span className="relative inline-block">
-              <span className="brillo-fucsia">desde los 4&nbsp;años.</span>
-              <i aria-hidden className="chispa -right-4 -top-3 text-[1.1rem]" />
-              <i aria-hidden className="chispa -left-3 top-1/2 text-[0.7rem] [animation-delay:-1.1s]" />
-              <i aria-hidden className="chispa -bottom-2 right-[28%] text-[0.85rem] [animation-delay:-2s]" />
-            </span>
+            <LetrasConEstrellas>desde los 4&nbsp;años.</LetrasConEstrellas>
           </p>
           <p className="mx-auto mt-5 hidden max-w-md text-entrada text-suave [@media(min-height:820px)]:block">
             Clases con Paulina Quezada, profesora de Educación Física con más de veinte años enseñando danza en colegios y universidades.

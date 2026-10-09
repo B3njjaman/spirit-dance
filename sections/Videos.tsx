@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState, type FC } from 'react';
+import { FotoEncuadrada } from '@/components/FotoEncuadrada';
 import { ETIQUETA_CATEGORIA, VIDEOS, type Categoria, type Video } from '@/data/videos';
 import { cn } from '@/lib/cn';
 
@@ -31,7 +32,9 @@ const Tarjeta: FC<TarjetaProps> = ({ video, alAbrir }) => {
     <li className="w-[15.5rem] shrink-0 snap-start">
       <button type="button" onClick={abrir} className="group block w-full text-left">
         <span className="vidrio relative block aspect-[4/5] overflow-hidden !rounded-[22px] p-1.5">
-          <img src={video.poster} alt="" loading="lazy" className="size-full rounded-2xl object-cover transition-transform duration-500 ease-fidelya group-hover:scale-[1.03]" />
+          <span className="relative block size-full overflow-hidden rounded-2xl">
+            <FotoEncuadrada src={video.poster} alt="" sizes="15.5rem" className="transition-transform duration-500 ease-fidelya group-hover:scale-[1.03]" />
+          </span>
           <span className="absolute bottom-4 left-4 grid size-11 place-items-center rounded-full bg-degradado text-white shadow-boton">
             <span aria-hidden className="ml-0.5 text-sm">▶</span>
           </span>

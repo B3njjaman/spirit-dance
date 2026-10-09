@@ -57,9 +57,9 @@ export const Contacto = () => {
       <footer className="px-4 pb-12 pt-6 sm:px-6">
         <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[1.4fr_repeat(3,1fr)]">
           <div>
-            <p className="flex items-center gap-2 text-[15px] font-extrabold uppercase tracking-[0.08em]">
-              <span aria-hidden className="size-2.5 rounded-full bg-degradado" />
-              Spirit Dance
+            <p className="flex items-baseline gap-1.5">
+              <span className="-ml-1 bg-degradado bg-clip-text px-1 font-script text-[38px] leading-none text-transparent">Spirit Dance</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-suave">Academy</span>
             </p>
             <p className="mt-3 max-w-xs text-sm text-suave">Academia de danza infantil en La Florida. Bailar para crecer.</p>
           </div>

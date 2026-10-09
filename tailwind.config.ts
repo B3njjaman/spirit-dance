@@ -25,6 +25,7 @@ const config: Config = {
         sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
         display: ['var(--font-sans)', 'system-ui', 'sans-serif'],
         mono: ['var(--font-mono)', 'ui-monospace', 'monospace'],
+        script: ['var(--font-script)', 'cursive'],
       },
       fontSize: {
         cuerpo: ['1.0625rem', { lineHeight: '1.6' }],
@@ -42,6 +43,7 @@ const config: Config = {
       },
       backgroundImage: {
         degradado: 'linear-gradient(115deg, #FF4FA3 0%, #C653F0 55%, #9D5CFF 100%)',
+        'degradado-claro': 'linear-gradient(115deg, #FFA8D4 0%, #FF8CC6 55%, #FFB3DA 100%)',
       },
       transitionTimingFunction: {
         fidelya: 'cubic-bezier(.22,.8,.24,1)',

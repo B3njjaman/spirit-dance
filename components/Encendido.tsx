@@ -8,9 +8,9 @@ gsap.registerPlugin(useGSAP);
 
 // Apertura de función: la página parte a oscuras, un foco morado baja sobre la bailarina,
 // la ilumina tenue y después la luz se abre hasta dejar la página con su color.
-const OSCURIDAD = 1.1;
-const FOCO = 1.8;
-const APERTURA = 1.6;
+const OSCURIDAD = 0.35;
+const FOCO = 1.2;
+const APERTURA = 1.2;
 const PENUMBRA = 0.42;
 
 type Props = { objetivo: RefObject<HTMLElement | null> };
@@ -38,7 +38,7 @@ export const Encendido: FC<Props> = ({ objetivo }) => {
         .timeline({ delay: OSCURIDAD })
         .to('.encendido-haz', { opacity: 0.75, duration: FOCO * 0.8, ease: 'power1.inOut' })
         .to('.encendido-oscuridad', { '--dentro': PENUMBRA, duration: FOCO, ease: 'sine.inOut' }, '<')
-        .addLabel('abrir', '+=0.35')
+        .addLabel('abrir', '+=0.15')
         .to('.encendido-oscuridad', { '--rx': `${lejos}px`, '--ry': `${lejos}px`, '--dentro': 0, duration: APERTURA, ease: 'power2.inOut' }, 'abrir')
         .to('.encendido-haz', { opacity: 0, duration: APERTURA * 0.9, ease: 'power1.in' }, 'abrir')
         .to(telon.current, { autoAlpha: 0, duration: 0.5, ease: 'power1.out' }, `abrir+=${APERTURA - 0.4}`);

@@ -1,10 +1,12 @@
 import type { Metadata } from 'next';
-import { JetBrains_Mono, Plus_Jakarta_Sans } from 'next/font/google';
+import { Allura, JetBrains_Mono, Plus_Jakarta_Sans } from 'next/font/google';
 import { Fondo } from '@/components/Fondo';
 import './globals.css';
 
 const sans = Plus_Jakarta_Sans({ subsets: ['latin'], weight: ['400', '500', '600', '700', '800'], style: ['normal', 'italic'], variable: '--font-sans' });
 const mono = JetBrains_Mono({ subsets: ['latin'], weight: ['500', '700'], variable: '--font-mono' });
+// Cursiva parecida a la del logo de la academia, solo para el nombre.
+const script = Allura({ subsets: ['latin'], weight: '400', variable: '--font-script' });
 
 export const metadata: Metadata = {
   title: 'Spirit Dance Academy · Danza infantil en La Florida',
@@ -14,7 +16,7 @@ export const metadata: Metadata = {
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <html lang="es" className={`${sans.variable} ${mono.variable}`}>
+    <html lang="es" className={`${sans.variable} ${mono.variable} ${script.variable}`}>
       <body className="font-sans text-cuerpo">
         <Fondo />
         {children}

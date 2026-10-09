@@ -68,7 +68,9 @@
     box-shadow: 0 0 0 4px rgba(255, 79, 163, 0.14);
   }
   .degradado-texto {
-    @apply bg-degradado bg-clip-text text-transparent;
+    @apply bg-degradado-claro bg-clip-text text-transparent;
+    /* El rosado claro sobre el papel casi blanco necesita un borde leve para no lavarse. */
+    filter: drop-shadow(0 1px 1px rgba(214, 40, 160, 0.28));
     -webkit-box-decoration-break: clone;
     box-decoration-break: clone;
   }
@@ -93,7 +95,7 @@
 
 /* Telón de entrada (components/Encendido): oscuridad con un hueco de luz que crece. */
 .encendido {
-  animation: encendido-respaldo 0.5s 8s forwards;
+  animation: encendido-respaldo 0.4s 4s forwards;
 }
 .encendido-oscuridad {
   --x: 50%;

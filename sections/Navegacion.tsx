@@ -15,9 +15,9 @@ const ENLACES = [
 
 const Marca = () => {
   return (
-    <Link href="/" className="flex items-center gap-2 text-[15px] font-extrabold uppercase tracking-[0.08em] text-tinta">
-      <span aria-hidden className="size-2.5 rounded-full bg-degradado shadow-[0_0_0_4px_rgba(255,79,163,0.14)]" />
-      Spirit Dance
+    <Link href="/" className="flex items-baseline gap-1.5">
+      <span className="-ml-1 bg-degradado bg-clip-text px-1 font-script text-[34px] leading-none text-transparent lg:text-[38px]">Spirit Dance</span>
+      <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-suave">Academy</span>
     </Link>
   );
 };

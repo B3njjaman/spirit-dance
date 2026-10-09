@@ -8,7 +8,7 @@ import { Estrellas } from '@/components/Estrellas';
 import { CONTACTO } from '@/data/contacto';
 import { cn } from '@/lib/cn';
 import { ruta } from '@/lib/ruta';
-import grupo from '@/public/img/portada-grupo.jpg';
+import grupo from '@/public/img/grupo-completo.jpg';
 
 // Cuadro del render de Blender (render-bailarina/render.py) en su pose de reposo, de frente y levemente girada.
 const BAILARINA = ruta('/render/giro_006.webp');
@@ -25,7 +25,7 @@ const Flotante: FC<{ className: string; retraso: string; children: ReactNode }> 
 const TarjetaFoto = () => {
   return (
     <figure className="vidrio absolute left-0 top-[4%] z-10 w-[46%] max-w-[22rem] -rotate-2 !rounded-[22px] p-1.5 lg:bottom-[25%] lg:left-[-6%] lg:top-auto lg:w-[50%] lg:-rotate-3">
-      <div className="relative aspect-[925/356] overflow-hidden rounded-2xl">
+      <div className="relative aspect-[1080/490] overflow-hidden rounded-2xl">
         <Image src={grupo} alt="El grupo completo del Team La Florida sentado en el escenario" fill sizes="(min-width: 1024px) 22rem, 46vw" className="object-cover" priority placeholder="blur" />
       </div>
       <figcaption className="mx-1.5 mb-0.5 mt-2 text-[11px] font-semibold text-suave lg:text-xs">Team La Florida</figcaption>
@@ -58,7 +58,6 @@ export const Portada = () => {
     <section id="inicio" className="relative flex h-svh min-h-[620px] flex-col pt-16 lg:pt-[72px]">
       <div className="mx-auto grid h-full w-full max-w-6xl grid-rows-[minmax(0,1fr)_auto] px-4 sm:px-6 lg:grid-cols-[1.02fr_1fr] lg:grid-rows-1 lg:items-center lg:gap-8">
         <div className="relative order-1 min-h-0 lg:order-2 lg:h-[88%]">
-          <h1 className="sr-only">Spirit Dance Academy, danza infantil en La Florida</h1>
           <Bailarina caja={caja} />
           <TarjetaFoto />
           <Flotante className="right-0 top-[2%] w-44" retraso="0s">
@@ -91,7 +90,12 @@ export const Portada = () => {
             <i />
             Academia de danza infantil · La Florida
           </span>
-          <p className="mt-4 text-portada lg:mt-6">
+          <h1 className="mt-3 lg:mt-5">
+            <span className="inline-block bg-degradado bg-clip-text px-4 pb-1 font-script text-[clamp(3.75rem,8vw,6.5rem)] leading-[1.05] text-transparent">Spirit Dance</span>
+            <span className="-mt-1 block text-xs font-bold uppercase tracking-[0.55em] text-suave lg:text-sm">Academy</span>
+            <span className="sr-only">, danza infantil en La Florida</span>
+          </h1>
+          <p className="mt-4 text-[clamp(1.875rem,3.3vw,3rem)] font-bold leading-[1.06] tracking-[-0.035em] lg:mt-6">
             Danza para niñas y niños <span className="degradado-texto">desde los 4&nbsp;años.</span>
           </p>
           <p className="mx-auto mt-5 hidden max-w-md text-entrada text-suave [@media(min-height:820px)]:block">

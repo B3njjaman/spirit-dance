@@ -22,7 +22,7 @@ export const HISTORIAS: Historia[] = [
   },
   {
     id: 'mini',
-    fondo: { tipo: 'foto', src: ruta('/img/portada-3.jpg') },
+    fondo: { tipo: 'foto', src: ruta('/img/grupo-mini.jpg') },
     alt: 'Grupo mini ensayando sobre las colchonetas',
     antetitulo: 'Desde los 4 años',
     titulo: 'Grupo mini',
@@ -30,7 +30,7 @@ export const HISTORIAS: Historia[] = [
   },
   {
     id: 'infantil',
-    fondo: { tipo: 'foto', src: ruta('/img/portada-2.jpg') },
+    fondo: { tipo: 'foto', src: ruta('/img/danza-infantil.jpg') },
     alt: 'Alumna practicando elongación con la pierna en alto',
     antetitulo: 'Desde los 6 años',
     titulo: 'Danza infantil',
@@ -61,7 +61,7 @@ export const HISTORIAS: Historia[] = [
   },
   {
     id: 'inscripcion',
-    fondo: { tipo: 'foto', src: ruta('/img/portada.jpg') },
+    fondo: { tipo: 'foto', src: ruta('/img/team-la-florida.jpg') },
     alt: 'Alumnas sentadas en el escenario',
     antetitulo: 'Inscripciones abiertas',
     titulo: '¿Bailamos?',

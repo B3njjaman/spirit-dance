@@ -1,8 +1,8 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState, type FC, type ReactNode } from 'react';
-import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
+import { FotoEncuadrada } from '@/components/FotoEncuadrada';
 import { CONTACTO } from '@/data/contacto';
 import { HISTORIAS, type Historia } from '@/data/historias';
 import { cn } from '@/lib/cn';
@@ -64,7 +64,7 @@ const Fondo: FC<{ historia: Historia; pausado: boolean }> = ({ historia, pausado
   if (historia.fondo.tipo === 'video') {
     return <video ref={video} src={historia.fondo.src} poster={historia.fondo.poster} muted loop playsInline autoPlay aria-label={historia.alt} className="absolute inset-0 size-full object-cover" />;
   }
-  return <Image src={historia.fondo.src} alt={historia.alt} fill sizes="(min-width: 1024px) 420px, 100vw" className="object-cover" />;
+  return <FotoEncuadrada src={historia.fondo.src} alt={historia.alt} sizes="(min-width: 1024px) 420px, 100vw" arriba />;
 };
 
 const Diapositiva: FC<{ historia: Historia; pausado: boolean }> = ({ historia, pausado }) => {

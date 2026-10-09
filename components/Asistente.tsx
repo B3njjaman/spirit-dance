@@ -176,7 +176,12 @@ export const Asistente = () => {
         aria-modal="false"
         aria-label="Estrella, asistente de Spirit Dance"
         hidden={!abierto}
-        className="fixed inset-x-2 bottom-[calc(96px+env(safe-area-inset-bottom))] z-40 flex max-h-[min(78svh,40rem)] flex-col overflow-hidden rounded-[26px] border border-white/90 bg-papel shadow-vidrio sm:inset-x-auto sm:right-6 sm:w-[24rem] lg:bottom-36 lg:right-8"
+        // La clase "flex" le gana al atributo hidden (misma especificidad, va después): el display depende del estado,
+        // si no el chat aparece abierto al cargar la página.
+        className={cn(
+          'fixed inset-x-2 bottom-[calc(96px+env(safe-area-inset-bottom))] z-40 max-h-[min(78svh,40rem)] flex-col overflow-hidden rounded-[26px] border border-white/90 bg-papel shadow-vidrio sm:inset-x-auto sm:right-6 sm:w-[24rem] lg:bottom-36 lg:right-8',
+          abierto ? 'flex' : 'hidden',
+        )}
       >
         <header className="flex items-center gap-3 bg-degradado px-4 py-3 text-white">
           <img src={ruta('/render/giro_012.webp')} alt="" className="h-11 w-auto drop-shadow-[0_4px_8px_rgba(0,0,0,0.25)]" />

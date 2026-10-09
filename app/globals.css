@@ -4,7 +4,8 @@
 
 @layer base {
   :root {
-    color-scheme: light;
+    /* "only" impide que Chrome, Samsung Internet y otros oscurezcan la página aunque el teléfono esté en modo oscuro. */
+    color-scheme: only light;
     --papel: 252 248 254;
     --superficie: 255 255 255;
     --tinta: 42 33 64;

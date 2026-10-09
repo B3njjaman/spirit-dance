@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Allura, JetBrains_Mono, Plus_Jakarta_Sans } from 'next/font/google';
 import { BailarinaFlotante } from '@/components/BailarinaFlotante';
 import { Fondo } from '@/components/Fondo';
@@ -23,6 +23,13 @@ export const metadata: Metadata = {
   description: DESCRIPCION,
   openGraph: { title: 'Spirit Dance Academy', description: DESCRIPCION, siteName: 'Spirit Dance Academy', locale: 'es_CL', type: 'website' },
   twitter: { card: 'summary_large_image', title: 'Spirit Dance Academy', description: DESCRIPCION },
+};
+
+// La página es siempre clara: el meta color-scheme "only light" le pide al navegador no aplicarle su modo oscuro,
+// y theme-color pinta claro la barra del navegador en el celular.
+export const viewport: Viewport = {
+  colorScheme: 'only light',
+  themeColor: '#fcf8fe',
 };
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {

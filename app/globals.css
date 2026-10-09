@@ -32,6 +32,16 @@
     overflow-x: clip;
   }
 
+  /* Samsung Internet en modo oscuro (data-compensar, ver app/layout.tsx): la página se invierte antes de que
+     Samsung la oscurezca, y así queda clara. Fotos, videos y lienzos se vuelven a invertir porque Samsung no
+     los oscurece y si no quedarían en negativo. */
+  html[data-compensar] {
+    filter: invert(1) hue-rotate(180deg);
+  }
+  html[data-compensar] :is(img, video, canvas, iframe) {
+    filter: invert(1) hue-rotate(180deg);
+  }
+
   /* El "modo oscuro" del sitio: idéntico al claro, para que el navegador no aplique el suyo. */
   @media (prefers-color-scheme: dark) {
     html,

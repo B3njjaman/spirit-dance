@@ -35,12 +35,27 @@ export const viewport: Viewport = {
   ],
 };
 
-// Último resguardo para que la página siga clara: si el navegador igual fuerza su modo oscuro (algunos Samsung
-// Internet ignoran el meta color-scheme), el color de sistema "canvas" de un elemento marcado como claro deja
-// de ser blanco. Al detectarlo, la página se declara de esquema oscuro: Chromium entiende que ya tiene modo oscuro
-// propio y apaga su oscurecimiento, y como los colores del sitio están fijos, se sigue viendo clara.
-// Corre en el <head>, antes de pintar, para que no haya ni un instante oscuro.
-const SIEMPRE_CLARO = `(function(){try{var r=document.documentElement,d=document.createElement('div');d.style.cssText='display:none;background-color:canvas;color-scheme:light';r.appendChild(d);var c=getComputedStyle(d).backgroundColor;r.removeChild(d);if(c!=='rgb(255, 255, 255)'){r.style.colorScheme='dark';r.setAttribute('data-oscuro-forzado','')}}catch(e){}})();`;
+// Resguardos para que la página siga clara aunque el navegador fuerce su modo oscuro. Corren en el <head>, antes de pintar.
+// - Samsung Internet en modo oscuro oscurece la página aunque declare sus colores (confirmado en un Samsung real), así que
+//   ahí la página se contra-invierte (data-compensar, ver globals.css): al oscurecerla, Samsung la deja otra vez clara.
+// - En Chrome y otros, si el color de sistema "canvas" de un elemento marcado como claro deja de ser blanco, el navegador
+//   está forzando el oscuro: la página se declara de esquema oscuro y Chromium apaga su oscurecimiento.
+// - Con ?diagnostico en la URL se muestra qué detectó, para revisar un teléfono a distancia con una captura.
+const SIEMPRE_CLARO = `(function(){try{
+var r=document.documentElement,ua=navigator.userAgent,mq=matchMedia('(prefers-color-scheme: dark)');
+var d=document.createElement('div');d.style.cssText='display:none;background-color:canvas;color-scheme:light';r.appendChild(d);
+var c=getComputedStyle(d).backgroundColor;r.removeChild(d);
+var samsung=/SamsungBrowser/i.test(ua);
+var aplicar=function(){
+if(samsung){if(mq.matches){r.setAttribute('data-compensar','')}else{r.removeAttribute('data-compensar')}}
+else if(c!=='rgb(255, 255, 255)'){r.style.colorScheme='dark';r.setAttribute('data-oscuro-forzado','')}
+};
+aplicar();if(mq.addEventListener){mq.addEventListener('change',aplicar)}
+if(/diagnostico/.test(location.search)){addEventListener('DOMContentLoaded',function(){var p=document.createElement('pre');
+p.style.cssText='position:fixed;left:8px;right:8px;bottom:8px;z-index:99999;margin:0;padding:10px;font:12px/1.4 monospace;white-space:pre-wrap;background:#fff;color:#000;border:2px solid #c0f';
+p.textContent='navegador: '+ua+'\\nprefiere oscuro: '+mq.matches+'\\ncanvas: '+c+'\\ncompensar: '+r.hasAttribute('data-compensar')+'\\nesquema oscuro: '+r.hasAttribute('data-oscuro-forzado');
+document.body.appendChild(p)})}
+}catch(e){}})();`;
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (

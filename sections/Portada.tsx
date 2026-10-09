@@ -2,10 +2,12 @@
 
 import { useRef, type FC, type ReactNode, type RefObject } from 'react';
 import Image from 'next/image';
+import { CintaFotos } from '@/components/CintaFotos';
 import { Encendido } from '@/components/Encendido';
 import { Escenario } from '@/components/Escenario';
 import { Estrellas } from '@/components/Estrellas';
 import { CONTACTO } from '@/data/contacto';
+import { GALERIA } from '@/data/galeria';
 import { cn } from '@/lib/cn';
 import { ruta } from '@/lib/ruta';
 import grupo from '@/public/img/grupo-completo.jpg';
@@ -13,6 +15,26 @@ import grupo from '@/public/img/grupo-completo.jpg';
 // Cuadro del render de Blender (render-bailarina/render.py) en su pose de reposo, de frente y levemente girada.
 const BAILARINA = ruta('/render/giro_006.webp');
 const GARANTIAS = ['Desde los 4 años', 'Profesora titulada', 'Gala de fin de año'];
+
+const fotos = (ids: string[]) => ids.flatMap((id) => GALERIA.filter((f) => f.id === id));
+// Todas las niñas de la academia: los grupos completos en una fila y el retrato de cada alumna en la otra.
+const GRUPOS = fotos(['CkUKwULvWQy_01', 'CYmnhW0vmek_01', 'CeG9lgmOybp_01', 'CIau0P7h_Yt_01', 'CsWBxxcA67j_01', 'CeG8ARsO00t_01', 'CuSQ4swgx_e_01', 'CqEQD37vhYU_01']);
+const RETRATOS = fotos(['CqWUDCLPVvj_01', 'CqWUDCLPVvj_02', 'CqWUDCLPVvj_03', 'CqWUDCLPVvj_04', 'CqWUDCLPVvj_05', 'CqWUDCLPVvj_06', 'CqWUDCLPVvj_07', 'CqWUDCLPVvj_08']);
+
+// En celular la bailarina baila frente a sus alumnas: un muro de fotos detrás del escenario,
+// iluminado por dos focos laterales que se mecen, como el fondo de una función.
+const MuroNinas: FC<{ muro: RefObject<HTMLDivElement | null> }> = ({ muro }) => {
+  return (
+    <div ref={muro} aria-hidden inert className="absolute -inset-x-4 top-0 h-[62%] sm:-inset-x-6 lg:hidden">
+      <div className="muro-ninas absolute inset-0 flex flex-col justify-center">
+        <CintaFotos fotos={GRUPOS} altoFoto="h-[4.5rem]" className="!py-1.5" />
+        <CintaFotos fotos={RETRATOS} reversa altoFoto="h-[4.5rem]" className="!py-1.5" />
+      </div>
+      <div className="foco-grupo foco-grupo-izquierda" />
+      <div className="foco-grupo foco-grupo-derecha" />
+    </div>
+  );
+};
 
 const Flotante: FC<{ className: string; retraso: string; children: ReactNode }> = ({ className, retraso, children }) => {
   return (
@@ -22,11 +44,11 @@ const Flotante: FC<{ className: string; retraso: string; children: ReactNode }> 
   );
 };
 
-const TarjetaFoto = () => {
+const TarjetaFoto: FC<{ tarjeta: RefObject<HTMLElement | null> }> = ({ tarjeta }) => {
   return (
-    <figure className="vidrio absolute left-0 top-[4%] z-10 w-[46%] max-w-[22rem] -rotate-2 !rounded-[22px] p-1.5 lg:bottom-[25%] lg:left-[-6%] lg:top-auto lg:w-[50%] lg:-rotate-3">
+    <figure ref={tarjeta} className="vidrio absolute bottom-[25%] left-[-6%] z-10 hidden w-[50%] max-w-[22rem] -rotate-3 !rounded-[22px] p-1.5 lg:block">
       <div className="relative aspect-[1080/490] overflow-hidden rounded-2xl">
-        <Image src={grupo} alt="El grupo completo del Team La Florida sentado en el escenario" fill sizes="(min-width: 1024px) 22rem, 46vw" className="object-cover" priority placeholder="blur" />
+        <Image src={grupo} alt="El grupo completo del Team La Florida sentado en el escenario" fill sizes="22rem" className="object-cover" priority placeholder="blur" />
       </div>
       <figcaption className="mx-1.5 mb-0.5 mt-2 text-[11px] font-semibold text-suave lg:text-xs">Team La Florida</figcaption>
     </figure>
@@ -36,7 +58,7 @@ const TarjetaFoto = () => {
 // La bailarina quieta sobre su tarima, bajo un foco morado, con estrellitas cayendo.
 const Bailarina: FC<{ caja: RefObject<HTMLDivElement | null> }> = ({ caja }) => {
   return (
-    <div ref={caja} className="absolute bottom-[11%] left-[60%] aspect-[597/900] h-[80%] -translate-x-1/2 lg:left-1/2">
+    <div ref={caja} className="absolute bottom-[11%] left-1/2 aspect-[597/900] h-[74%] -translate-x-1/2 lg:h-[80%]">
       <div aria-hidden className="absolute -top-[30%] left-[-30%] h-[126%] w-[160%] blur-xl">
         <div className="foco-escenario size-full" />
       </div>
@@ -53,13 +75,16 @@ const Bailarina: FC<{ caja: RefObject<HTMLDivElement | null> }> = ({ caja }) => 
 
 export const Portada = () => {
   const caja = useRef<HTMLDivElement>(null);
+  const muro = useRef<HTMLDivElement>(null);
+  const tarjeta = useRef<HTMLElement>(null);
 
   return (
     <section id="inicio" className="relative flex h-svh min-h-[620px] flex-col pt-16 lg:pt-[72px]">
       <div className="mx-auto grid h-full w-full max-w-6xl grid-rows-[minmax(0,1fr)_auto] px-4 sm:px-6 lg:grid-cols-[1.02fr_1fr] lg:grid-rows-1 lg:items-center lg:gap-8">
         <div className="relative order-1 min-h-0 lg:order-2 lg:h-[88%]">
+          <MuroNinas muro={muro} />
           <Bailarina caja={caja} />
-          <TarjetaFoto />
+          <TarjetaFoto tarjeta={tarjeta} />
           <Flotante className="right-0 top-[2%] w-44" retraso="0s">
             <p className="text-xs font-semibold text-tenue">En el aula</p>
             <p className="mt-1 text-3xl font-extrabold tracking-tight text-tinta">+20 años</p>
@@ -124,7 +149,7 @@ export const Portada = () => {
         </div>
       </div>
       {/* Va al final: su efecto mide la caja de la bailarina, que React enlaza antes en el árbol. */}
-      <Encendido objetivo={caja} />
+      <Encendido objetivo={caja} grupos={[muro, tarjeta]} />
     </section>
   );
 };

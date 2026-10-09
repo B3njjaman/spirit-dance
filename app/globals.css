@@ -103,9 +103,21 @@
   --rx: 0px;
   --ry: 0px;
   --dentro: 1;
+  --gx: 50%;
+  --gy: 50%;
+  --grx: 0px;
+  --gry: 0px;
+  --gdentro: 1;
   background: #07030f;
-  -webkit-mask-image: radial-gradient(ellipse var(--rx) var(--ry) at var(--x) var(--y), rgba(0, 0, 0, var(--dentro)) 0%, #000 100%);
-  mask-image: radial-gradient(ellipse var(--rx) var(--ry) at var(--x) var(--y), rgba(0, 0, 0, var(--dentro)) 0%, #000 100%);
+  /* Dos huecos de luz, uno para la bailarina y otro para el grupo: las capas se intersectan para que ambos se vean. */
+  -webkit-mask-image:
+    radial-gradient(ellipse var(--rx) var(--ry) at var(--x) var(--y), rgba(0, 0, 0, var(--dentro)) 0%, #000 100%),
+    radial-gradient(ellipse var(--grx) var(--gry) at var(--gx) var(--gy), rgba(0, 0, 0, var(--gdentro)) 0%, #000 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    radial-gradient(ellipse var(--rx) var(--ry) at var(--x) var(--y), rgba(0, 0, 0, var(--dentro)) 0%, #000 100%),
+    radial-gradient(ellipse var(--grx) var(--gry) at var(--gx) var(--gy), rgba(0, 0, 0, var(--gdentro)) 0%, #000 100%);
+  mask-composite: intersect;
 }
 .encendido-haz {
   opacity: 0;
@@ -124,6 +136,50 @@
 }
 
 /* Foco que se queda sobre la bailarina una vez encendida la página. */
+/* Muro de alumnas detrás del escenario en celular (sections/Portada): fotos con un velo lavanda para que la
+   bailarina siga siendo la protagonista, y dos focos cruzados que las iluminan con un vaivén lento. */
+.muro-ninas {
+  -webkit-mask-image: radial-gradient(ellipse 75% 85% at 50% 45%, #000 45%, transparent 100%);
+  mask-image: radial-gradient(ellipse 75% 85% at 50% 45%, #000 45%, transparent 100%);
+}
+.muro-ninas::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 36% 60% at 50% 70%, rgb(var(--papel) / 0.92) 30%, rgb(var(--papel) / 0.2) 100%);
+}
+.foco-grupo {
+  position: absolute;
+  top: 2%;
+  width: 44%;
+  height: 110%;
+  background: linear-gradient(to bottom, rgba(255, 79, 163, 0.22), rgba(198, 83, 240, 0.1) 65%, transparent);
+  clip-path: polygon(45% 0, 55% 0, 100% 100%, 0 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 30%);
+  mask-image: linear-gradient(to bottom, transparent, #000 30%);
+  mix-blend-mode: multiply;
+  transform-origin: 50% 0;
+  animation: vaiven 7s ease-in-out infinite;
+}
+.foco-grupo-izquierda {
+  left: -6%;
+  --giro: -18deg;
+}
+.foco-grupo-derecha {
+  right: -6%;
+  --giro: 18deg;
+  animation-delay: -3.5s;
+}
+@keyframes vaiven {
+  0%,
+  100% {
+    transform: rotate(var(--giro));
+  }
+  50% {
+    transform: rotate(calc(var(--giro) * 0.55));
+  }
+}
+
 .foco-escenario {
   background: linear-gradient(to bottom, rgba(198, 83, 240, 0.16), rgba(157, 92, 255, 0.06) 75%, rgba(198, 83, 240, 0.12));
   clip-path: polygon(45% 0, 55% 0, 92% 100%, 8% 100%);
@@ -293,7 +349,8 @@
   .animate-flotar,
   .animate-candileja,
   .brillo-fucsia,
-  .chispa {
+  .chispa,
+  .foco-grupo {
     animation: none;
   }
   .encendido {

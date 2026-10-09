@@ -25,11 +25,14 @@ export const metadata: Metadata = {
   twitter: { card: 'summary_large_image', title: 'Spirit Dance Academy', description: DESCRIPCION },
 };
 
-// La página es siempre clara: el meta color-scheme "only light" le pide al navegador no aplicarle su modo oscuro,
-// y theme-color pinta claro la barra del navegador en el celular.
+// La página es siempre clara. El meta color-scheme declara "light dark" para que ningún navegador la oscurezca
+// por su cuenta (ver globals.css), y theme-color pinta clara la barra del navegador en el celular en ambos modos.
 export const viewport: Viewport = {
-  colorScheme: 'only light',
-  themeColor: '#fcf8fe',
+  colorScheme: 'light dark',
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#fcf8fe' },
+    { media: '(prefers-color-scheme: dark)', color: '#fcf8fe' },
+  ],
 };
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {

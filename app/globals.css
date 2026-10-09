@@ -4,8 +4,10 @@
 
 @layer base {
   :root {
-    /* "only" impide que Chrome, Samsung Internet y otros oscurezcan la página aunque el teléfono esté en modo oscuro. */
-    color-scheme: only light;
+    /* La página es siempre clara. Se declara "light dark" a propósito: Chrome, Samsung Internet y los navegadores
+       dentro de Instagram o WhatsApp solo dejan de oscurecer un sitio por su cuenta cuando este dice tener modo
+       oscuro propio. Ese "modo oscuro" (abajo) repite los mismos colores claros. */
+    color-scheme: light dark;
     --papel: 252 248 254;
     --superficie: 255 255 255;
     --tinta: 42 33 64;
@@ -28,6 +30,15 @@
     background: rgb(var(--papel));
     color: rgb(var(--tinta));
     overflow-x: clip;
+  }
+
+  /* El "modo oscuro" del sitio: idéntico al claro, para que el navegador no aplique el suyo. */
+  @media (prefers-color-scheme: dark) {
+    html,
+    body {
+      background: rgb(var(--papel));
+      color: rgb(var(--tinta));
+    }
   }
 
   h1,

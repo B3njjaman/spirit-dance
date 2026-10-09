@@ -83,7 +83,7 @@ export const Videos = () => {
         onClose={cerrar}
         onClick={alClicFondo}
         aria-label={abierto?.titulo}
-        className="m-auto max-h-[92svh] w-[min(92vw,26rem)] overflow-visible bg-transparent p-0 backdrop:bg-tinta/70 backdrop:backdrop-blur-sm"
+        className="m-auto max-h-[92svh] w-[min(92vw,26rem)] overflow-visible bg-transparent p-0 text-tinta backdrop:bg-tinta/70 backdrop:backdrop-blur-sm"
       >
         {abierto && (
           <div className="vidrio p-2">

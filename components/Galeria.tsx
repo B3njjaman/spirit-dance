@@ -219,7 +219,7 @@ const Visor: FC<VisorProps> = ({ fotos, abierta, alCambiar }) => {
       onClick={alClicFondo}
       onKeyDown={alTecla}
       aria-label={foto?.alt}
-      className="m-auto max-h-[96svh] w-[min(94vw,60rem)] overflow-visible bg-transparent p-0 backdrop:bg-tinta/80 backdrop:backdrop-blur-sm"
+      className="m-auto max-h-[96svh] w-[min(94vw,60rem)] overflow-visible bg-transparent p-0 text-tinta backdrop:bg-tinta/80 backdrop:backdrop-blur-sm"
     >
       {foto && (
         <figure className="polaroid !p-3 sm:!p-4">

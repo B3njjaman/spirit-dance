@@ -91,6 +91,57 @@
   }
 }
 
+/* Telón de entrada (components/Encendido): oscuridad con un hueco de luz que crece. */
+.encendido {
+  animation: encendido-respaldo 0.5s 8s forwards;
+}
+.encendido-oscuridad {
+  --x: 50%;
+  --y: 50%;
+  --rx: 0px;
+  --ry: 0px;
+  --dentro: 1;
+  background: #07030f;
+  -webkit-mask-image: radial-gradient(ellipse var(--rx) var(--ry) at var(--x) var(--y), rgba(0, 0, 0, var(--dentro)) 0%, #000 100%);
+  mask-image: radial-gradient(ellipse var(--rx) var(--ry) at var(--x) var(--y), rgba(0, 0, 0, var(--dentro)) 0%, #000 100%);
+}
+.encendido-haz {
+  opacity: 0;
+  filter: blur(26px);
+  mix-blend-mode: screen;
+}
+.encendido-cono {
+  background: linear-gradient(to bottom, rgba(198, 83, 240, 0.85), rgba(157, 92, 255, 0.28) 55%, rgba(198, 83, 240, 0.55));
+  clip-path: polygon(44% 0, 56% 0, 96% 100%, 4% 100%);
+}
+@keyframes encendido-respaldo {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+/* Foco que se queda sobre la bailarina una vez encendida la página. */
+.foco-escenario {
+  background: linear-gradient(to bottom, rgba(198, 83, 240, 0.16), rgba(157, 92, 255, 0.06) 75%, rgba(198, 83, 240, 0.12));
+  clip-path: polygon(45% 0, 55% 0, 92% 100%, 8% 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 35%);
+  mask-image: linear-gradient(to bottom, transparent, #000 35%);
+}
+.animate-candileja {
+  animation: candileja 3.2s ease-in-out infinite;
+  filter: drop-shadow(0 0 4px #ffd36b) drop-shadow(0 0 9px rgba(255, 190, 90, 0.6));
+}
+@keyframes candileja {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
 @keyframes llenar {
   from {
     transform: scaleX(0);
@@ -114,7 +165,11 @@
   .animate-flota2,
   .animate-flota3,
   .animate-cinta,
-  .animate-flotar {
+  .animate-flotar,
+  .animate-candileja {
     animation: none;
+  }
+  .encendido {
+    display: none;
   }
 }

@@ -52,7 +52,6 @@ export const PAGINAS = [
   { ruta: '/videos', nombre: 'Videos' },
   { ruta: '/sobre-nosotros', nombre: 'Paulina y su equipo' },
   { ruta: '/proyecto', nombre: 'Proyecto CheerDance Colegio Marta Brunet' },
-  { ruta: '/portafolio', nombre: 'Portafolio y CV de Paulina' },
 ] as const;
 
 export const SOBRE_LA_ACADEMIA = `Spirit Dance Academy es una academia de danza infantil fundada en 2020 por Paulina Quezada Sepúlveda,

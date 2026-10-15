@@ -332,15 +332,14 @@ html[data-revelar] .aparecer.visible .barra-cualidad {
   transition: transform 1.4s cubic-bezier(0.22, 0.8, 0.24, 1) 0.2s;
 }
 
-/* Páginas que se imprimen a PDF (presentación del proyecto, CV y carta): solo las hojas, sin el resto del sitio. */
+/* Presentación del proyecto (app/proyecto/presentacion): solo las láminas, sin el resto del sitio. */
 body:has(.presentacion) > :not(main) {
   display: none !important;
 }
 .presentacion {
   padding: 24px 16px;
 }
-.laminas,
-.hojas {
+.laminas {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -360,32 +359,15 @@ body:has(.presentacion) > :not(main) {
   size: 1280px 720px;
   margin: 0;
 }
-.hoja {
-  width: 210mm;
-  height: 297mm;
-  flex-shrink: 0;
-  overflow: hidden;
-  background: #fff;
-  box-shadow: 0 30px 60px -30px rgba(80, 40, 120, 0.45);
-  page: hoja;
-  -webkit-print-color-adjust: exact;
-  print-color-adjust: exact;
-}
-@page hoja {
-  size: A4;
-  margin: 0;
-}
 @media print {
   .presentacion {
     padding: 0;
   }
-  .laminas,
-  .hojas {
+  .laminas {
     zoom: 1 !important;
     gap: 0;
   }
-  .diapositiva,
-  .hoja {
+  .diapositiva {
     border-radius: 0;
     box-shadow: none;
     break-after: page;

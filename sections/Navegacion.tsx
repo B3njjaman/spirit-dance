@@ -11,6 +11,7 @@ const ENLACES = [
   { href: '/galeria', texto: 'Galería' },
   { href: '/videos', texto: 'Videos' },
   { href: '/sobre-nosotros', texto: 'Nosotros' },
+  { href: '/proyecto', texto: 'Proyecto' },
 ];
 
 const esActual = (pagina: string, href: string) => pagina.replace(/\/+$/, '') === href;

@@ -287,6 +287,93 @@
   }
 }
 
+/* Página del proyecto (app/proyecto): números de capítulo calados, dorado para lo competitivo y entradas al bajar. */
+.numero-capitulo {
+  font-weight: 800;
+  line-height: 0.8;
+  letter-spacing: -0.06em;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgb(var(--lila) / 0.45);
+}
+.dorado-texto {
+  background-image: linear-gradient(110deg, #b8862b 0%, #f5d27a 35%, #c9952f 55%, #ffe7a3 75%, #b8862b 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: brillo-dorado 6s linear infinite;
+}
+.sello-dorado {
+  background-image: linear-gradient(110deg, #b8862b 0%, #f5d27a 35%, #c9952f 55%, #ffe7a3 75%, #b8862b 100%);
+  background-size: 200% 100%;
+  animation: brillo-dorado 6s linear infinite;
+}
+@keyframes brillo-dorado {
+  to {
+    background-position: -200% 0;
+  }
+}
+html[data-revelar] .aparecer {
+  opacity: 0;
+  translate: 0 28px;
+  transition:
+    opacity 0.8s cubic-bezier(0.22, 0.8, 0.24, 1),
+    translate 0.8s cubic-bezier(0.22, 0.8, 0.24, 1);
+}
+html[data-revelar] .aparecer.visible {
+  opacity: 1;
+  translate: 0 0;
+}
+html[data-revelar] .aparecer .barra-cualidad {
+  transform: scaleX(0);
+}
+html[data-revelar] .aparecer.visible .barra-cualidad {
+  transform: scaleX(1);
+  transition: transform 1.4s cubic-bezier(0.22, 0.8, 0.24, 1) 0.2s;
+}
+
+/* Presentación del proyecto (app/proyecto/presentacion): solo las láminas, sin el resto del sitio. */
+body:has(.presentacion) > :not(main) {
+  display: none !important;
+}
+.presentacion {
+  padding: 24px 16px;
+}
+.laminas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+.diapositiva {
+  width: 1280px;
+  height: 720px;
+  flex-shrink: 0;
+  border-radius: 18px;
+  box-shadow: 0 30px 60px -30px rgba(80, 40, 120, 0.45);
+  page: lamina;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+@page lamina {
+  size: 1280px 720px;
+  margin: 0;
+}
+@media print {
+  .presentacion {
+    padding: 0;
+  }
+  .laminas {
+    zoom: 1 !important;
+    gap: 0;
+  }
+  .diapositiva {
+    border-radius: 0;
+    box-shadow: none;
+    break-after: page;
+  }
+}
+
 @media (max-width: 1023px) {
   header {
     transition: translate 250ms ease-out;
@@ -310,5 +397,13 @@
   .estrellita,
   .encendido {
     display: none;
+  }
+  .dorado-texto,
+  .sello-dorado {
+    animation: none;
+  }
+  html[data-revelar] .aparecer {
+    opacity: 1;
+    translate: none;
   }
 }

@@ -2,6 +2,7 @@ import { Estrellas } from '@/components/Estrellas';
 import { CONTACTO_ACADEMIA } from '@/data/academia';
 import { conArticulo, numeroCapitulo, type Proyecto } from '@/data/proyecto';
 import { ruta } from '@/lib/ruta';
+import { DescargarPdf, OtraVersionPdf } from './DescargarPdf';
 
 export const whatsappProyecto = (proyecto: Proyecto) => {
   const mensaje = `Hola Paulina, vi el proyecto de CheerDance para ${conArticulo(proyecto)} y quiero agendar una reunión.`;
@@ -35,14 +36,12 @@ export const PortadaProyecto = ({ proyecto }: { proyecto: Proyecto }) => {
           </h1>
           <p className="mx-auto mt-6 max-w-xl text-entrada text-suave lg:mx-0">{proyecto.portada.bajada}</p>
           <div className="mt-8 flex flex-col justify-center gap-2.5 sm:flex-row lg:justify-start">
-            <a href={proyecto.pdf} download className="boton-principal">
-              Descargar presentación PDF
-              <span aria-hidden>↓</span>
-            </a>
+            <DescargarPdf proyecto={proyecto}>Descargar presentación PDF</DescargarPdf>
             <a href={whatsappProyecto(proyecto)} target="_blank" rel="noreferrer" className="boton-vidrio">
               Agendar reunión
             </a>
           </div>
+          <OtraVersionPdf proyecto={proyecto} className="mt-4" />
         </div>
 
         <div className="relative mx-auto aspect-[1/1] w-full max-w-[30rem]">

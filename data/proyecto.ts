@@ -50,6 +50,8 @@ export type EnElColegio = {
 export type Proyecto = {
   colegio: { nombre: string; comuna: string; articulo: 'el' | 'los' };
   pdf: string;
+  // Documento vertical para leer en el celular (presentacion-movil). Sin él, la página ofrece solo las láminas.
+  pdfMovil?: string;
   capitulos: { id: IdCapitulo; titulo: string }[];
   portada: { bajada: string; bajadaLamina: string };
   enElColegio?: EnElColegio;

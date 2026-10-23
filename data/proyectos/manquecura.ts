@@ -8,6 +8,7 @@ import { ruta } from '@/lib/ruta';
 export const MANQUECURA: Proyecto = {
   colegio: { nombre: 'Colegios Manquecura', comuna: 'Puente Alto · Quilicura · Ñuñoa', articulo: 'los' },
   pdf: ruta('/proyecto/cheerdance-manquecura.pdf'),
+  pdfMovil: ruta('/proyecto/cheerdance-manquecura-movil.pdf'),
   capitulos: [
     { id: 'academia', titulo: 'La academia' },
     { id: 'profesora', titulo: 'Profesional a cargo' },

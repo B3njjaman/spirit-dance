@@ -359,6 +359,22 @@ body:has(.presentacion) > :not(main) {
   size: 1280px 720px;
   margin: 0;
 }
+/* PDF para celular: páginas de 390 px de ancho y alto libre. AltoNatural les da a cada una su propia regla @page;
+   esta es la de reserva si no alcanza a medir. */
+.pagina-movil {
+  width: 390px;
+  min-height: 844px;
+  flex-shrink: 0;
+  border-radius: 18px;
+  box-shadow: 0 30px 60px -30px rgba(80, 40, 120, 0.45);
+  page: pagina-movil;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+@page pagina-movil {
+  size: 390px 844px;
+  margin: 0;
+}
 @media print {
   .presentacion {
     padding: 0;
@@ -367,7 +383,8 @@ body:has(.presentacion) > :not(main) {
     zoom: 1 !important;
     gap: 0;
   }
-  .diapositiva {
+  .diapositiva,
+  .pagina-movil {
     border-radius: 0;
     box-shadow: none;
     break-after: page;

@@ -22,7 +22,7 @@ import { ruta } from '@/lib/ruta';
 import { cn } from '@/lib/cn';
 import { Antetitulo, Diapositiva, NumeroGrande } from './Diapositiva';
 
-const TONOS = ['#FFB3DA', '#FF7CC0', '#E05BD8', '#C653F0', '#9D5CFF', '#7B4BE0'];
+export const TONOS = ['#FFB3DA', '#FF7CC0', '#E05BD8', '#C653F0', '#9D5CFF', '#7B4BE0'];
 const titulo = 'text-[52px] font-extrabold leading-[1.02] tracking-[-0.035em]';
 // Colores planos y no texto con degradado: los visores de PDF dibujan un borde alrededor del texto recortado con background-clip.
 const degradado = 'text-[#cf3fcf]';
@@ -32,7 +32,7 @@ const resplandorDorado = { textShadow: '0 0 26px rgba(245,210,122,0.55)' };
 const EN_PALABRAS: Record<number, string> = { 10: 'Diez', 11: 'Once', 12: 'Doce', 13: 'Trece' };
 const tarjeta = 'rounded-[22px] border border-white bg-white/75 shadow-[0_1px_1px_rgba(80,40,120,.04),0_24px_60px_-28px_rgba(110,50,160,.32)]';
 
-const Polaroid = ({ src, className, imgClass }: { src: string; className?: string; imgClass?: string }) => {
+export const Polaroid = ({ src, className, imgClass }: { src: string; className?: string; imgClass?: string }) => {
   return (
     <div className={cn('rounded-[4px] bg-white p-[8px] pb-[12px] shadow-[0_1px_1px_rgba(80,40,120,0.06),0_20px_36px_-14px_rgba(80,40,120,0.45)]', className)}>
       <img src={src} alt="" className={cn('block w-full rounded-[2px] object-cover', imgClass)} />

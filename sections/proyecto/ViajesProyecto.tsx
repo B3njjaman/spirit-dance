@@ -1,5 +1,6 @@
 import { CREDITOS_FOTOS, DESTINOS, numeroCapitulo, RUTA_INTERNACIONAL, type Proyecto } from '@/data/proyecto';
 import { ruta } from '@/lib/ruta';
+import { DescargarPdf, OtraVersionPdf } from './DescargarPdf';
 import { TituloCapitulo } from './TituloCapitulo';
 
 export const ViajesProyecto = ({ proyecto }: { proyecto: Proyecto }) => {
@@ -56,10 +57,8 @@ export const ViajesProyecto = ({ proyecto }: { proyecto: Proyecto }) => {
         </ol>
 
         <div className="aparecer mt-16 text-center">
-          <a href={proyecto.pdf} download className="boton-principal">
-            Descargar el proyecto en PDF
-            <span aria-hidden>↓</span>
-          </a>
+          <DescargarPdf proyecto={proyecto}>Descargar el proyecto en PDF</DescargarPdf>
+          <OtraVersionPdf proyecto={proyecto} className="mt-4" />
         </div>
 
         <p className="mt-10 text-center text-xs text-tenue">Fotos de Orlando: {CREDITOS_FOTOS.join(' · ')}</p>

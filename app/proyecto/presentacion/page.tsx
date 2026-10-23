@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { MARTA_BRUNET } from '@/data/proyectos/marta-brunet';
 import { Escalar } from '@/sections/proyecto/presentacion/Escalar';
 import { Laminas } from '@/sections/proyecto/presentacion/Laminas';
 
@@ -12,7 +13,7 @@ const Presentacion = () => {
   return (
     <div className="presentacion">
       <Escalar>
-        <Laminas />
+        <Laminas proyecto={MARTA_BRUNET} />
       </Escalar>
     </div>
   );

@@ -1,30 +1,31 @@
 import { Giro } from '@/components/Giro';
 import { Motion } from '@/components/Motion';
-import { ELEMENTOS_TECNICOS, ETAPAS_CLASE, MOTIONS } from '@/data/proyecto';
+import { ELEMENTOS_TECNICOS, MOTIONS, numeroCapitulo, type Proyecto } from '@/data/proyecto';
 import { TituloCapitulo } from './TituloCapitulo';
 
 const TONOS = ['#FFB3DA', '#FF7CC0', '#E05BD8', '#C653F0', '#9D5CFF', '#7B4BE0'];
-const TOTAL_MINUTOS = ETAPAS_CLASE.reduce((suma, etapa) => suma + etapa.minutos, 0);
 
-export const ClaseProyecto = () => {
+export const ClaseProyecto = ({ proyecto }: { proyecto: Proyecto }) => {
+  const etapas = proyecto.clase.etapas;
+  const totalMinutos = etapas.reduce((suma, etapa) => suma + etapa.minutos, 0);
   return (
     <section id="clase" className="scroll-mt-20 px-4 py-20 sm:px-6 lg:py-28">
       <div className="mx-auto max-w-6xl">
-        <TituloCapitulo numero="05" antetitulo="Desarrollo de la clase" titulo={<>{TOTAL_MINUTOS} minutos, <span className="degradado-texto">seis momentos.</span></>}>
-          <p>
-            Cada clase se trabaja de manera personalizada e inclusiva: la profesora adapta cada ejercicio al nivel de cada niña, para que todas avancen y
-            ninguna quede atrás.
-          </p>
+        <TituloCapitulo
+          numero={numeroCapitulo(proyecto, 'clase')}
+          antetitulo="Desarrollo de la clase"
+          titulo={<>{totalMinutos} minutos, <span className="degradado-texto">seis momentos.</span></>}>
+          <p>{proyecto.clase.intro}</p>
         </TituloCapitulo>
 
         <div className="aparecer mt-12">
           <div className="flex h-5 overflow-hidden rounded-full shadow-suave" aria-hidden>
-            {ETAPAS_CLASE.map((etapa, i) => {
+            {etapas.map((etapa, i) => {
               return <span key={etapa.nombre} style={{ flexGrow: etapa.minutos, background: TONOS[i] }} />;
             })}
           </div>
           <ol className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {ETAPAS_CLASE.map((etapa, i) => {
+            {etapas.map((etapa, i) => {
               return (
                 <li key={etapa.nombre} className="vidrio relative overflow-hidden p-6">
                   <span aria-hidden className="absolute inset-y-0 left-0 w-1.5" style={{ background: TONOS[i] }} />

@@ -1,14 +1,16 @@
 import { MerchIlustracion } from '@/components/MerchIlustracion';
-import { ADICIONALES, CAMPEONATOS, COLEGIO, MERCH, PLANES, TEMPORADA } from '@/data/proyecto';
+import { ADICIONALES, CAMPEONATOS, numeroCapitulo, type Proyecto } from '@/data/proyecto';
 import { cn } from '@/lib/cn';
-import { WHATSAPP_PROYECTO } from './PortadaProyecto';
+import { whatsappProyecto } from './PortadaProyecto';
 import { TituloCapitulo } from './TituloCapitulo';
 
-export const CampeonatosProyecto = () => {
+export const CampeonatosProyecto = ({ proyecto }: { proyecto: Proyecto }) => {
   return (
     <section id="campeonatos" className="scroll-mt-20 px-4 py-20 sm:px-6 lg:py-28">
       <div className="mx-auto max-w-6xl">
-        <TituloCapitulo numero="08" antetitulo="Dónde competir" titulo={<>Los campeonatos <span className="degradado-texto">de la temporada.</span></>}>
+        <TituloCapitulo
+          numero={numeroCapitulo(proyecto, 'campeonatos')}
+          antetitulo="Dónde competir" titulo={<>Los campeonatos <span className="degradado-texto">de la temporada.</span></>}>
           <p>El equipo competitivo prepara una coreografía durante el año para competir a nivel nacional. Estos son los escenarios actuales del cheerdance chileno.</p>
         </TituloCapitulo>
 
@@ -44,7 +46,7 @@ export const CampeonatosProyecto = () => {
         <div className="aparecer mt-14">
           <p className="text-sm font-bold uppercase tracking-[0.18em] text-magenta">Temporada del equipo competitivo</p>
           <ol className="mt-6 grid gap-3 sm:grid-cols-3 lg:grid-cols-6">
-            {TEMPORADA.map((etapa, i) => {
+            {proyecto.temporada.map((etapa, i) => {
               return (
                 <li key={etapa.mes} className="relative rounded-2xl bg-white/60 p-4 shadow-suave">
                   <span aria-hidden className="absolute inset-x-4 top-0 h-1 rounded-b-full bg-degradado" style={{ opacity: 0.4 + i * 0.12 }} />
@@ -61,7 +63,7 @@ export const CampeonatosProyecto = () => {
   );
 };
 
-export const PropuestaProyecto = () => {
+export const PropuestaProyecto = ({ proyecto }: { proyecto: Proyecto }) => {
   return (
     <section id="propuesta" className="scroll-mt-20 overflow-hidden px-4 py-20 sm:px-6 lg:py-28">
       <div className="relative mx-auto max-w-6xl overflow-hidden rounded-[2.25rem] bg-[#1c1030] px-5 py-14 sm:px-10 lg:px-14 lg:py-20">
@@ -70,15 +72,14 @@ export const PropuestaProyecto = () => {
         <div aria-hidden className="absolute right-10 top-10 size-40 rounded-full bg-[#f5d27a] opacity-20 blur-3xl" />
 
         <div className="relative">
-          <TituloCapitulo numero="09" antetitulo="Propuesta comercial" titulo={<>Esto es una venta: <span className="dorado-texto">un producto para el colegio.</span></>} claro>
-            <p>
-              El taller formativo es la base. El equipo competitivo es el producto: se contrata aparte, se trabaja una coreografía propia durante todo el año y
-              se compite a nivel nacional con el nombre del {COLEGIO.nombre}.
-            </p>
+          <TituloCapitulo
+            numero={numeroCapitulo(proyecto, 'propuesta')}
+            antetitulo="Propuesta comercial" titulo={<>Esto es una venta: <span className="dorado-texto">un producto para el colegio.</span></>} claro>
+            <p>{proyecto.propuesta.intro}</p>
           </TituloCapitulo>
 
           <div className="mt-12 grid gap-5 lg:grid-cols-2">
-            {PLANES.map((plan) => {
+            {proyecto.propuesta.planes.map((plan) => {
               return (
                 <article
                   key={plan.nombre}
@@ -107,7 +108,7 @@ export const PropuestaProyecto = () => {
                     })}
                   </ul>
                   <p className={cn('mt-7 border-t pt-5 text-sm', plan.venta ? 'border-white/10 text-white/60' : 'border-tinta/10 text-tenue')}>
-                    Valor: cotización según número de alumnas y categorías.
+                    Valor: cotización según {proyecto.propuesta.cotizacion}.
                   </p>
                 </article>
               );
@@ -127,7 +128,7 @@ export const PropuestaProyecto = () => {
                 })}
               </ul>
             </div>
-            <a href={WHATSAPP_PROYECTO} target="_blank" rel="noreferrer" className="boton sello-dorado shrink-0 text-[#3d2a05] shadow-[0_14px_34px_-12px_rgba(245,210,122,0.8)]">
+            <a href={whatsappProyecto(proyecto)} target="_blank" rel="noreferrer" className="boton sello-dorado shrink-0 text-[#3d2a05] shadow-[0_14px_34px_-12px_rgba(245,210,122,0.8)]">
               Agendar reunión con Paulina
               <span aria-hidden>→</span>
             </a>
@@ -138,19 +139,23 @@ export const PropuestaProyecto = () => {
   );
 };
 
-export const MerchProyecto = () => {
+export const MerchProyecto = ({ proyecto }: { proyecto: Proyecto }) => {
   return (
     <section id="merch" className="scroll-mt-20 px-4 py-20 sm:px-6 lg:py-28">
       <div className="mx-auto max-w-6xl">
-        <TituloCapitulo numero="10" antetitulo="Merch del equipo" titulo={<>Vestir los colores <span className="degradado-texto">de Spirit Dance.</span></>}>
+        <TituloCapitulo
+          numero={numeroCapitulo(proyecto, 'merch')}
+          antetitulo="Merch del equipo"
+          titulo={<>Vestir los colores <span className="degradado-texto">{proyecto.merch.colores}</span></>}
+        >
           <p>Una línea pequeña para entrenar, competir y viajar. También es parte de la venta: cada pieza se cotiza por separado.</p>
         </TituloCapitulo>
         <ul className="mt-12 grid grid-cols-2 gap-4 lg:grid-cols-3">
-          {MERCH.map((pieza, i) => {
+          {proyecto.merch.piezas.map((pieza, i) => {
             return (
               <li key={pieza.id} className="aparecer group vidrio overflow-hidden" style={{ transitionDelay: `${(i % 3) * 100}ms` }}>
                 <div className="bg-[radial-gradient(circle_at_50%_40%,#f6ecff,#fcf8fe_70%)] px-6 pb-2 pt-8 transition-[scale] duration-500 ease-fidelya group-hover:scale-[1.04]">
-                  <MerchIlustracion id={pieza.id} nombre={pieza.nombre} />
+                  <MerchIlustracion id={pieza.id} nombre={pieza.nombre} equipo={proyecto.merch.equipo} paleta={proyecto.merch.paleta} />
                 </div>
                 <div className="px-5 pb-6 pt-3">
                   <p className="font-bold text-tinta">{pieza.nombre}</p>

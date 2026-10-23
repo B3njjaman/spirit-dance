@@ -1,17 +1,19 @@
-import { FUENTES_HISTORIA, HISTORIA, TRANSVERSALES, VALORES } from '@/data/proyecto';
+import { FUENTES_HISTORIA, HISTORIA, numeroCapitulo, type Proyecto } from '@/data/proyecto';
 import { cn } from '@/lib/cn';
 import { TituloCapitulo } from './TituloCapitulo';
 
-export const ValoresProyecto = () => {
+export const ValoresProyecto = ({ proyecto }: { proyecto: Proyecto }) => {
   return (
     <section id="valores" className="scroll-mt-20 px-4 py-20 sm:px-6 lg:py-28">
       <div className="mx-auto max-w-6xl">
-        <TituloCapitulo numero="06" antetitulo="Valores de la academia" titulo={<>Lo que se aprende <span className="degradado-texto">más allá del paso.</span></>} centrado>
-          <p>Seis valores guían cada clase de Spirit Dance. Y la disciplina desarrolla habilidades que las niñas llevan a la sala de clases y a la vida.</p>
+        <TituloCapitulo
+          numero={numeroCapitulo(proyecto, 'valores')}
+          antetitulo="Valores de la academia" titulo={<>Lo que se aprende <span className="degradado-texto">más allá del paso.</span></>} centrado>
+          <p>{proyecto.valores.intro}</p>
         </TituloCapitulo>
 
         <ul className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {VALORES.map((valor, i) => {
+          {proyecto.valores.lista.map((valor, i) => {
             return (
               <li key={valor.nombre} className="aparecer vidrio relative overflow-hidden p-7" style={{ transitionDelay: `${(i % 3) * 100}ms` }}>
                 <span aria-hidden className="absolute -right-3 -top-6 font-script text-[6.5rem] leading-none text-lila/10">{valor.nombre[0]}</span>
@@ -26,7 +28,7 @@ export const ValoresProyecto = () => {
         <div className="aparecer mt-16 text-center">
           <p className="text-sm font-bold uppercase tracking-[0.18em] text-magenta">Elementos transversales que desarrolla el cheerdance</p>
           <ul className="mx-auto mt-6 flex max-w-4xl flex-wrap justify-center gap-2.5">
-            {TRANSVERSALES.map((habilidad, i) => {
+            {proyecto.valores.transversales.map((habilidad, i) => {
               return (
                 <li key={habilidad} className={cn('rounded-full px-4 py-2 text-[15px] font-semibold shadow-suave', i % 3 === 0 ? 'bg-degradado text-white' : 'border border-white/90 bg-white/75 text-tinta')}>
                   {habilidad}
@@ -40,11 +42,13 @@ export const ValoresProyecto = () => {
   );
 };
 
-export const HistoriaProyecto = () => {
+export const HistoriaProyecto = ({ proyecto }: { proyecto: Proyecto }) => {
   return (
     <section id="historia" className="scroll-mt-20 px-4 py-20 sm:px-6 lg:py-28">
       <div className="mx-auto max-w-5xl">
-        <TituloCapitulo numero="07" antetitulo="Breve historia" titulo={<>El cheerdance <span className="degradado-texto">en Chile.</span></>} centrado>
+        <TituloCapitulo
+          numero={numeroCapitulo(proyecto, 'historia')}
+          antetitulo="Breve historia" titulo={<>El cheerdance <span className="degradado-texto">en Chile.</span></>} centrado>
           <p>De las barras escolares a los mundiales de Orlando: treinta años de un deporte que nació en los colegios.</p>
         </TituloCapitulo>
 

@@ -4,26 +4,19 @@ import { CONTACTO_ACADEMIA } from '@/data/academia';
 import {
   ACADEMIA,
   ADICIONALES,
-  BENEFICIOS,
   CAMPEONATOS,
-  CAPITULOS,
-  COLEGIO,
+  conArticulo,
   CREDITOS_FOTOS,
-  CUALIDADES,
   DESTINOS,
   ELEMENTOS_TECNICOS,
   ESCULTURA,
-  ETAPAS_CLASE,
   HISTORIA,
-  MERCH,
   MOTIONS,
-  PLANES,
+  numeroCapitulo,
   PROFESORA,
   RUTA_INTERNACIONAL,
-  TALLER,
-  TEMPORADA,
-  TRANSVERSALES,
-  VALORES,
+  type IdCapitulo,
+  type Proyecto,
 } from '@/data/proyecto';
 import { ruta } from '@/lib/ruta';
 import { cn } from '@/lib/cn';
@@ -36,6 +29,7 @@ const degradado = 'text-[#cf3fcf]';
 const dorado = 'text-[#f5d27a]';
 const resplandor = { textShadow: '0 0 28px rgba(255,79,163,0.55), 0 0 60px rgba(157,92,255,0.45)' };
 const resplandorDorado = { textShadow: '0 0 26px rgba(245,210,122,0.55)' };
+const EN_PALABRAS: Record<number, string> = { 10: 'Diez', 11: 'Once', 12: 'Doce', 13: 'Trece' };
 const tarjeta = 'rounded-[22px] border border-white bg-white/75 shadow-[0_1px_1px_rgba(80,40,120,.04),0_24px_60px_-28px_rgba(110,50,160,.32)]';
 
 const Polaroid = ({ src, className, imgClass }: { src: string; className?: string; imgClass?: string }) => {
@@ -46,22 +40,24 @@ const Polaroid = ({ src, className, imgClass }: { src: string; className?: strin
   );
 };
 
-const Portada = () => {
+// Cada lámina recibe el proyecto y su número de página, que sale de su posición en el PDF.
+type LaminaProps = { proyecto: Proyecto; numero: number };
+type Lamina = (props: LaminaProps) => React.JSX.Element | null;
+
+const Portada: Lamina = ({ proyecto }) => {
   return (
     <Diapositiva tema="oscuro">
       <div className="grid h-full grid-cols-[1.15fr_1fr] items-center gap-6 px-16">
         <div>
           <img src={ruta('/img/proyecto/logo-dorado.png')} alt="" className="mb-4 h-[110px] w-auto drop-shadow-[0_10px_24px_rgba(245,210,122,0.45)]" />
-          <p className="text-[15px] font-bold uppercase tracking-[0.3em] text-[#f5d27a]">Proyecto 2027 · {COLEGIO.comuna}</p>
+          <p className="text-[15px] font-bold uppercase tracking-[0.3em] text-[#f5d27a]">Proyecto 2027 · {proyecto.colegio.comuna}</p>
           <h1 className="mt-3">
             <span className="block pb-3 font-script text-[150px] leading-[0.9] text-[#ffa3dc]" style={resplandor}>
               CheerDance
             </span>
-            <span className="block text-[54px] font-extrabold leading-none tracking-[-0.035em]">{COLEGIO.nombre}</span>
+            <span className="block text-[54px] font-extrabold leading-none tracking-[-0.035em]">{proyecto.colegio.nombre}</span>
           </h1>
-          <p className="mt-6 max-w-[520px] text-[19px] leading-relaxed text-white/75">
-            Taller extraprogramático de cheerdance para las alumnas del colegio. De lo formativo a lo competitivo, con proyección internacional.
-          </p>
+          <p className="mt-6 max-w-[520px] text-[19px] leading-relaxed text-white/75">{proyecto.portada.bajadaLamina}</p>
           <p className="mt-8 text-[15px] text-white/60">
             Presenta <span className="font-bold text-white">Spirit Dance Academy</span> · Prof. {PROFESORA.nombre}
           </p>
@@ -76,19 +72,19 @@ const Portada = () => {
   );
 };
 
-const Indice = () => {
+const Indice: Lamina = ({ proyecto, numero }) => {
   return (
-    <Diapositiva numero={2} className="px-16 pt-16">
+    <Diapositiva numero={numero} colegio={proyecto.colegio.nombre} className="px-16 pt-16">
       <Antetitulo>Contenido</Antetitulo>
       <h2 className={cn(titulo, 'mt-3')}>
-        Once capítulos, <span className={degradado}>un proyecto.</span>
+        {EN_PALABRAS[proyecto.capitulos.length] ?? proyecto.capitulos.length} capítulos, <span className={degradado}>un proyecto.</span>
       </h2>
       <ol className="mt-12 grid grid-cols-3 gap-x-10 gap-y-5">
-        {CAPITULOS.map((capitulo) => {
+        {proyecto.capitulos.map((capitulo) => {
           return (
             <li key={capitulo.id} className="flex items-center gap-4">
               <span className="grid size-[52px] shrink-0 place-items-center rounded-full bg-[linear-gradient(115deg,#FF4FA3,#9D5CFF)] font-mono text-[17px] font-bold text-white shadow-[0_12px_30px_-10px_rgba(214,60,190,.6)]">
-                {capitulo.numero}
+                {numeroCapitulo(proyecto, capitulo.id)}
               </span>
               <span className="text-[22px] font-bold">{capitulo.titulo}</span>
             </li>
@@ -99,10 +95,10 @@ const Indice = () => {
   );
 };
 
-const Academia = () => {
+const Academia: Lamina = ({ proyecto, numero }) => {
   return (
-    <Diapositiva numero={3}>
-      <NumeroGrande>01</NumeroGrande>
+    <Diapositiva numero={numero} colegio={proyecto.colegio.nombre}>
+      <NumeroGrande>{numeroCapitulo(proyecto, 'academia')}</NumeroGrande>
       <div className="grid h-full grid-cols-[1.1fr_1fr] gap-12 px-16 pt-16">
         <div>
           <Antetitulo>Presentación de la academia</Antetitulo>
@@ -132,10 +128,10 @@ const Academia = () => {
   );
 };
 
-const Profesora = () => {
+const Profesora: Lamina = ({ proyecto, numero }) => {
   return (
-    <Diapositiva numero={4}>
-      <NumeroGrande>02</NumeroGrande>
+    <Diapositiva numero={numero} colegio={proyecto.colegio.nombre}>
+      <NumeroGrande>{numeroCapitulo(proyecto, 'profesora')}</NumeroGrande>
       <div className="grid h-full grid-cols-[360px_1fr] gap-14 px-16 pt-14">
         <div className="relative">
           <div className="absolute inset-[-14%] rounded-full bg-[radial-gradient(closest-side,rgba(255,196,64,0.5),rgba(255,79,163,0.2)_60%,transparent)]" />
@@ -176,18 +172,110 @@ const Profesora = () => {
   );
 };
 
-const Taller = () => {
+// Capítulo propio del colegio, en dos láminas: la red y sus pilares; Salvaguarda, formato y encuentro.
+const ColegioRed: Lamina = ({ proyecto, numero }) => {
+  const colegio = proyecto.enElColegio;
+  if (!colegio) return null;
   return (
-    <Diapositiva numero={5}>
-      <NumeroGrande>03</NumeroGrande>
+    <Diapositiva numero={numero} colegio={proyecto.colegio.nombre}>
+      <NumeroGrande>{numeroCapitulo(proyecto, 'colegio')}</NumeroGrande>
+      <div className="px-16 pt-14">
+        <Antetitulo>El proyecto en el colegio</Antetitulo>
+        <h2 className={cn(titulo, 'mt-3 text-[48px]')}>
+          Pensado para <span className={degradado}>{colegio.nombre}.</span>
+        </h2>
+        <p className="mt-2 max-w-[900px] text-[16px] leading-relaxed text-suave">{colegio.intro}</p>
+        <p className="mt-5 text-[13px] font-bold uppercase tracking-[0.18em] text-magenta">El cheer ya se vive en la red</p>
+        <div className="mt-2.5 grid grid-cols-3 gap-4">
+          {colegio.red.map((r) => {
+            return (
+              <div key={r.colegio} className={cn('rounded-[22px] px-5 py-4', r.destacado ? 'bg-[#1c1030] text-white shadow-[0_24px_50px_-20px_rgba(28,16,48,.8)]' : tarjeta)}>
+                <p className={cn('text-[11.5px] font-bold uppercase tracking-[0.14em]', r.destacado ? 'text-[#f5d27a]' : 'text-magenta')}>{r.logro}</p>
+                <p className="mt-1 text-[21px] font-extrabold leading-tight">{r.colegio}</p>
+                <p className={cn('mt-1 text-[13px] leading-snug', r.destacado ? 'text-white/75' : 'text-suave')}>{r.texto}</p>
+              </div>
+            );
+          })}
+        </div>
+        <p className="mt-5 text-[13px] font-bold uppercase tracking-[0.18em] text-magenta">Sus pilares, en cada clase</p>
+        <div className="mt-2.5 grid grid-cols-4 gap-3">
+          {colegio.pilares.map((p) => {
+            return (
+              <div key={p.nombre} className={cn(tarjeta, 'px-4 py-3.5')}>
+                <p className={cn('text-[17px] font-extrabold leading-tight', degradado)}>✦ {p.nombre}</p>
+                <p className="mt-1 text-[12.5px] leading-snug text-suave">{p.texto}</p>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </Diapositiva>
+  );
+};
+
+const ColegioCompromisos: Lamina = ({ proyecto, numero }) => {
+  const colegio = proyecto.enElColegio;
+  if (!colegio) return null;
+  return (
+    <Diapositiva numero={numero} colegio={proyecto.colegio.nombre}>
+      <div className="px-16 pt-14">
+        <Antetitulo>Cómo trabajamos en el colegio</Antetitulo>
+        <h2 className={cn(titulo, 'mt-3 text-[48px]')}>
+          Salvaguarda <span className={degradado}>y formato de academia.</span>
+        </h2>
+        <div className="mt-7 grid grid-cols-[1.25fr_1fr] gap-5">
+          <div className="relative overflow-hidden rounded-[24px] bg-[#1c1030] p-7 text-white shadow-[0_30px_60px_-24px_rgba(28,16,48,.8)]">
+            <p className={cn('text-[13px] font-bold uppercase tracking-[0.18em]', dorado)}>Compromisos de Salvaguarda</p>
+            <ul className="mt-4 grid gap-2.5">
+              {colegio.salvaguarda.map((c) => {
+                return (
+                  <li key={c} className="flex items-start gap-2.5 text-[14.5px] leading-snug text-white/85">
+                    <span className="mt-0.5 grid size-[18px] shrink-0 place-items-center rounded-full bg-[#f5d27a] text-[10px] font-bold text-[#3d2a05]">✓</span>
+                    {c}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+          <div className={cn(tarjeta, 'p-7')}>
+            <p className="text-[13px] font-bold uppercase tracking-[0.18em] text-magenta">Cómo entra en el colegio</p>
+            <ul className="mt-4 grid gap-2.5">
+              {colegio.formato.map((f) => {
+                return (
+                  <li key={f} className="flex items-start gap-2.5 text-[14.5px] leading-snug">
+                    <span className="mt-0.5 grid size-[18px] shrink-0 place-items-center rounded-full bg-[#1fa97a]/15 text-[11px] font-bold text-[#1fa97a]">✓</span>
+                    {f}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </div>
+        <div className="mt-5 rounded-[24px] bg-[linear-gradient(125deg,#ff4fa3_0%,#c653f0_55%,#7b4be0_100%)] px-8 py-5 text-white shadow-[0_24px_50px_-20px_rgba(214,60,190,.7)]">
+          <p className="text-[12px] font-bold uppercase tracking-[0.2em] text-white/80">Una idea para la red</p>
+          <p className="mt-1 text-[24px] font-extrabold tracking-tight">{colegio.encuentro.nombre}</p>
+          <p className="mt-1 text-[14.5px] leading-snug text-white/90">{colegio.encuentro.texto}</p>
+        </div>
+      </div>
+    </Diapositiva>
+  );
+};
+
+const Taller: Lamina = ({ proyecto, numero }) => {
+  const { taller } = proyecto;
+  return (
+    <Diapositiva numero={numero} colegio={proyecto.colegio.nombre}>
+      <NumeroGrande>{numeroCapitulo(proyecto, 'taller')}</NumeroGrande>
       <div className="px-16 pt-14">
         <Antetitulo>Descripción de la actividad</Antetitulo>
         <h2 className={cn(titulo, 'mt-3 max-w-[900px] text-[46px]')}>
-          Taller extraprogramático escolar <span className={degradado}>de Cheerdance.</span>
+          {taller.titulo[0]} <span className={degradado}>{taller.titulo[1]}</span>
         </h2>
-        <p className="mt-2 text-[17px] text-suave">{TALLER.publico} Formativo a competitivo, con presentación de fin de año.</p>
+        <p className="mt-2 text-[17px] text-suave">
+          {taller.publico} {taller.caracterLamina}
+        </p>
         <div className="mt-6 grid grid-cols-4 gap-3">
-          {TALLER.modalidad.map((m) => {
+          {taller.modalidad.map((m) => {
             return (
               <div key={m.unidad} className={cn(tarjeta, 'px-5 py-3')}>
                 <p className={cn('text-[44px] font-extrabold leading-none', degradado)}>{m.cifra}</p>
@@ -198,7 +286,7 @@ const Taller = () => {
           })}
         </div>
         <div className="mt-5 grid grid-cols-3 gap-4">
-          {TALLER.categorias.map((c) => {
+          {taller.categorias.map((c) => {
             return (
               <div key={c.nombre} className={cn(tarjeta, 'overflow-hidden')}>
                 <div className="relative h-[130px]">
@@ -216,24 +304,25 @@ const Taller = () => {
             );
           })}
         </div>
+        {taller.notaCategorias && <p className="mt-2.5 text-[12px] text-suave">{taller.notaCategorias}</p>}
       </div>
     </Diapositiva>
   );
 };
 
-const Objetivos = () => {
+const Objetivos: Lamina = ({ proyecto, numero }) => {
   return (
-    <Diapositiva numero={6}>
+    <Diapositiva numero={numero} colegio={proyecto.colegio.nombre}>
       <div className="grid h-full grid-cols-[420px_1fr] gap-10 px-16 pb-20 pt-14">
         <div className="relative overflow-hidden rounded-[28px] bg-[linear-gradient(125deg,#ff4fa3_0%,#c653f0_55%,#7b4be0_100%)] p-9 text-white shadow-[0_30px_60px_-24px_rgba(214,60,190,.7)]">
           <span className="absolute -right-4 -top-12 font-script text-[220px] leading-none text-white/15">“</span>
           <p className="text-[14px] font-bold uppercase tracking-[0.2em] text-white/80">Objetivo general</p>
-          <p className="relative mt-4 text-[20px] font-semibold leading-relaxed">{TALLER.objetivoGeneral}</p>
+          <p className="relative mt-4 text-[20px] font-semibold leading-relaxed">{proyecto.taller.objetivoGeneral}</p>
         </div>
         <div>
           <Antetitulo>Objetivos específicos</Antetitulo>
           <ol className="mt-4 grid gap-2.5">
-            {TALLER.objetivosEspecificos.map((o, i) => {
+            {proyecto.taller.objetivosEspecificos.map((o, i) => {
               return (
                 <li key={o} className={cn(tarjeta, 'flex items-start gap-3 px-4 py-2.5 text-[14.5px] leading-snug')}>
                   <span className="grid size-7 shrink-0 place-items-center rounded-full bg-[linear-gradient(115deg,#FF4FA3,#9D5CFF)] font-mono text-[12px] font-bold text-white">{i + 1}</span>
@@ -248,10 +337,10 @@ const Objetivos = () => {
   );
 };
 
-const Cuerpo = () => {
+const Cuerpo: Lamina = ({ proyecto, numero }) => {
   return (
-    <Diapositiva numero={7} tema="oscuro">
-      <NumeroGrande tema="oscuro">04</NumeroGrande>
+    <Diapositiva numero={numero} colegio={proyecto.colegio.nombre} tema="oscuro">
+      <NumeroGrande tema="oscuro">{numeroCapitulo(proyecto, 'cuerpo')}</NumeroGrande>
       <div className="grid h-full grid-cols-2 gap-12 px-16 pt-14">
         <div>
           <Antetitulo tema="oscuro">Cualidades físicas</Antetitulo>
@@ -259,7 +348,7 @@ const Cuerpo = () => {
             Lo que la danza <span className={dorado}>entrena.</span>
           </h2>
           <ul className="mt-6 grid gap-3.5">
-            {CUALIDADES.map((c) => {
+            {proyecto.cuerpo.cualidades.map((c) => {
               return (
                 <li key={c.nombre}>
                   <div className="flex justify-between text-[15px] font-bold">
@@ -296,16 +385,16 @@ const Cuerpo = () => {
   );
 };
 
-const Beneficios = () => {
+const Beneficios: Lamina = ({ proyecto, numero }) => {
   return (
-    <Diapositiva numero={8}>
+    <Diapositiva numero={numero} colegio={proyecto.colegio.nombre}>
       <div className="px-16 pt-14">
-        <Antetitulo>Cómo mejora a las niñas</Antetitulo>
+        <Antetitulo>{proyecto.cuerpo.tituloBeneficios}</Antetitulo>
         <h2 className={cn(titulo, 'mt-3')}>
           Propiocepción, expresión <span className={degradado}>y confianza.</span>
         </h2>
         <div className="mt-8 grid grid-cols-3 gap-4">
-          {BENEFICIOS.map((b, i) => {
+          {proyecto.cuerpo.beneficios.map((b, i) => {
             return (
               <div key={b.nombre} className={cn(i === 0 ? 'bg-[linear-gradient(125deg,#ff4fa3_0%,#c653f0_55%,#7b4be0_100%)] text-white shadow-[0_24px_50px_-20px_rgba(214,60,190,.7)]' : tarjeta, 'rounded-[22px] p-6')}>
                 <p className={cn('text-[22px] font-extrabold tracking-tight', i === 0 ? 'text-white' : degradado)}>{b.nombre}</p>
@@ -319,23 +408,23 @@ const Beneficios = () => {
   );
 };
 
-const Clase = () => {
+const Clase: Lamina = ({ proyecto, numero }) => {
   return (
-    <Diapositiva numero={9}>
-      <NumeroGrande>05</NumeroGrande>
+    <Diapositiva numero={numero} colegio={proyecto.colegio.nombre}>
+      <NumeroGrande>{numeroCapitulo(proyecto, 'clase')}</NumeroGrande>
       <div className="px-16 pt-14">
         <Antetitulo>Desarrollo de la clase</Antetitulo>
         <h2 className={cn(titulo, 'mt-3')}>
           90 minutos, <span className={degradado}>seis momentos.</span>
         </h2>
-        <p className="mt-2 max-w-[820px] text-[16px] text-suave">Clases personalizadas e inclusivas: cada ejercicio se adapta al nivel de cada niña.</p>
+        <p className="mt-2 max-w-[820px] text-[16px] text-suave">{proyecto.clase.introLamina}</p>
         <div className="mt-7 flex h-[18px] overflow-hidden rounded-full shadow-[0_10px_24px_-14px_rgba(110,50,160,.4)]">
-          {ETAPAS_CLASE.map((e, i) => {
+          {proyecto.clase.etapas.map((e, i) => {
             return <span key={e.nombre} style={{ flexGrow: e.minutos, background: TONOS[i] }} />;
           })}
         </div>
         <div className="mt-5 grid grid-cols-3 gap-4">
-          {ETAPAS_CLASE.map((e, i) => {
+          {proyecto.clase.etapas.map((e, i) => {
             return (
               <div key={e.nombre} className={cn(tarjeta, 'relative overflow-hidden px-5 py-4')}>
                 <span className="absolute inset-y-0 left-0 w-1.5" style={{ background: TONOS[i] }} />
@@ -354,10 +443,10 @@ const Clase = () => {
   );
 };
 
-const Tecnica = () => {
+const Tecnica: Lamina = ({ proyecto, numero }) => {
   const conFoto = ELEMENTOS_TECNICOS.filter((e) => e.foto);
   return (
-    <Diapositiva numero={10}>
+    <Diapositiva numero={numero} colegio={proyecto.colegio.nombre}>
       <div className="px-16 pt-12">
         <Antetitulo>Elementos técnicos</Antetitulo>
         <h2 className={cn(titulo, 'mt-2 text-[44px]')}>
@@ -398,15 +487,15 @@ const Tecnica = () => {
   );
 };
 
-const Valores = () => {
+const Valores: Lamina = ({ proyecto, numero }) => {
   return (
-    <Diapositiva numero={11} tema="degradado">
-      <NumeroGrande tema="degradado">06</NumeroGrande>
+    <Diapositiva numero={numero} colegio={proyecto.colegio.nombre} tema="degradado">
+      <NumeroGrande tema="degradado">{numeroCapitulo(proyecto, 'valores')}</NumeroGrande>
       <div className="px-16 pt-14">
         <Antetitulo tema="degradado">Valores de la academia</Antetitulo>
         <h2 className={cn(titulo, 'mt-3')}>Lo que se aprende más allá del paso.</h2>
         <div className="mt-7 grid grid-cols-3 gap-4">
-          {VALORES.map((v) => {
+          {proyecto.valores.lista.map((v) => {
             return (
               <div key={v.nombre} className="rounded-[22px] border border-white/30 bg-white/15 p-5">
                 <p className="text-[22px] font-extrabold">✦ {v.nombre}</p>
@@ -417,7 +506,7 @@ const Valores = () => {
         </div>
         <p className="mt-7 text-[13px] font-bold uppercase tracking-[0.2em] text-white/80">Elementos transversales</p>
         <div className="mt-3 flex flex-wrap gap-2">
-          {TRANSVERSALES.map((t, i) => {
+          {proyecto.valores.transversales.map((t, i) => {
             return (
               <span key={t} className={cn('rounded-full px-4 py-1.5 text-[14px] font-semibold', i % 3 === 0 ? 'bg-white text-magenta' : 'border border-white/40 text-white')}>
                 {t}
@@ -430,10 +519,10 @@ const Valores = () => {
   );
 };
 
-const Historia = () => {
+const Historia: Lamina = ({ proyecto, numero }) => {
   return (
-    <Diapositiva numero={12}>
-      <NumeroGrande>07</NumeroGrande>
+    <Diapositiva numero={numero} colegio={proyecto.colegio.nombre}>
+      <NumeroGrande>{numeroCapitulo(proyecto, 'historia')}</NumeroGrande>
       <div className="px-16 pt-14">
         <Antetitulo>Breve historia</Antetitulo>
         <h2 className={cn(titulo, 'mt-3')}>
@@ -463,10 +552,10 @@ const Historia = () => {
   );
 };
 
-const Campeonatos = () => {
+const Campeonatos: Lamina = ({ proyecto, numero }) => {
   return (
-    <Diapositiva numero={13}>
-      <NumeroGrande>08</NumeroGrande>
+    <Diapositiva numero={numero} colegio={proyecto.colegio.nombre}>
+      <NumeroGrande>{numeroCapitulo(proyecto, 'campeonatos')}</NumeroGrande>
       <div className="px-16 pt-14">
         <Antetitulo>Dónde competir</Antetitulo>
         <h2 className={cn(titulo, 'mt-3 text-[46px]')}>
@@ -487,7 +576,7 @@ const Campeonatos = () => {
         </div>
         <p className="mt-6 text-[13px] font-bold uppercase tracking-[0.18em] text-magenta">Temporada del equipo competitivo</p>
         <div className="mt-3 grid grid-cols-6 gap-2.5">
-          {TEMPORADA.map((t, i) => {
+          {proyecto.temporada.map((t, i) => {
             return (
               <div key={t.mes} className={cn(tarjeta, 'relative px-3 py-3')}>
                 <span className="absolute inset-x-3 top-0 h-1 rounded-b-full" style={{ background: TONOS[i] }} />
@@ -502,17 +591,17 @@ const Campeonatos = () => {
   );
 };
 
-const Propuesta = () => {
+const Propuesta: Lamina = ({ proyecto, numero }) => {
   return (
-    <Diapositiva numero={14} tema="oscuro">
-      <NumeroGrande tema="oscuro">09</NumeroGrande>
+    <Diapositiva numero={numero} colegio={proyecto.colegio.nombre} tema="oscuro">
+      <NumeroGrande tema="oscuro">{numeroCapitulo(proyecto, 'propuesta')}</NumeroGrande>
       <div className="px-16 pt-12">
         <Antetitulo tema="oscuro">Propuesta comercial</Antetitulo>
         <h2 className={cn(titulo, 'mt-2 text-[48px]')}>
           Esto es una venta: <span className={dorado}>un producto para el colegio.</span>
         </h2>
         <div className="mt-7 grid grid-cols-2 gap-5">
-          {PLANES.map((p) => {
+          {proyecto.propuesta.planes.map((p) => {
             return (
               <div
                 key={p.nombre}
@@ -543,28 +632,28 @@ const Propuesta = () => {
           })}
         </div>
         <p className="mt-5 text-[14px] text-white/65">
-          <span className="font-bold text-white">Se cotiza aparte:</span> {ADICIONALES.join(' · ')}. Valor según número de alumnas y categorías.
+          <span className="font-bold text-white">Se cotiza aparte:</span> {ADICIONALES.join(' · ')}. Valor según {proyecto.propuesta.cotizacion}.
         </p>
       </div>
     </Diapositiva>
   );
 };
 
-const Merch = () => {
+const Merch: Lamina = ({ proyecto, numero }) => {
   return (
-    <Diapositiva numero={15}>
-      <NumeroGrande>10</NumeroGrande>
+    <Diapositiva numero={numero} colegio={proyecto.colegio.nombre}>
+      <NumeroGrande>{numeroCapitulo(proyecto, 'merch')}</NumeroGrande>
       <div className="px-16 pt-14">
         <Antetitulo>Merch del equipo</Antetitulo>
         <h2 className={cn(titulo, 'mt-3')}>
-          Vestir los colores <span className={degradado}>de Spirit Dance.</span>
+          Vestir los colores <span className={degradado}>{proyecto.merch.colores}</span>
         </h2>
         <div className="mt-8 grid grid-cols-3 gap-4">
-          {MERCH.map((m) => {
+          {proyecto.merch.piezas.map((m) => {
             return (
               <div key={m.id} className={cn(tarjeta, 'flex h-[210px] items-center overflow-hidden')}>
                 <div className="flex h-full w-[200px] shrink-0 items-center bg-[radial-gradient(circle_at_50%_45%,#f1e2ff,#ffffff_72%)] px-4">
-                  <MerchIlustracion id={m.id} nombre={m.nombre} />
+                  <MerchIlustracion id={m.id} nombre={m.nombre} equipo={proyecto.merch.equipo} paleta={proyecto.merch.paleta} />
                 </div>
                 <div className="pr-5">
                   <p className="text-[19px] font-bold leading-tight">{m.nombre}</p>
@@ -579,9 +668,9 @@ const Merch = () => {
   );
 };
 
-const Viajes = () => {
+const Viajes: Lamina = ({ proyecto, numero }) => {
   return (
-    <Diapositiva numero={16} tema="oscuro">
+    <Diapositiva numero={numero} colegio={proyecto.colegio.nombre} tema="oscuro">
       <img src={ruta('/img/proyecto/castillo-disney.jpg')} alt="" className="absolute inset-0 size-full object-cover opacity-45" />
       <div className="absolute inset-0 bg-gradient-to-r from-[#1c1030] via-[#1c1030]/85 to-[#1c1030]/30" />
       <div className="relative grid h-full grid-cols-[1fr_440px] gap-10 px-16 pt-14">
@@ -616,10 +705,10 @@ const Viajes = () => {
   );
 };
 
-const Ruta = () => {
+const Ruta: Lamina = ({ proyecto, numero }) => {
   return (
-    <Diapositiva numero={17}>
-      <NumeroGrande>11</NumeroGrande>
+    <Diapositiva numero={numero} colegio={proyecto.colegio.nombre}>
+      <NumeroGrande>{numeroCapitulo(proyecto, 'viajes')}</NumeroGrande>
       <div className="px-16 pt-14">
         <Antetitulo>Ruta internacional</Antetitulo>
         <h2 className={cn(titulo, 'mt-3')}>
@@ -646,7 +735,7 @@ const Ruta = () => {
   );
 };
 
-const Cierre = () => {
+const Cierre: Lamina = ({ proyecto }) => {
   return (
     <Diapositiva tema="degradado">
       <div className="flex h-full flex-col items-center justify-center px-16 text-center">
@@ -654,7 +743,7 @@ const Cierre = () => {
         <p className="mt-2 font-script text-[110px] leading-[0.95]" style={{ textShadow: '0 0 40px rgba(255,255,255,0.55)' }}>
           ¡Gracias!
         </p>
-        <p className="mt-3 max-w-[760px] text-[21px] text-white/90">Conversemos cómo llevar el cheerdance al {COLEGIO.nombre}.</p>
+        <p className="mt-3 max-w-[760px] text-[21px] text-white/90">Conversemos cómo llevar el cheerdance {conArticulo(proyecto, 'a')}.</p>
         <div className="mt-8 flex gap-4 text-[17px] font-semibold">
           <span className="rounded-full bg-white px-6 py-3 text-magenta">WhatsApp {CONTACTO_ACADEMIA.telefono}</span>
           <span className="rounded-full border border-white/50 px-6 py-3">{CONTACTO_ACADEMIA.correo}</span>
@@ -668,27 +757,29 @@ const Cierre = () => {
   );
 };
 
-export const Laminas = () => {
+const LAMINAS: Record<IdCapitulo, Lamina[]> = {
+  academia: [Academia],
+  profesora: [Profesora],
+  colegio: [ColegioRed, ColegioCompromisos],
+  taller: [Taller, Objetivos],
+  cuerpo: [Cuerpo, Beneficios],
+  clase: [Clase, Tecnica],
+  valores: [Valores],
+  historia: [Historia],
+  campeonatos: [Campeonatos],
+  propuesta: [Propuesta],
+  merch: [Merch],
+  viajes: [Viajes, Ruta],
+};
+
+// Las láminas siguen el orden de los capítulos del proyecto, entre la portada con su índice y el cierre.
+export const Laminas = ({ proyecto }: { proyecto: Proyecto }) => {
+  const laminas = [Portada, Indice, ...proyecto.capitulos.flatMap(({ id }) => LAMINAS[id]), Cierre];
   return (
     <>
-      <Portada />
-      <Indice />
-      <Academia />
-      <Profesora />
-      <Taller />
-      <Objetivos />
-      <Cuerpo />
-      <Beneficios />
-      <Clase />
-      <Tecnica />
-      <Valores />
-      <Historia />
-      <Campeonatos />
-      <Propuesta />
-      <Merch />
-      <Viajes />
-      <Ruta />
-      <Cierre />
+      {laminas.map((Lamina, i) => {
+        return <Lamina key={i} proyecto={proyecto} numero={i + 1} />;
+      })}
     </>
   );
 };

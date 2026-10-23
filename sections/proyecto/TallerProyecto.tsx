@@ -1,16 +1,23 @@
-import { TALLER } from '@/data/proyecto';
+import { numeroCapitulo, type Proyecto } from '@/data/proyecto';
 import { TituloCapitulo } from './TituloCapitulo';
 
-export const TallerProyecto = () => {
+export const TallerProyecto = ({ proyecto }: { proyecto: Proyecto }) => {
+  const { taller } = proyecto;
   return (
     <section id="taller" className="scroll-mt-20 px-4 py-20 sm:px-6 lg:py-28">
       <div className="mx-auto max-w-6xl">
-        <TituloCapitulo numero="03" antetitulo="Descripción de la actividad" titulo={<>Taller extraprogramático escolar <span className="degradado-texto">de Cheerdance.</span></>}>
-          <p>{TALLER.publico} De carácter formativo a competitivo, con una presentación a fin de año del equipo formativo.</p>
+        <TituloCapitulo
+          numero={numeroCapitulo(proyecto, 'taller')}
+          antetitulo="Descripción de la actividad"
+          titulo={<>{taller.titulo[0]} <span className="degradado-texto">{taller.titulo[1]}</span></>}
+        >
+          <p>
+            {taller.publico} {taller.caracter}
+          </p>
         </TituloCapitulo>
 
         <ul className="aparecer mt-12 grid grid-cols-2 gap-3 lg:grid-cols-4">
-          {TALLER.modalidad.map((m) => {
+          {taller.modalidad.map((m) => {
             return (
               <li key={m.unidad} className="vidrio relative overflow-hidden px-5 py-6">
                 <span aria-hidden className="absolute -right-6 -top-6 size-24 rounded-full bg-degradado opacity-15 blur-xl" />
@@ -22,9 +29,9 @@ export const TallerProyecto = () => {
           })}
         </ul>
 
-        <h3 className="aparecer mt-20 text-2xl font-bold tracking-tight">Tres categorías, solo para niñas</h3>
+        <h3 className="aparecer mt-20 text-2xl font-bold tracking-tight">{taller.tituloCategorias}</h3>
         <ul className="mt-6 grid gap-5 md:grid-cols-3">
-          {TALLER.categorias.map((categoria, i) => {
+          {taller.categorias.map((categoria, i) => {
             return (
               <li key={categoria.nombre} className="aparecer group vidrio overflow-hidden" style={{ transitionDelay: `${i * 120}ms` }}>
                 <div className="relative aspect-[4/3] overflow-hidden">
@@ -41,9 +48,10 @@ export const TallerProyecto = () => {
             );
           })}
         </ul>
+        {taller.notaCategorias && <p className="mt-4 text-nota text-tenue">{taller.notaCategorias}</p>}
 
         <div className="aparecer mt-14 grid items-stretch gap-4 md:grid-cols-[1fr_auto_1fr]">
-          {TALLER.etapas.map((etapa, i) => {
+          {taller.etapas.map((etapa, i) => {
             return (
               <div key={etapa.nombre} className="contents">
                 {i === 1 && (
@@ -65,12 +73,12 @@ export const TallerProyecto = () => {
           <div className="aparecer relative overflow-hidden rounded-3xl bg-degradado p-8 text-white shadow-boton sm:p-10">
             <span aria-hidden className="absolute -right-10 -top-16 font-script text-[12rem] leading-none text-white/15">“</span>
             <p className="text-sm font-bold uppercase tracking-[0.18em] text-white/80">Objetivo general</p>
-            <p className="relative mt-4 text-xl font-semibold leading-relaxed">{TALLER.objetivoGeneral}</p>
+            <p className="relative mt-4 text-xl font-semibold leading-relaxed">{taller.objetivoGeneral}</p>
           </div>
           <div className="aparecer">
             <p className="text-sm font-bold uppercase tracking-[0.18em] text-magenta">Objetivos específicos</p>
             <ol className="mt-4 grid gap-3">
-              {TALLER.objetivosEspecificos.map((objetivo, i) => {
+              {taller.objetivosEspecificos.map((objetivo, i) => {
                 return (
                   <li key={objetivo} className="flex gap-4 rounded-2xl bg-white/60 p-4 shadow-suave">
                     <span className="grid size-8 shrink-0 place-items-center rounded-full bg-degradado font-mono text-xs font-bold text-white">{i + 1}</span>

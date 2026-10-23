@@ -1,11 +1,12 @@
 import { Estrellas } from '@/components/Estrellas';
 import { CONTACTO_ACADEMIA } from '@/data/academia';
-import { CAPITULOS, COLEGIO, PDF_PROYECTO } from '@/data/proyecto';
+import { conArticulo, numeroCapitulo, type Proyecto } from '@/data/proyecto';
 import { ruta } from '@/lib/ruta';
 
-export const WHATSAPP_PROYECTO = `https://wa.me/${CONTACTO_ACADEMIA.whatsapp}?text=${encodeURIComponent(
-  `Hola Paulina, vi el proyecto de CheerDance para el ${COLEGIO.nombre} y quiero agendar una reunión.`,
-)}`;
+export const whatsappProyecto = (proyecto: Proyecto) => {
+  const mensaje = `Hola Paulina, vi el proyecto de CheerDance para ${conArticulo(proyecto)} y quiero agendar una reunión.`;
+  return `https://wa.me/${CONTACTO_ACADEMIA.whatsapp}?text=${encodeURIComponent(mensaje)}`;
+};
 
 const COLLAGE = [
   { src: ruta('/img/galeria/copa-super-nacional-2019.jpg'), alt: 'La copa del Super Nacional 2019 entre las alumnas', clase: 'left-0 top-6 w-[46%] -rotate-6' },
@@ -13,7 +14,7 @@ const COLLAGE = [
   { src: ruta('/img/galeria/selecciones-cancha-2019.jpg'), alt: 'Las selecciones juntas en la cancha', clase: 'bottom-0 left-[18%] w-[62%] rotate-2' },
 ];
 
-export const PortadaProyecto = () => {
+export const PortadaProyecto = ({ proyecto }: { proyecto: Proyecto }) => {
   return (
     <section className="relative overflow-hidden px-4 pb-14 pt-28 sm:px-6 lg:pb-20 lg:pt-36">
       <div aria-hidden className="absolute -left-32 top-10 size-[28rem] rounded-full bg-[#FFC4E2] opacity-50 blur-3xl" />
@@ -26,22 +27,19 @@ export const PortadaProyecto = () => {
         <div className="text-center lg:text-left">
           <span className="pastilla">
             <i />
-            Proyecto · {COLEGIO.comuna}
+            Proyecto · {proyecto.colegio.comuna}
           </span>
           <h1 className="mt-6">
             <span className="block bg-degradado bg-clip-text pb-2 font-script text-[clamp(4.5rem,12vw,9rem)] leading-[0.95] text-transparent">CheerDance</span>
-            <span className="mt-1 block text-portada">{COLEGIO.nombre}</span>
+            <span className="mt-1 block text-portada">{proyecto.colegio.nombre}</span>
           </h1>
-          <p className="mx-auto mt-6 max-w-xl text-entrada text-suave lg:mx-0">
-            Taller extraprogramático de cheerdance para las alumnas del colegio, de preescolar a 8° básico. Parte formativo, termina en el escenario y abre
-            la puerta a competir en todo Chile, y más allá.
-          </p>
+          <p className="mx-auto mt-6 max-w-xl text-entrada text-suave lg:mx-0">{proyecto.portada.bajada}</p>
           <div className="mt-8 flex flex-col justify-center gap-2.5 sm:flex-row lg:justify-start">
-            <a href={PDF_PROYECTO} download className="boton-principal">
+            <a href={proyecto.pdf} download className="boton-principal">
               Descargar presentación PDF
               <span aria-hidden>↓</span>
             </a>
-            <a href={WHATSAPP_PROYECTO} target="_blank" rel="noreferrer" className="boton-vidrio">
+            <a href={whatsappProyecto(proyecto)} target="_blank" rel="noreferrer" className="boton-vidrio">
               Agendar reunión
             </a>
           </div>
@@ -65,14 +63,14 @@ export const PortadaProyecto = () => {
 
       <nav aria-label="Capítulos del proyecto" className="relative mx-auto mt-16 max-w-6xl">
         <ol className="flex flex-wrap justify-center gap-2">
-          {CAPITULOS.map((capitulo) => {
+          {proyecto.capitulos.map((capitulo) => {
             return (
               <li key={capitulo.id}>
                 <a
                   href={`#${capitulo.id}`}
                   className="flex h-10 items-center gap-2 rounded-full border border-white/90 bg-white/70 pl-1.5 pr-4 text-sm font-semibold text-suave shadow-suave transition-colors duration-150 hover:text-tinta"
                 >
-                  <span className="grid h-7 min-w-7 place-items-center rounded-full bg-degradado px-1.5 font-mono text-[11px] font-bold text-white">{capitulo.numero}</span>
+                  <span className="grid h-7 min-w-7 place-items-center rounded-full bg-degradado px-1.5 font-mono text-[11px] font-bold text-white">{numeroCapitulo(proyecto, capitulo.id)}</span>
                   {capitulo.titulo}
                 </a>
               </li>

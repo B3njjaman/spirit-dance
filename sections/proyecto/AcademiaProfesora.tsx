@@ -1,14 +1,14 @@
-import { ACADEMIA, PROFESORA } from '@/data/proyecto';
+import { ACADEMIA, numeroCapitulo, PROFESORA, type Proyecto } from '@/data/proyecto';
 import { TituloCapitulo } from './TituloCapitulo';
 
 const GIROS = ['-rotate-3', 'rotate-2', '-rotate-1'];
 
-export const AcademiaProyecto = () => {
+export const AcademiaProyecto = ({ proyecto }: { proyecto: Proyecto }) => {
   return (
     <section id="academia" className="scroll-mt-20 px-4 py-20 sm:px-6 lg:py-28">
       <div className="mx-auto grid max-w-6xl gap-14 lg:grid-cols-2 lg:gap-20">
         <div>
-          <TituloCapitulo numero="01" antetitulo="Presentación de la academia" titulo={<>Spirit Dance <span className="degradado-texto">Academy.</span></>}>
+          <TituloCapitulo numero={numeroCapitulo(proyecto, 'academia')} antetitulo="Presentación de la academia" titulo={<>Spirit Dance <span className="degradado-texto">Academy.</span></>}>
             <p>{ACADEMIA.objetivo}</p>
             <p className="mt-4">{ACADEMIA.caracter}</p>
           </TituloCapitulo>
@@ -40,7 +40,7 @@ export const AcademiaProyecto = () => {
   );
 };
 
-export const ProfesoraProyecto = () => {
+export const ProfesoraProyecto = ({ proyecto }: { proyecto: Proyecto }) => {
   return (
     <section id="profesora" className="scroll-mt-20 overflow-x-clip px-4 py-20 sm:px-6 lg:py-28">
       <div className="mx-auto grid max-w-6xl items-start gap-14 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-20">
@@ -53,7 +53,7 @@ export const ProfesoraProyecto = () => {
         </figure>
 
         <div>
-          <TituloCapitulo numero="02" antetitulo="Profesional a cargo" titulo={<>Paulina Quezada <span className="degradado-texto">Sepúlveda.</span></>}>
+          <TituloCapitulo numero={numeroCapitulo(proyecto, 'profesora')} antetitulo="Profesional a cargo" titulo={<>Paulina Quezada <span className="degradado-texto">Sepúlveda.</span></>}>
             <p>
               {PROFESORA.cargo}. Más de 25 años enseñando danza y diez años al frente de una selección escolar de Cheerdance: sabe formar equipos en un colegio y
               llevarlos a competir.

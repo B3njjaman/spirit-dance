@@ -1,17 +1,19 @@
-import { BENEFICIOS, CUALIDADES, ESCULTURA, FUENTES_CUERPO } from '@/data/proyecto';
+import { ESCULTURA, FUENTES_CUERPO, numeroCapitulo, type Proyecto } from '@/data/proyecto';
 import { ruta } from '@/lib/ruta';
 import { TituloCapitulo } from './TituloCapitulo';
 
-export const CuerpoProyecto = () => {
+export const CuerpoProyecto = ({ proyecto }: { proyecto: Proyecto }) => {
   return (
     <section id="cuerpo" className="scroll-mt-20 px-4 py-20 sm:px-6 lg:py-28">
       <div className="mx-auto max-w-6xl">
-        <TituloCapitulo numero="04" antetitulo="Lo que la danza hace en el cuerpo" titulo={<>Cualidades físicas, escultura <span className="degradado-texto">y expresión.</span></>}>
-          <p>Cada elemento del cheerdance trabaja una cualidad física, modela la postura y le enseña a las niñas a habitar su cuerpo con seguridad.</p>
+        <TituloCapitulo
+          numero={numeroCapitulo(proyecto, 'cuerpo')}
+          antetitulo="Lo que la danza hace en el cuerpo" titulo={<>Cualidades físicas, escultura <span className="degradado-texto">y expresión.</span></>}>
+          <p>{proyecto.cuerpo.intro}</p>
         </TituloCapitulo>
 
         <ul className="aparecer mt-12 grid gap-x-10 gap-y-6 md:grid-cols-2">
-          {CUALIDADES.map((cualidad) => {
+          {proyecto.cuerpo.cualidades.map((cualidad) => {
             return (
               <li key={cualidad.nombre}>
                 <div className="flex items-baseline justify-between gap-4">
@@ -50,9 +52,9 @@ export const CuerpoProyecto = () => {
           </div>
         </div>
 
-        <h3 className="aparecer mt-20 text-2xl font-bold tracking-tight">Cómo mejora a las niñas</h3>
+        <h3 className="aparecer mt-20 text-2xl font-bold tracking-tight">{proyecto.cuerpo.tituloBeneficios}</h3>
         <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {BENEFICIOS.map((beneficio, i) => {
+          {proyecto.cuerpo.beneficios.map((beneficio, i) => {
             return (
               <li key={beneficio.nombre} className="aparecer vidrio p-6" style={{ transitionDelay: `${(i % 3) * 100}ms` }}>
                 <p className="bg-degradado bg-clip-text text-xl font-extrabold tracking-tight text-transparent">{beneficio.nombre}</p>

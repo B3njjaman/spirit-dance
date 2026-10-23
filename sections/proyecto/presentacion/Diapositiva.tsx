@@ -1,10 +1,10 @@
 import type { ReactNode } from 'react';
-import { COLEGIO } from '@/data/proyecto';
 import { cn } from '@/lib/cn';
 
 // Una lámina de 1280 × 720 (16:9, el tamaño de PowerPoint). Al imprimir, cada una es una página del PDF.
 export type Tema = 'claro' | 'oscuro' | 'degradado';
-type Props = { tema?: Tema; numero?: number; children: ReactNode; className?: string };
+// Con número, la lámina lleva al pie el nombre del colegio y el número de página.
+type Props = { tema?: Tema; numero?: number; colegio?: string; children: ReactNode; className?: string };
 
 const DESTELLOS = [
   { x: 6, y: 12, t: 22 },
@@ -42,7 +42,7 @@ const Brillos = ({ tema }: { tema: Tema }) => {
   return <div className="absolute -right-72 -top-72 size-[1000px] bg-[radial-gradient(closest-side,rgba(255,255,255,0.3),transparent)]" />;
 };
 
-export const Diapositiva = ({ tema = 'claro', numero, children, className }: Props) => {
+export const Diapositiva = ({ tema = 'claro', numero, colegio, children, className }: Props) => {
   const clara = tema === 'claro';
   return (
     <section className={cn('diapositiva relative overflow-hidden', FONDOS[tema])}>
@@ -64,7 +64,7 @@ export const Diapositiva = ({ tema = 'claro', numero, children, className }: Pro
       {numero !== undefined && (
         <footer className={cn('absolute inset-x-14 bottom-6 flex items-center justify-between text-[12px] font-semibold', clara ? 'text-suave' : 'text-white/60')}>
           <span>
-            <span className="font-script text-[20px]">Spirit Dance</span> · Proyecto CheerDance {COLEGIO.nombre}
+            <span className="font-script text-[20px]">Spirit Dance</span> · Proyecto CheerDance {colegio}
           </span>
           <span className="font-mono">{String(numero).padStart(2, '0')}</span>
         </footer>

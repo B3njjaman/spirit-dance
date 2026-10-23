@@ -1,12 +1,14 @@
-import { CREDITOS_FOTOS, DESTINOS, PDF_PROYECTO, RUTA_INTERNACIONAL } from '@/data/proyecto';
+import { CREDITOS_FOTOS, DESTINOS, numeroCapitulo, RUTA_INTERNACIONAL, type Proyecto } from '@/data/proyecto';
 import { ruta } from '@/lib/ruta';
 import { TituloCapitulo } from './TituloCapitulo';
 
-export const ViajesProyecto = () => {
+export const ViajesProyecto = ({ proyecto }: { proyecto: Proyecto }) => {
   return (
     <section id="viajes" className="scroll-mt-20 px-4 py-20 sm:px-6 lg:py-28">
       <div className="mx-auto max-w-6xl">
-        <TituloCapitulo numero="11" antetitulo="Proyección internacional" titulo={<>Próxima parada: <span className="degradado-texto">Disney.</span></>}>
+        <TituloCapitulo
+          numero={numeroCapitulo(proyecto, 'viajes')}
+          antetitulo="Proyección internacional" titulo={<>Próxima parada: <span className="degradado-texto">Disney.</span></>}>
           <p>Los grandes campeonatos de cheer y danza del mundo se compiten dentro de Walt Disney World, en Orlando. Es la meta del equipo competitivo.</p>
         </TituloCapitulo>
 
@@ -54,7 +56,7 @@ export const ViajesProyecto = () => {
         </ol>
 
         <div className="aparecer mt-16 text-center">
-          <a href={PDF_PROYECTO} download className="boton-principal">
+          <a href={proyecto.pdf} download className="boton-principal">
             Descargar el proyecto en PDF
             <span aria-hidden>↓</span>
           </a>

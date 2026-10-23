@@ -1,30 +1,90 @@
 import { ruta } from '@/lib/ruta';
 
-// Proyecto "CheerDance Colegio Marta Brunet" (Macul). Lo pedagógico sale del Protocolo Spirit Dance 2025 y del CV de
-// Paulina; la historia, los campeonatos y los viajes, de las fuentes citadas al final de cada lista.
-// La presentación descargable (presentacion/) repite estos textos: si cambia algo aquí, se cambia también allá.
+// Lo común a todos los proyectos CheerDance para colegios. Lo pedagógico sale del Protocolo Spirit Dance 2025 y del CV
+// de Paulina; la historia, los campeonatos y los viajes, de las fuentes citadas al final de cada lista.
+// Lo que cambia de un colegio a otro (nombre, taller, textos con género, propuesta y merch) vive en data/proyectos/.
+// La página (sections/proyecto/) y las láminas del PDF (sections/proyecto/presentacion/) leen de los dos lados.
 
-export const COLEGIO = { nombre: 'Colegio Marta Brunet', comuna: 'Macul' };
+export const img = (archivo: string) => ruta(`/img/${archivo}`);
 
-export const PDF_PROYECTO = ruta('/proyecto/cheerdance-marta-brunet.pdf');
+export type IdCapitulo =
+  | 'academia'
+  | 'profesora'
+  | 'colegio'
+  | 'taller'
+  | 'cuerpo'
+  | 'clase'
+  | 'valores'
+  | 'historia'
+  | 'campeonatos'
+  | 'propuesta'
+  | 'merch'
+  | 'viajes';
 
-export const CAPITULOS = [
-  { id: 'academia', numero: '01', titulo: 'La academia' },
-  { id: 'profesora', numero: '02', titulo: 'Profesional a cargo' },
-  { id: 'taller', numero: '03', titulo: 'El taller' },
-  { id: 'cuerpo', numero: '04', titulo: 'Danza y cuerpo' },
-  { id: 'clase', numero: '05', titulo: 'Una clase' },
-  { id: 'valores', numero: '06', titulo: 'Valores' },
-  { id: 'historia', numero: '07', titulo: 'Historia' },
-  { id: 'campeonatos', numero: '08', titulo: 'Campeonatos' },
-  { id: 'propuesta', numero: '09', titulo: 'Propuesta' },
-  { id: 'merch', numero: '10', titulo: 'Merch' },
-  { id: 'viajes', numero: '11', titulo: 'Viajes' },
-] as const;
+type Texto = { nombre: string; texto: string };
+export type EtapaClase = { minutos: number; nombre: string; texto: string };
+export type Categoria = { nombre: string; cursos: string; edades: string; foco: string; foto: string };
+export type Plan = { nombre: string; bajada: string; incluye: string[]; venta: boolean };
+export type IdMerch = 'polera' | 'poleron' | 'mono' | 'pompones' | 'botella' | 'bolso';
 
-const img = (archivo: string) => ruta(`/img/${archivo}`);
+// Colores de las maquetas del merch (components/MerchIlustracion).
+export type PaletaMerch = {
+  tela: [claro: string, oscuro: string];
+  cuello: string;
+  poleron: [cuerpo: string, detalle: string];
+  mono: [claro: string, oscuro: string, cintaIzquierda: string, cintaDerecha: string, nudo: string];
+  pompones: [string[], string[]];
+};
 
-// 01 · La academia (Protocolo Spirit Dance 2025)
+// Capítulo propio del colegio: cómo entra el proyecto en su forma de trabajar. Marta Brunet no lo tiene.
+export type EnElColegio = {
+  nombre: string;
+  intro: string;
+  red: { colegio: string; logro: string; texto: string; destacado?: boolean }[];
+  pilares: Texto[];
+  salvaguarda: string[];
+  formato: string[];
+  encuentro: Texto;
+};
+
+export type Proyecto = {
+  colegio: { nombre: string; comuna: string; articulo: 'el' | 'los' };
+  pdf: string;
+  capitulos: { id: IdCapitulo; titulo: string }[];
+  portada: { bajada: string; bajadaLamina: string };
+  enElColegio?: EnElColegio;
+  taller: {
+    titulo: [string, string];
+    publico: string;
+    caracter: string;
+    caracterLamina: string;
+    modalidad: { cifra: string; unidad: string; texto: string }[];
+    tituloCategorias: string;
+    categorias: Categoria[];
+    notaCategorias?: string;
+    etapas: Texto[];
+    objetivoGeneral: string;
+    objetivosEspecificos: string[];
+  };
+  cuerpo: { intro: string; cualidades: Cualidad[]; tituloBeneficios: string; beneficios: Texto[] };
+  clase: { intro: string; introLamina: string; etapas: EtapaClase[] };
+  valores: { intro: string; lista: Texto[]; transversales: string[] };
+  temporada: { mes: string; texto: string }[];
+  propuesta: { intro: string; planes: Plan[]; cotizacion: string };
+  merch: { colores: string; equipo: string; paleta: PaletaMerch; piezas: { id: IdMerch; nombre: string; texto: string }[] };
+};
+
+export const numeroCapitulo = (proyecto: Proyecto, id: IdCapitulo) => {
+  return String(proyecto.capitulos.findIndex((capitulo) => capitulo.id === id) + 1).padStart(2, '0');
+};
+
+// "el Colegio Marta Brunet", "al Colegio…", "a los Colegios Manquecura"…
+export const conArticulo = ({ colegio }: Proyecto, preposicion?: 'a' | 'de') => {
+  if (colegio.articulo === 'el' && preposicion) return `${preposicion === 'a' ? 'al' : 'del'} ${colegio.nombre}`;
+  return [preposicion, colegio.articulo, colegio.nombre].filter(Boolean).join(' ');
+};
+
+// La academia (Protocolo Spirit Dance 2025)
 export const ACADEMIA = {
   objetivo:
     'Spirit Dance Academy enseña, desarrolla y potencia las habilidades y técnicas de la danza: postura, coordinación, flexibilidad, conciencia corporal y espacial, y manejo del ritmo, a través de estilos como Urbano, Jazz, Girly, Contemporary y Commercial Dance.',
@@ -43,7 +103,7 @@ export const ACADEMIA = {
   ],
 };
 
-// 02 · Profesional a cargo (CV 2026 y protocolo)
+// Profesional a cargo (CV 2026 y protocolo)
 export const PROFESORA = {
   nombre: 'Paulina Quezada Sepúlveda',
   cargo: 'Directora y fundadora de Spirit Dance Academy',
@@ -65,70 +125,16 @@ export const PROFESORA = {
   ],
 };
 
-// 03 · El taller
-export const TALLER = {
-  nombre: 'Taller extraprogramático escolar de Cheerdance',
-  publico: 'Para las alumnas del colegio (solo mujeres), por categorías según su curso.',
-  modalidad: [
-    { cifra: '2', unidad: 'horas pedagógicas', texto: '90 minutos por sesión' },
-    { cifra: '2', unidad: 'días a la semana', texto: 'como mínimo' },
-    { cifra: '3', unidad: 'categorías', texto: 'de preescolar a 8° básico' },
-    { cifra: '1', unidad: 'presentación final', texto: 'del equipo formativo a fin de año' },
-  ],
-  categorias: [
-    {
-      nombre: 'Mini',
-      cursos: 'Preescolar · pre-kínder y kínder',
-      edades: '4 a 6 años',
-      foco: 'Juego danzado, ritmo, motricidad gruesa y primeros motions con pompones.',
-      foto: img('galeria/mini-pompones-2019.jpg'),
-    },
-    {
-      nombre: 'Infantil',
-      cursos: '1° y 2° básico',
-      edades: '6 a 8 años',
-      foco: 'Coordinación, equilibrio, primeros giros y saltos, memoria coreográfica.',
-      foto: img('galeria/mini-fila-2019.jpg'),
-    },
-    {
-      nombre: 'Junior',
-      cursos: '3° a 8° básico',
-      edades: '8 a 14 años',
-      foco: 'Técnica de piruetas, saltos, kicks y tricks; sincronización y coreografía de competencia.',
-      foto: img('galeria/seleccion-escenario-2019.jpg'),
-    },
-  ],
-  etapas: [
-    {
-      nombre: 'Formativo',
-      texto: 'Todas las alumnas inscritas. Técnica, valores y una coreografía para la presentación de fin de año frente a la comunidad.',
-    },
-    {
-      nombre: 'Competitivo',
-      texto: 'Las alumnas que quieren ir más allá forman el equipo que representa al colegio en campeonatos nacionales durante el año.',
-    },
-  ],
-  objetivoGeneral:
-    'Desarrollar en las alumnas del Colegio Marta Brunet las habilidades y técnicas del cheerdance (postura, coordinación, flexibilidad, conciencia corporal y espacial, y manejo del ritmo) mediante un taller formativo, personalizado e inclusivo que fomente el refuerzo positivo, el compañerismo, la autosuperación y el amor por la danza, y que las proyecte a la presentación escénica y a la competencia.',
-  objetivosEspecificos: [
-    'Mejorar las cualidades físicas básicas (flexibilidad, fuerza, equilibrio, coordinación y resistencia) de acuerdo con la edad de cada categoría.',
-    'Desarrollar la conciencia corporal, la orientación espacial y la propiocepción con ejercicios de postura, alineación y control del movimiento.',
-    'Aprender y ejecutar los elementos técnicos del cheerdance (piruetas, saltos, kicks, motions, trabajo de suelo y tricks) respetando la progresión metodológica de cada uno.',
-    'Desarrollar la memoria coreográfica, la musicalidad, la espacialidad y la sincronización grupal mediante el montaje de coreografías.',
-    'Fortalecer la expresión corporal, la autoestima y la seguridad escénica a través de la presentación de fin de año.',
-    'Promover habilidades socioemocionales: trabajo en equipo, respeto, responsabilidad, disciplina y tolerancia a la frustración.',
-    'Conformar un equipo competitivo que represente al colegio en campeonatos nacionales de cheerdance.',
-  ],
-};
+// Danza y cuerpo. El ritmo nombra a quienes bailan ("todas marcan", "todo el equipo marca"), así que lo escribe cada proyecto.
+export type Cualidad = { nombre: string; texto: string; nivel: number };
 
-// 04 · Danza y cuerpo
-export const CUALIDADES = [
+export const cualidades = (marcan: string): Cualidad[] => [
   { nombre: 'Flexibilidad', texto: 'Amplitud de movimiento en caderas, columna y hombros: spagat, puente y extensiones de pierna.', nivel: 95 },
   { nombre: 'Coordinación', texto: 'Brazos, piernas y cabeza al mismo tiempo y a tiempo con la música: la base de cada motion.', nivel: 92 },
   { nombre: 'Equilibrio', texto: 'Estático y dinámico: relevé, passé y piruetas sobre una pierna sin perder el eje.', nivel: 88 },
   { nombre: 'Fuerza', texto: 'Piernas para saltar y caer suave; core firme para sostener la postura y los giros.', nivel: 80 },
   { nombre: 'Resistencia', texto: 'Una rutina de competencia dura cerca de dos minutos y medio a máxima intensidad.', nivel: 78 },
-  { nombre: 'Ritmo', texto: 'Musicalidad, conteos de ocho y precisión: todas marcan el mismo tiempo.', nivel: 96 },
+  { nombre: 'Ritmo', texto: `Musicalidad, conteos de ocho y precisión: ${marcan} el mismo tiempo.`, nivel: 96 },
 ];
 
 export const ESCULTURA = {
@@ -143,33 +149,6 @@ export const ESCULTURA = {
   ],
 };
 
-export const BENEFICIOS = [
-  {
-    nombre: 'Propiocepción',
-    texto: 'Es el sentido que le dice al cerebro dónde está cada parte del cuerpo sin mirarla. Girar, saltar y caer, o sostener un equilibrio con los ojos en el público, lo entrenan clase a clase.',
-  },
-  {
-    nombre: 'Expresión corporal',
-    texto: 'Las niñas aprenden a comunicar emociones con el cuerpo y el rostro, y a proyectar energía hacia el público sin palabras.',
-  },
-  {
-    nombre: 'Esquema corporal y lateralidad',
-    texto: 'Reconocer derecha e izquierda, arriba y abajo, y el propio cuerpo en el espacio: base de la lectura, la escritura y el deporte.',
-  },
-  {
-    nombre: 'Orientación espacial',
-    texto: 'Moverse en formaciones, cambiar de lugar sin chocar y mantener distancias desarrolla la percepción del espacio.',
-  },
-  {
-    nombre: 'Atención y memoria',
-    texto: 'Memorizar secuencias y conteos ejercita la concentración y la memoria de trabajo.',
-  },
-  {
-    nombre: 'Autoestima',
-    texto: 'Lograr un giro, un salto o subir al escenario frente a su comunidad construye seguridad y confianza.',
-  },
-];
-
 export const FUENTES_CUERPO = [
   { texto: 'Danza en la educación física escolar: revisión bibliográfica (Revista Renef, Unimontes)', href: 'https://periodicos.unimontes.br/index.php/renef/article/download/7269/7712/34672' },
   { texto: 'Expresión corporal y danza en educación infantil (Dialnet)', href: 'https://dialnet.unirioja.es/descarga/articulo/8358778.pdf' },
@@ -177,15 +156,16 @@ export const FUENTES_CUERPO = [
   { texto: 'Danza y desarrollo motor en la infancia (Universidad de Sevilla, idUS)', href: 'https://idus.us.es/bitstream/11441/90551/1/RUIZ%20HIDALGO%2c%20MARIA%20VICTORIA.pdf' },
 ];
 
-// 05 · Una clase (90 minutos)
-export const ETAPAS_CLASE = [
-  { minutos: 5, nombre: 'Recepción y saludo', texto: 'Las alumnas llegan 10 minutos antes, con el pelo tomado y su botella de agua.' },
+// Una clase (90 minutos). La recepción nombra a quienes llegan a clase, así que la escribe cada proyecto.
+const ETAPAS_TECNICAS: EtapaClase[] = [
   { minutos: 15, nombre: 'Calentamiento basado en la danza', texto: 'Activación corporal con juegos danzados: ritmo, motricidad, equilibrio y coordinación.' },
   { minutos: 15, nombre: 'Flexibilidad y elongación', texto: 'Técnica academista: spagat, puente, extensiones y movilidad articular.' },
   { minutos: 25, nombre: 'Elementos técnicos', texto: 'Los elementos propios de la disciplina, con la progresión metodológica de cada uno.' },
   { minutos: 20, nombre: 'Coreografía grupal', texto: 'Memoria coreográfica, espacialidad, temporalidad, sincronización y proyección.' },
   { minutos: 10, nombre: 'Vuelta a la calma', texto: 'Elongación y compensación al centro de la sala, y feedback de lo aprendido.' },
 ];
+
+export const etapasClase = (recepcion: string): EtapaClase[] => [{ minutos: 5, nombre: 'Recepción y saludo', texto: recepcion }, ...ETAPAS_TECNICAS];
 
 export type Elemento = { nombre: string; texto: string; foto?: string; alt?: string; giro?: boolean };
 
@@ -210,32 +190,7 @@ export const MOTIONS = [
   { nombre: 'Diagonal', izquierdo: -135, derecho: 45 },
 ];
 
-// 06 · Valores y elementos transversales
-export const VALORES = [
-  { nombre: 'Amor por la danza', texto: 'Conocer, valorar y disfrutar la danza es el centro de todo lo que hacemos.' },
-  { nombre: 'Refuerzo positivo', texto: 'Se corrige con cariño y se celebra cada avance, por pequeño que sea.' },
-  { nombre: 'Compañerismo', texto: 'Nadie brilla sola: el equipo se cuida y se levanta.' },
-  { nombre: 'Autosuperación', texto: 'La meta es ser cada día mejor que ayer, no mejor que otra.' },
-  { nombre: 'Inclusión', texto: 'Cada niña tiene un lugar. La enseñanza es personalizada y respeta su ritmo.' },
-  { nombre: 'Respeto', texto: 'Por la profesora, las compañeras, las rivales y el escenario.' },
-];
-
-export const TRANSVERSALES = [
-  'Trabajo en equipo',
-  'Disciplina',
-  'Responsabilidad',
-  'Compromiso',
-  'Liderazgo',
-  'Tolerancia a la frustración',
-  'Resiliencia',
-  'Comunicación',
-  'Puntualidad',
-  'Empatía',
-  'Hábitos de vida saludable',
-  'Seguridad en sí misma',
-];
-
-// 07 · Historia del cheerdance en Chile
+// Historia del cheerdance en Chile
 export const HISTORIA = [
   {
     anio: 'Antes de 1996',
@@ -298,7 +253,7 @@ export const FUENTES_HISTORIA = [
   { texto: 'Resultados del Panamericano ICU 2026', href: 'https://cheerunion.org/championships/pac/' },
 ];
 
-// 08 · Campeonatos
+// Campeonatos
 export const CAMPEONATOS = [
   {
     nombre: 'Classic Super Nationals Dance',
@@ -338,60 +293,10 @@ export const CAMPEONATOS = [
   },
 ];
 
-export const TEMPORADA = [
-  { mes: 'Mar', texto: 'Evaluación inicial y formación de categorías' },
-  { mes: 'Abr – May', texto: 'Técnica y selección del equipo competitivo' },
-  { mes: 'Jun – Jul', texto: 'Montaje de la coreografía de competencia' },
-  { mes: 'Ago – Sep', texto: 'Pulido, uniformes y competencias de fogueo' },
-  { mes: 'Oct – Nov', texto: 'Nacionales: Classic Super Nationals' },
-  { mes: 'Dic', texto: 'Presentación de fin de año del equipo formativo' },
-];
-
-// 09 · Propuesta
-export const PLANES = [
-  {
-    nombre: 'Taller formativo',
-    bajada: 'Extraprogramático para todas las alumnas',
-    incluye: [
-      '2 sesiones semanales de 2 horas pedagógicas',
-      'Categorías Mini, Infantil y Junior',
-      'Clases personalizadas e inclusivas',
-      'Planificación anual y evaluación de progreso',
-      'Coreografía y presentación de fin de año',
-      'Informe para apoderados y colegio',
-    ],
-    venta: false,
-  },
-  {
-    nombre: 'Equipo competitivo',
-    bajada: 'El producto premium del programa',
-    incluye: [
-      'Selección de alumnas desde el taller formativo',
-      'Coreografía original de competencia y música editada',
-      'Entrenamientos extra antes de cada campeonato',
-      'Inscripción y gestión de campeonatos nacionales',
-      'Acompañamiento de la profesora en cada competencia',
-      'Ruta de proyección internacional',
-    ],
-    venta: true,
-  },
-];
 
 export const ADICIONALES = ['Uniforme de competencia y merch', 'Cuotas de inscripción de cada campeonato', 'Traslados y viajes'];
 
-// 10 · Merch
-export const MERCH = [
-  { id: 'polera', nombre: 'Polera de entrenamiento', texto: 'Algodón, morada, con el logo dorado al frente.' },
-  { id: 'poleron', nombre: 'Polerón del equipo', texto: '"Marta Brunet Cheer" en la espalda, para viajar y competir.' },
-  { id: 'mono', nombre: 'Moño de competencia', texto: 'El clásico bow del cheer, fucsia con brillos.' },
-  { id: 'pompones', nombre: 'Pompones', texto: 'Metalizados en morado, dorado y blanco.' },
-  { id: 'botella', nombre: 'Botella', texto: 'Una para cada alumna, como pide cada clase.' },
-  { id: 'bolso', nombre: 'Bolso deportivo', texto: 'Para llevar zapatillas, pompones y todo el equipo.' },
-] as const;
-
-export type IdMerch = (typeof MERCH)[number]['id'];
-
-// 11 · Viajes internacionales
+// Viajes internacionales
 export const DESTINOS = [
   {
     nombre: 'The Dance Worlds',

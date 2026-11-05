@@ -10,7 +10,7 @@ export const whatsappProyecto = (proyecto: Proyecto) => {
 };
 
 const COLLAGE = [
-  { src: ruta('/img/galeria/copa-super-nacional-2019.jpg'), alt: 'La copa del Super Nacional 2019 entre las alumnas', clase: 'left-0 top-6 w-[46%] -rotate-6' },
+  { src: ruta('/img/galeria/copa-super-nacional-2019.jpg'), alt: 'La copa del Campeonato Intense Chile 2019 entre las alumnas', clase: 'left-0 top-6 w-[46%] -rotate-6' },
   { src: ruta('/img/galeria/mini-pompones-2019.jpg'), alt: 'Las más chicas con pompones fucsia', clase: 'right-0 top-0 w-[44%] rotate-[5deg]' },
   { src: ruta('/img/galeria/selecciones-cancha-2019.jpg'), alt: 'Las selecciones juntas en la cancha', clase: 'bottom-0 left-[18%] w-[62%] rotate-2' },
 ];
@@ -35,6 +35,11 @@ export const PortadaProyecto = ({ proyecto }: { proyecto: Proyecto }) => {
             <span className="mt-1 block text-portada">{proyecto.colegio.nombre}</span>
           </h1>
           <p className="mx-auto mt-6 max-w-xl text-entrada text-suave lg:mx-0">{proyecto.portada.bajada}</p>
+          {proyecto.destinatario && (
+            <p className="mt-3 text-[15px] text-suave">
+              Dirigido a <span className="font-bold text-tinta">{proyecto.destinatario.nombre}</span>, {proyecto.destinatario.cargo}
+            </p>
+          )}
           <div className="mt-8 flex flex-col justify-center gap-2.5 sm:flex-row lg:justify-start">
             <DescargarPdf proyecto={proyecto}>Descargar presentación PDF</DescargarPdf>
             <a href={whatsappProyecto(proyecto)} target="_blank" rel="noreferrer" className="boton-vidrio">

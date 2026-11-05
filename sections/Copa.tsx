@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import { FOTO_COPA, GALERIA } from '@/data/galeria';
 
-// Paulina con la copa del Super Nacional 2019, en grande: es el logro que más queremos mostrar.
-// Debajo, otras fotos de esa temporada con la selección del American British School.
-const IDS_TEMPORADA = ['copa-super-nacional-2019', 'seleccion-escenario-2019', 'mini-pompones-2019'];
+// Paulina con la copa del Campeonato Intense Chile 2019, en grande: es el logro que más queremos mostrar.
+// Debajo, otras fotos de esa temporada con los equipos del American British School.
+const IDS_TEMPORADA = ['copa-super-nacional-2019', 'junior-jazz-escenario-2019', 'junior-jazz-camarin-2019'];
 const TEMPORADA = GALERIA.filter((foto) => IDS_TEMPORADA.includes(foto.id));
 const GIROS = [-4, 3, -2];
 
@@ -15,18 +15,18 @@ export const Copa = () => {
           <div aria-hidden className="absolute inset-[-12%] -z-10 rounded-full bg-[radial-gradient(closest-side,rgba(255,196,64,0.45),rgba(255,79,163,0.18)_60%,transparent)] blur-2xl" />
           <div className="polaroid !px-3 !pb-5 !pt-3 sm:!px-4 sm:!pt-4 lg:-rotate-2">
             <img src={FOTO_COPA.grande} alt={FOTO_COPA.alt} width={FOTO_COPA.ancho} height={FOTO_COPA.alto} loading="lazy" className="block h-auto w-full rounded-[3px]" />
-            <figcaption className="mt-3 px-1 font-script text-[2rem] leading-none text-tinta/75">diciembre de 2019</figcaption>
+            <figcaption className="mt-3 px-1 font-script text-[2rem] leading-none text-tinta/75">campeonas nacionales 2019</figcaption>
           </div>
         </figure>
 
         <div>
-          <p className="text-[13px] font-semibold uppercase tracking-[0.14em] text-magenta">Super Nacional 2019 · Bars Classic</p>
+          <p className="text-[13px] font-semibold uppercase tracking-[0.14em] text-magenta">Campeonato Intense Chile 2019 · 1° lugar Nacional</p>
           <h2 id="copa-titulo" className="mt-3 text-seccion">
             La copa que llegó <span className="degradado-texto">a la sala.</span>
           </h2>
           <p className="mt-5 max-w-lg text-entrada text-suave">
-            En diciembre de 2019 Paulina llevó a la selección de Cheerdance del American British School al Super Nacional de Bars Classic, y volvieron con
-            la copa. Fue el cierre de diez años a cargo de la selección; al año siguiente fundó Spirit Dance Academy.
+            En 2019 los equipos de Cheerdance del American British School que entrenaba Paulina ganaron el 1° lugar Nacional del Campeonato Intense
+            Chile, en las categorías Mini Poms y Junior Jazz. Fue el cierre de diez años a cargo de la rama; al año siguiente fundó Spirit Dance Academy.
           </p>
 
           <ul className="mt-10 flex items-end gap-4 sm:gap-6">

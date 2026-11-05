@@ -10,16 +10,30 @@ gsap.registerPlugin(ScrollTrigger);
 
 const ALTO_NAVEGACION = 72;
 
+// El elemento al que apunta el #ancla de la URL. Un hash mal codificado ("#100%") no rompe la página: se busca tal cual.
+const anclaDeLaUrl = () => {
+  const hash = window.location.hash.slice(1);
+  if (!hash) return null;
+  try {
+    return document.getElementById(decodeURIComponent(hash));
+  } catch {
+    return document.getElementById(hash);
+  }
+};
+
 // Scroll suave sincronizado con ScrollTrigger. Las anclas internas usan Lenis
 // pero conservan lo nativo: el hash en la URL y el foco en el destino.
 export const Movimiento = () => {
   const lenisActual = useRef<Lenis | null>(null);
   const pagina = usePathname();
 
-  // Cada página nueva parte desde arriba y vuelve a medir sus animaciones de scroll.
+  // Cada página nueva parte desde arriba, o desde su ancla si el enlace traía una, y vuelve a medir sus animaciones de scroll.
   useEffect(() => {
-    lenisActual.current?.scrollTo(0, { immediate: true });
     ScrollTrigger.refresh();
+    const ancla = anclaDeLaUrl();
+    const y = ancla ? ancla.getBoundingClientRect().top + window.scrollY - ALTO_NAVEGACION : 0;
+    if (lenisActual.current) lenisActual.current.scrollTo(y, { immediate: true });
+    else if (ancla) window.scrollTo(0, y);
   }, [pagina]);
 
   useEffect(() => {

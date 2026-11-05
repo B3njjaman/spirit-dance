@@ -1,4 +1,4 @@
-import { ACADEMIA, numeroCapitulo, PROFESORA, type Proyecto } from '@/data/proyecto';
+import { ACADEMIA, hitosDe, numeroCapitulo, PROFESORA, type Proyecto } from '@/data/proyecto';
 import { TituloCapitulo } from './TituloCapitulo';
 
 const GIROS = ['-rotate-3', 'rotate-2', '-rotate-1'];
@@ -47,7 +47,7 @@ export const ProfesoraProyecto = ({ proyecto }: { proyecto: Proyecto }) => {
         <figure className="aparecer relative mx-auto w-full max-w-[22rem] lg:sticky lg:top-28">
           <div aria-hidden className="absolute inset-[-12%] -z-10 rounded-full bg-[radial-gradient(closest-side,rgba(255,196,64,0.45),rgba(255,79,163,0.18)_60%,transparent)] blur-2xl" />
           <div className="polaroid !px-3 !pb-5 !pt-3 -rotate-2">
-            <img src={PROFESORA.foto} alt="Paulina Quezada con la copa del Super Nacional 2019" loading="lazy" className="block aspect-[4/5] w-full rounded-[3px] object-cover" />
+            <img src={PROFESORA.foto} alt="Paulina Quezada con la copa del Campeonato Intense Chile 2019" loading="lazy" className="block aspect-[4/5] w-full rounded-[3px] object-cover" />
             <figcaption className="mt-3 px-1 font-script text-[2rem] leading-none text-tinta/75">Paulina Quezada</figcaption>
           </div>
         </figure>
@@ -69,7 +69,7 @@ export const ProfesoraProyecto = ({ proyecto }: { proyecto: Proyecto }) => {
             })}
           </ul>
           <ol className="aparecer mt-10 border-l-2 border-lila/20 pl-6">
-            {PROFESORA.hitos.map((hito) => {
+            {hitosDe(proyecto).map((hito) => {
               return (
                 <li key={hito.texto} className="relative pb-6 last:pb-0">
                   <span aria-hidden className="absolute -left-[31px] top-1.5 size-3 rounded-full bg-degradado ring-4 ring-papel" />
@@ -79,6 +79,32 @@ export const ProfesoraProyecto = ({ proyecto }: { proyecto: Proyecto }) => {
               );
             })}
           </ol>
+          {proyecto.videos && (
+            <div className="aparecer mt-10">
+              <p className="text-sm font-bold uppercase tracking-[0.18em] text-magenta">Sus equipos, en video</p>
+              <ul className="mt-4 grid gap-3">
+                {proyecto.videos.map((video) => {
+                  return (
+                    <li key={video.url}>
+                      <a href={video.url} target="_blank" rel="noreferrer" className="vidrio flex items-center gap-4 p-3 pr-5">
+                        <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-[radial-gradient(circle_at_25%_20%,rgba(255,79,163,0.5),transparent_60%),radial-gradient(circle_at_85%_90%,rgba(157,92,255,0.55),transparent_60%)] bg-[#1c1030]">
+                          <span className="grid size-9 place-items-center rounded-full bg-degradado">
+                            <svg viewBox="0 0 24 24" aria-hidden className="ml-0.5 size-4 fill-white">
+                              <path d="M7 4.5v15l12.5-7.5z" />
+                            </svg>
+                          </span>
+                        </span>
+                        <span>
+                          <span className="block text-[17px] font-bold text-tinta">{video.titulo}</span>
+                          <span className="block text-sm text-suave">{video.detalle} · Ver en YouTube</span>
+                        </span>
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          )}
         </div>
       </div>
     </section>

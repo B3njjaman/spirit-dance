@@ -3,7 +3,7 @@ import type { Proyecto } from '@/data/proyecto';
 
 const enlace = 'font-semibold text-magenta underline underline-offset-4';
 
-// Con versión para celular, cada pantalla descarga la suya: el teléfono el documento vertical y el computador las láminas.
+// Con versión para celular, cada pantalla descarga la suya: el teléfono sus láminas horizontales y el computador las de 16:9.
 export const DescargarPdf = ({ proyecto, children }: { proyecto: Proyecto; children: ReactNode }) => {
   if (!proyecto.pdfMovil) {
     return (

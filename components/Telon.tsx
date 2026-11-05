@@ -16,6 +16,8 @@ const ACTOS: Record<string, string> = {
   '/galeria': 'Galería',
   '/videos': 'Videos',
   '/sobre-nosotros': 'Nosotros',
+  '/proyecto': 'Proyecto',
+  '/proyecto/manquecura': 'Proyecto',
 };
 
 const sinBase = (ruta: string) => (BASE && ruta.startsWith(BASE) ? ruta.slice(BASE.length) || '/' : ruta);
@@ -59,7 +61,8 @@ export const Telon = () => {
   useEffect(() => {
     if (!cerrado.current) return;
     cerrado.current = false;
-    window.scrollTo(0, 0);
+    // Con ancla (Currículum lleva a /sobre-nosotros#trayectoria) el scroll lo resuelve Movimiento.
+    if (!window.location.hash) window.scrollTo(0, 0);
     gsap
       .timeline({ delay: 0.25 })
       .to('.telon-acto', { autoAlpha: 0, y: -8, duration: 0.3, ease: 'power1.in' })

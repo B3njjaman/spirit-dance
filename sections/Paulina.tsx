@@ -9,7 +9,7 @@ export const Paulina = () => {
           <VideoCapitulos />
         </div>
 
-        <div className="mt-20 grid gap-8 lg:grid-cols-[1fr_2fr] lg:gap-16">
+        <div id="trayectoria" className="mt-20 grid scroll-mt-24 gap-8 lg:grid-cols-[1fr_2fr] lg:gap-16">
           <div className="lg:sticky lg:top-28 lg:self-start">
             <h2 className="text-seccion">
               Su <span className="degradado-texto">trayectoria.</span>

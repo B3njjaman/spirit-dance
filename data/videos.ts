@@ -21,8 +21,9 @@ export type Categoria = 'clases' | 'gala' | 'historias' | 'trayectoria';
 
 export type Video = { id: string; titulo: string; categoria: Categoria; duracion: string; src: string; poster: string };
 
-// Reels de @academiaspiritdance y el video de trayectoria con sus tres cortes.
+// El reel «Volvimos» con que la academia vuelve tras la pausa, reels de @academiaspiritdance y el video de trayectoria con sus tres cortes.
 export const VIDEOS: Video[] = [
+  { id: 'volvimos', titulo: 'Volvimos: la academia está de vuelta', categoria: 'historias', duracion: '0:42', src: ruta('/videos/volvimos.mp4'), poster: ruta('/videos/volvimos.jpg') },
   { id: 'trayectoria', titulo: 'Paulina en 76 segundos', categoria: 'trayectoria', duracion: '1:17', src: ruta('/videos/trayectoria.mp4'), poster: ruta('/videos/trayectoria.jpg') },
   { id: 'clase', titulo: 'Aprende distintas técnicas', categoria: 'clases', duracion: '0:18', src: ruta('/videos/reel-clase.mp4'), poster: ruta('/videos/reel-clase.jpg') },
   { id: 'gala', titulo: 'Noche de Gala', categoria: 'gala', duracion: '0:14', src: ruta('/videos/reel-gala.mp4'), poster: ruta('/videos/reel-gala.jpg') },

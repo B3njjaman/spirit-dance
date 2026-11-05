@@ -18,7 +18,7 @@ export const ColegioProyecto = ({ proyecto }: { proyecto: Proyecto }) => {
           <p>{colegio.intro}</p>
         </TituloCapitulo>
 
-        <h3 className="aparecer mt-14 text-2xl font-bold tracking-tight">El cheer ya se vive en la red</h3>
+        <h3 className="aparecer mt-14 text-2xl font-bold tracking-tight">{colegio.tituloRed}</h3>
         <ul className="mt-6 grid gap-4 md:grid-cols-3">
           {colegio.red.map((item, i) => {
             return (
@@ -81,7 +81,7 @@ export const ColegioProyecto = ({ proyecto }: { proyecto: Proyecto }) => {
 
         <div className="aparecer relative mt-5 overflow-hidden rounded-3xl bg-degradado p-8 text-white shadow-boton sm:p-10">
           <span aria-hidden className="absolute -right-4 -top-8 text-[9rem] leading-none text-white/15">✦</span>
-          <p className="relative text-sm font-bold uppercase tracking-[0.18em] text-white/80">Una idea para la red</p>
+          <p className="relative text-sm font-bold uppercase tracking-[0.18em] text-white/80">{colegio.encuentro.etiqueta}</p>
           <p className="relative mt-3 text-3xl font-extrabold tracking-tight">{colegio.encuentro.nombre}</p>
           <p className="relative mt-3 max-w-3xl text-lg text-white/90">{colegio.encuentro.texto}</p>
         </div>

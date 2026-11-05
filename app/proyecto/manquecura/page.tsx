@@ -3,9 +3,9 @@ import { MANQUECURA } from '@/data/proyectos/manquecura';
 import { Dossier } from '@/sections/proyecto/Dossier';
 
 export const metadata: Metadata = {
-  title: 'Proyecto CheerDance Colegios Manquecura',
+  title: 'Proyecto CheerDance Manquecura Ciudad de los Valles',
   description:
-    'Academia de cheerdance para estudiantes de 1° básico a IV° medio de los Colegios Manquecura: equipos mixtos en categorías Mini, Youth y Varsity, de lo formativo a lo competitivo, con proyección internacional.',
+    'Rama de cheer dance para el Manquecura Ciudad de los Valles: talleres formativos desde playgroup y una selección por audición, en equipos mixtos, con proyección internacional.',
 };
 
 const PaginaManquecura = () => {

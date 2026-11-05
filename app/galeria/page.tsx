@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 const PaginaGaleria = () => {
   return (
     <>
-      <Encabezado titulo="Galería">Cuatro años de fotos de su Instagram y las competencias de 2019, tiradas sobre la mesa. Arrástrala para recorrerla y toca una foto para verla en grande.</Encabezado>
+      <Encabezado titulo="Galería">Clases, galas, campamentos, la Selección Nacional y las competencias de 2019, tiradas sobre la mesa. Arrástrala para recorrerla y toca una foto para verla en grande.</Encabezado>
       <Galeria />
     </>
   );

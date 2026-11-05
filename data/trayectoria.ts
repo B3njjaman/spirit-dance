@@ -1,10 +1,10 @@
-// Todo sale del CV 2026 de Paulina Quezada; no agregar cifras que no estén ahí.
+// Sale del CV 2026 de Paulina Quezada y de lo que ella mandó por WhatsApp (23-10 y 4-11-2026); no agregar cifras que no estén ahí.
 export type Hito = {
   periodo: string;
   cargo: string;
   lugar: string;
   detalle: string;
-  tipo: 'formacion' | 'escuela' | 'academia' | 'universidad' | 'comunidad';
+  tipo: 'formacion' | 'escuela' | 'academia' | 'seleccion' | 'universidad' | 'comunidad';
 };
 
 export const TRAYECTORIA: Hito[] = [
@@ -37,17 +37,17 @@ export const TRAYECTORIA: Hito[] = [
     tipo: 'formacion',
   },
   {
-    periodo: '2009 – 2020',
-    cargo: 'Encargada de la Muestra Artística Internacional',
-    lugar: 'American British School',
-    detalle: 'Dirección del evento con instituciones, artistas y delegaciones; coreografías de distintas expresiones culturales, ensayos, montaje, luces, música, vestuario y escenografía.',
-    tipo: 'escuela',
-  },
-  {
     periodo: '2009 – 2019',
     cargo: 'Profesora de la selección de Cheerdance',
     lugar: 'American British School',
     detalle: 'Coreografías según edad y nivel, técnica, ritmo y presentación escénica; representación del colegio en eventos internos y externos.',
+    tipo: 'escuela',
+  },
+  {
+    periodo: '2019',
+    cargo: '1° lugar Nacional, Campeonato Intense Chile',
+    lugar: 'Categorías Mini Poms y Junior Jazz, American British School',
+    detalle: 'Los equipos Mini Poms y Junior Jazz del colegio, entrenados por Paulina, ganan el 1° lugar Nacional.',
     tipo: 'escuela',
   },
   {
@@ -77,6 +77,27 @@ export const TRAYECTORIA: Hito[] = [
     lugar: 'Universidad Diego Portales',
     detalle: 'La danza como medio de expresión, autoconocimiento y desarrollo integral para estudiantes de distintas carreras.',
     tipo: 'universidad',
+  },
+  {
+    periodo: '2021 – 2024',
+    cargo: 'Clases en las sedes de La Reina y La Florida',
+    lugar: 'Spirit Dance Academy',
+    detalle: 'La academia funcionó en sus sedes de La Reina y La Florida entre 2021 y 2024.',
+    tipo: 'academia',
+  },
+  {
+    periodo: '2022 – 2023',
+    cargo: 'Academia patrocinada por el British Royal School',
+    lugar: 'Spirit Dance Academy',
+    detalle: 'El British Royal School patrocinó la academia en 2022 y 2023, y Paulina hizo talleres para sus alumnas en el colegio.',
+    tipo: 'academia',
+  },
+  {
+    periodo: '2022 – 2023',
+    cargo: 'Entrenadora de la Selección Nacional de Dance',
+    lugar: 'Dance Team Chile · Mundial de Cheerleading IFC, Takasaki, Japón',
+    detalle: 'Preparó a la selección chilena de Dance para el Campeonato Mundial de Cheerleaders (IFC) en Takasaki, Japón, y dictó masterclasses de Dance, Jazz y Freestyle en Santiago, La Serena y Concepción.',
+    tipo: 'seleccion',
   },
   {
     periodo: '2023',
@@ -112,6 +133,7 @@ export const ETIQUETA_TIPO: Record<Hito['tipo'], string> = {
   formacion: 'Formación',
   escuela: 'Colegio',
   academia: 'Academia',
+  seleccion: 'Selección Nacional',
   universidad: 'Universidad',
   comunidad: 'Comunidad',
 };

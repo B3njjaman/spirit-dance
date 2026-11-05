@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-# Imprime las láminas de un proyecto (o su documento para celular, con -movil) a public/proyecto/cheerdance-<proyecto>.pdf.
+# Imprime las láminas de un proyecto (o sus láminas horizontales para celular, con -movil) a public/proyecto/cheerdance-<proyecto>.pdf.
 # Uso: presentacion/generar-pdf.sh [marta-brunet|manquecura|manquecura-movil]   (sin argumento, marta-brunet)
 # Requiere el servidor local corriendo (npm run dev) y Google Chrome instalado.
 set -e

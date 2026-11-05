@@ -52,12 +52,17 @@ export const PAGINAS = [
   { ruta: '/videos', nombre: 'Videos' },
   { ruta: '/sobre-nosotros', nombre: 'Paulina y su equipo' },
   { ruta: '/proyecto', nombre: 'Proyecto CheerDance Colegio Marta Brunet' },
+  { ruta: '/proyecto/manquecura', nombre: 'Proyecto CheerDance Manquecura Ciudad de los Valles' },
 ] as const;
 
 export const SOBRE_LA_ACADEMIA = `Spirit Dance Academy es una academia de danza infantil fundada en 2020 por Paulina Quezada Sepúlveda,
 licenciada en Educación y profesora de Educación Física (Universidad Católica Silva Henríquez) con un diplomado en Danza
 Educativa y Expresión Corporal y más de veinte años enseñando danza. Trabajó trece años en el American British School, donde
-dirigió la Muestra Artística Internacional y la selección de Cheerdance, y enseñó danza en la Universidad Diego Portales.
+dirigió la rama de Cheerdance (en 2019 sus equipos ganaron el 1° lugar Nacional del Campeonato Intense Chile en Mini Poms y
+Junior Jazz). Fue entrenadora de la Selección Nacional de Dance para el Mundial de Cheerleading IFC en Takasaki, Japón, y
+enseñó danza en la Universidad Diego Portales. La academia tuvo sedes en La Reina y La Florida entre 2021 y 2024, y en 2022 y
+2023 la patrocinó el British Royal School.
+El uniforme de clases de la academia es polerón, calzas y pollera.
 Las clases son por edad y nivel: el Grupo mini (ha recibido niñas desde los 4 años: juego, ritmo y primeros pasos) y Danza infantil
 (técnica, elongación y coreografía). Se enseñan estilos como Urban, Jazz y Girly. No hace falta saber bailar para entrar.
 Cada fin de año hay una Gala: cada grupo sube al escenario a presentar la coreografía que preparó frente a sus familias.

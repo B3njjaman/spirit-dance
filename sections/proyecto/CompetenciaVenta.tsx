@@ -1,5 +1,5 @@
 import { MerchIlustracion } from '@/components/MerchIlustracion';
-import { ADICIONALES, CAMPEONATOS, numeroCapitulo, type Proyecto } from '@/data/proyecto';
+import { ADICIONALES, CAMPEONATOS, numeroCapitulo, type Proyecto, type Vestimenta } from '@/data/proyecto';
 import { cn } from '@/lib/cn';
 import { whatsappProyecto } from './PortadaProyecto';
 import { TituloCapitulo } from './TituloCapitulo';
@@ -139,6 +139,34 @@ export const PropuestaProyecto = ({ proyecto }: { proyecto: Proyecto }) => {
   );
 };
 
+// Fotos reales de cómo se viste hoy la academia, debajo de las maquetas del merch.
+const VestimentaProyecto = ({ vestimenta }: { vestimenta: Vestimenta }) => {
+  return (
+    <div className="mt-16">
+      <div className="aparecer max-w-2xl">
+        <p className="text-sm font-bold uppercase tracking-[0.18em] text-magenta">Vestimenta</p>
+        <h3 className="mt-2 text-2xl font-extrabold tracking-tight text-tinta sm:text-3xl">Así se viste hoy la academia</h3>
+        <p className="mt-3 text-entrada text-suave">{vestimenta.intro}</p>
+      </div>
+      <ul className="mt-8 grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-4">
+        {vestimenta.fotos.map((foto, i) => {
+          return (
+            <li key={foto.src} className="aparecer" style={{ transitionDelay: `${(i % 4) * 100}ms` }}>
+              <figure className="polaroid h-full">
+                <img src={foto.src} alt={`${foto.nombre}: ${foto.texto}`} loading="lazy" className="block aspect-[4/5] w-full rounded-[3px] object-cover" />
+                <figcaption className="px-1 pt-3">
+                  <span className="block font-bold leading-tight text-tinta">{foto.nombre}</span>
+                  <span className="mt-1 block text-sm text-suave">{foto.texto}</span>
+                </figcaption>
+              </figure>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+};
+
 export const MerchProyecto = ({ proyecto }: { proyecto: Proyecto }) => {
   return (
     <section id="merch" className="scroll-mt-20 px-4 py-20 sm:px-6 lg:py-28">
@@ -165,6 +193,7 @@ export const MerchProyecto = ({ proyecto }: { proyecto: Proyecto }) => {
             );
           })}
         </ul>
+        {proyecto.merch.vestimenta && <VestimentaProyecto vestimenta={proyecto.merch.vestimenta} />}
       </div>
     </section>
   );

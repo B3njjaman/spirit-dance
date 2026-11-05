@@ -15,8 +15,8 @@ const SobreNosotros = () => {
     <>
       <Encabezado titulo="Nosotros">
         Paulina Quezada es licenciada en Educación y profesora de Educación Física, con un diplomado en Danza Educativa y Expresión Corporal. Trece años
-        en el American British School, donde dirigió la Muestra Artística Internacional y la selección de Cheerdance. En 2020 fundó Spirit Dance
-        Academy.
+        en el American British School a cargo de la rama de Cheerdance, entrenadora de la Selección Nacional de Dance y, desde 2020, fundadora de
+        Spirit Dance Academy.
       </Encabezado>
       <Copa />
       <Paulina />

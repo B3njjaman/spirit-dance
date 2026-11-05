@@ -9,14 +9,17 @@ import {
   CREDITOS_FOTOS,
   DESTINOS,
   ELEMENTOS_TECNICOS,
+  enGrupos,
   ESCULTURA,
-  HISTORIA,
+  historiaDe,
+  hitosDe,
   MOTIONS,
   numeroCapitulo,
   PROFESORA,
   RUTA_INTERNACIONAL,
   type IdCapitulo,
   type Proyecto,
+  type Video,
 } from '@/data/proyecto';
 import { ruta } from '@/lib/ruta';
 import { cn } from '@/lib/cn';
@@ -58,7 +61,12 @@ const Portada: Lamina = ({ proyecto }) => {
             <span className="block text-[54px] font-extrabold leading-none tracking-[-0.035em]">{proyecto.colegio.nombre}</span>
           </h1>
           <p className="mt-6 max-w-[520px] text-[19px] leading-relaxed text-white/75">{proyecto.portada.bajadaLamina}</p>
-          <p className="mt-8 text-[15px] text-white/60">
+          {proyecto.destinatario && (
+            <p className="mt-8 text-[17px] text-white/80">
+              Dirigido a <span className="font-bold text-[#f5d27a]">{proyecto.destinatario.nombre}</span>, {proyecto.destinatario.cargo}
+            </p>
+          )}
+          <p className={cn('text-[15px] text-white/60', proyecto.destinatario ? 'mt-2' : 'mt-8')}>
             Presenta <span className="font-bold text-white">Spirit Dance Academy</span> · Prof. {PROFESORA.nombre}
           </p>
         </div>
@@ -156,10 +164,10 @@ const Profesora: Lamina = ({ proyecto, numero }) => {
               );
             })}
           </ul>
-          <ol className="mt-5 grid gap-2 border-l-2 border-[#9d5cff]/25 pl-5">
-            {PROFESORA.hitos.slice(0, 6).map((hito) => {
+          <ol className="mt-4 grid gap-[5px] border-l-2 border-[#9d5cff]/25 pl-5">
+            {hitosDe(proyecto).slice(0, 9).map((hito) => {
               return (
-                <li key={hito.texto} className="relative text-[14px] leading-snug">
+                <li key={hito.texto} className="relative text-[13px] leading-snug">
                   <span className="absolute -left-[27px] top-1 size-2.5 rounded-full bg-[linear-gradient(115deg,#FF4FA3,#9D5CFF)]" />
                   <span className="font-mono text-[12px] font-bold text-magenta">{hito.periodo}</span> · {hito.texto}
                 </li>
@@ -172,7 +180,49 @@ const Profesora: Lamina = ({ proyecto, numero }) => {
   );
 };
 
-// Capítulo propio del colegio, en dos láminas: la red y sus pilares; Salvaguarda, formato y encuentro.
+// Un video de sus equipos. Es un enlace, así que también abre YouTube desde el PDF. Solo, va a lo ancho.
+const TarjetaVideo = ({ video, sola }: { video: Video; sola: boolean }) => {
+  return (
+    <a href={video.url} className={cn('flex overflow-hidden rounded-[20px] border border-white bg-white/80 shadow-[0_18px_40px_-24px_rgba(110,50,160,.5)]', sola ? 'h-[330px]' : 'flex-col')}>
+      <span className={cn('relative grid shrink-0 place-items-center bg-[radial-gradient(circle_at_25%_20%,rgba(255,79,163,0.5),transparent_60%),radial-gradient(circle_at_85%_90%,rgba(157,92,255,0.55),transparent_60%)] bg-[#1c1030]', sola ? 'w-[560px]' : 'h-[230px]')}>
+        <span className="grid size-[96px] place-items-center rounded-full bg-[linear-gradient(115deg,#FF4FA3,#9D5CFF)] shadow-[0_14px_34px_-8px_rgba(255,79,163,.8)]">
+          <svg viewBox="0 0 24 24" aria-hidden className="ml-[8%] size-[45%] fill-white">
+            <path d="M7 4.5v15l12.5-7.5z" />
+          </svg>
+        </span>
+        <span className="absolute bottom-4 right-5 font-mono text-[13px] font-bold text-white/60">YouTube</span>
+      </span>
+      <span className={cn('flex flex-col justify-center', sola ? 'px-12' : 'px-6 py-5')}>
+        <span className={cn('font-script leading-none text-tinta', sola ? 'text-[64px]' : 'text-[44px]')}>{video.titulo}</span>
+        <span className="mt-2 text-[16px] text-suave">{video.detalle}</span>
+        <span className="mt-3 text-[15px] font-bold text-magenta">▶ Ver en YouTube</span>
+      </span>
+    </a>
+  );
+};
+
+// Los videos de sus equipos, de a tres por lámina, después de la profesora.
+const laminaVideos = (videos: Video[], tramo: number): Lamina => {
+  const LaminaVideos: Lamina = ({ proyecto, numero }) => {
+    return (
+      <Diapositiva numero={numero} colegio={proyecto.colegio.nombre} className="px-16 pt-14">
+        <Antetitulo>{tramo === 0 ? 'En video' : 'En video · continuación'}</Antetitulo>
+        <h2 className={cn(titulo, 'mt-3 text-[46px]')}>
+          Así bailan <span className={degradado}>sus equipos.</span>
+        </h2>
+        <p className="mt-2 text-[17px] text-suave">Haga clic en un video para verlo en YouTube.</p>
+        <div className="mt-8 grid gap-6" style={{ gridTemplateColumns: `repeat(${videos.length}, minmax(0, 1fr))` }}>
+          {videos.map((video) => {
+            return <TarjetaVideo key={video.url} video={video} sola={videos.length === 1} />;
+          })}
+        </div>
+      </Diapositiva>
+    );
+  };
+  return LaminaVideos;
+};
+
+// Capítulo propio del colegio, en dos láminas: su cheer y sus pilares; Salvaguarda, formato y encuentro.
 const ColegioRed: Lamina = ({ proyecto, numero }) => {
   const colegio = proyecto.enElColegio;
   if (!colegio) return null;
@@ -185,7 +235,7 @@ const ColegioRed: Lamina = ({ proyecto, numero }) => {
           Pensado para <span className={degradado}>{colegio.nombre}.</span>
         </h2>
         <p className="mt-2 max-w-[900px] text-[16px] leading-relaxed text-suave">{colegio.intro}</p>
-        <p className="mt-5 text-[13px] font-bold uppercase tracking-[0.18em] text-magenta">El cheer ya se vive en la red</p>
+        <p className="mt-5 text-[13px] font-bold uppercase tracking-[0.18em] text-magenta">{colegio.tituloRed}</p>
         <div className="mt-2.5 grid grid-cols-3 gap-4">
           {colegio.red.map((r) => {
             return (
@@ -252,7 +302,7 @@ const ColegioCompromisos: Lamina = ({ proyecto, numero }) => {
           </div>
         </div>
         <div className="mt-5 rounded-[24px] bg-[linear-gradient(125deg,#ff4fa3_0%,#c653f0_55%,#7b4be0_100%)] px-8 py-5 text-white shadow-[0_24px_50px_-20px_rgba(214,60,190,.7)]">
-          <p className="text-[12px] font-bold uppercase tracking-[0.2em] text-white/80">Una idea para la red</p>
+          <p className="text-[12px] font-bold uppercase tracking-[0.2em] text-white/80">{colegio.encuentro.etiqueta}</p>
           <p className="mt-1 text-[24px] font-extrabold tracking-tight">{colegio.encuentro.nombre}</p>
           <p className="mt-1 text-[14.5px] leading-snug text-white/90">{colegio.encuentro.texto}</p>
         </div>
@@ -285,7 +335,7 @@ const Taller: Lamina = ({ proyecto, numero }) => {
             );
           })}
         </div>
-        <div className="mt-5 grid grid-cols-3 gap-4">
+        <div className="mt-5 grid gap-4" style={{ gridTemplateColumns: `repeat(${taller.categorias.length}, minmax(0, 1fr))` }}>
           {taller.categorias.map((c) => {
             return (
               <div key={c.nombre} className={cn(tarjeta, 'overflow-hidden')}>
@@ -519,7 +569,44 @@ const Valores: Lamina = ({ proyecto, numero }) => {
   );
 };
 
+// Qué es el cheer dance, antes de su historia. Solo en los proyectos que lo explican.
+const Disciplina: Lamina = ({ proyecto, numero }) => {
+  const { disciplina } = proyecto;
+  if (!disciplina) return null;
+  return (
+    <Diapositiva numero={numero} colegio={proyecto.colegio.nombre}>
+      <div className="grid h-full grid-cols-[1fr_400px] gap-12 px-16 pt-14">
+        <div>
+          <Antetitulo>La disciplina</Antetitulo>
+          <h2 className={cn(titulo, 'mt-3')}>
+            ¿Qué es el <span className={degradado}>cheer dance?</span>
+          </h2>
+          <p className="mt-4 text-[18px] leading-relaxed text-suave">{disciplina.intro}</p>
+          <div className="mt-7 grid grid-cols-2 gap-4">
+            {disciplina.estilos.map((e) => {
+              return (
+                <div key={e.nombre} className={cn(tarjeta, 'px-5 py-4')}>
+                  <p className={cn('text-[24px] font-extrabold tracking-tight', degradado)}>✦ {e.nombre}</p>
+                  <p className="mt-1 text-[14.5px] leading-snug text-suave">{e.texto}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+        <div className="grid content-start gap-5 pt-4">
+          <Polaroid src={ruta('/img/galeria/seleccion-escenario-2019.jpg')} imgClass="aspect-[4/3]" />
+          <div className="rounded-[24px] bg-[#1c1030] p-6 text-white shadow-[0_24px_50px_-20px_rgba(28,16,48,.8)]">
+            <p className={cn('text-[13px] font-bold uppercase tracking-[0.18em]', dorado)}>Un estilo de vida</p>
+            <p className="mt-2 text-[16px] leading-relaxed text-white/85">{disciplina.enLosColegios}</p>
+          </div>
+        </div>
+      </div>
+    </Diapositiva>
+  );
+};
+
 const Historia: Lamina = ({ proyecto, numero }) => {
+  const historia = historiaDe(proyecto);
   return (
     <Diapositiva numero={numero} colegio={proyecto.colegio.nombre}>
       <NumeroGrande>{numeroCapitulo(proyecto, 'historia')}</NumeroGrande>
@@ -528,7 +615,7 @@ const Historia: Lamina = ({ proyecto, numero }) => {
         <h2 className={cn(titulo, 'mt-3')}>
           El cheerdance <span className={degradado}>en Chile.</span>
         </h2>
-        {[HISTORIA.slice(0, 5), HISTORIA.slice(5)].map((fila) => {
+        {[historia.slice(0, 5), historia.slice(5)].map((fila) => {
           return (
             <div key={fila[0].anio} className="relative mt-9">
               <div className="absolute inset-x-0 top-[13px] h-[3px] rounded-full bg-[linear-gradient(90deg,#FF4FA3,#C653F0,#9D5CFF)]" />
@@ -668,6 +755,34 @@ const Merch: Lamina = ({ proyecto, numero }) => {
   );
 };
 
+// Fotos reales de la vestimenta de la academia. Rectas, sin giro: Chrome imprime mal las fotos giradas con object-cover.
+const Vestimenta: Lamina = ({ proyecto, numero }) => {
+  const vestimenta = proyecto.merch.vestimenta;
+  if (!vestimenta) return null;
+  return (
+    <Diapositiva numero={numero} colegio={proyecto.colegio.nombre}>
+      <div className="px-16 pt-14">
+        <Antetitulo>Vestimenta</Antetitulo>
+        <h2 className={cn(titulo, 'mt-3')}>
+          Así se viste hoy <span className={degradado}>la academia.</span>
+        </h2>
+        <p className="mt-4 max-w-[900px] text-[19px] leading-snug text-suave">{vestimenta.intro}</p>
+        <div className="mt-7 grid grid-cols-4 gap-6">
+          {vestimenta.fotos.map((foto) => {
+            return (
+              <div key={foto.src}>
+                <Polaroid src={foto.src} imgClass="aspect-[4/5]" />
+                <p className="mt-3 text-[17px] font-bold leading-tight">{foto.nombre}</p>
+                <p className="mt-1 text-[13.5px] leading-snug text-suave">{foto.texto}</p>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </Diapositiva>
+  );
+};
+
 const Viajes: Lamina = ({ proyecto, numero }) => {
   return (
     <Diapositiva numero={numero} colegio={proyecto.colegio.nombre} tema="oscuro">
@@ -757,24 +872,25 @@ const Cierre: Lamina = ({ proyecto }) => {
   );
 };
 
-const LAMINAS: Record<IdCapitulo, Lamina[]> = {
+const laminasDe = (proyecto: Proyecto): Record<IdCapitulo, Lamina[]> => ({
   academia: [Academia],
-  profesora: [Profesora],
+  profesora: [Profesora, ...enGrupos(proyecto.videos ?? [], 3).map(laminaVideos)],
   colegio: [ColegioRed, ColegioCompromisos],
   taller: [Taller, Objetivos],
   cuerpo: [Cuerpo, Beneficios],
   clase: [Clase, Tecnica],
   valores: [Valores],
-  historia: [Historia],
+  historia: proyecto.disciplina ? [Disciplina, Historia] : [Historia],
   campeonatos: [Campeonatos],
   propuesta: [Propuesta],
-  merch: [Merch],
+  merch: proyecto.merch.vestimenta ? [Merch, Vestimenta] : [Merch],
   viajes: [Viajes, Ruta],
-};
+});
 
 // Las láminas siguen el orden de los capítulos del proyecto, entre la portada con su índice y el cierre.
 export const Laminas = ({ proyecto }: { proyecto: Proyecto }) => {
-  const laminas = [Portada, Indice, ...proyecto.capitulos.flatMap(({ id }) => LAMINAS[id]), Cierre];
+  const porCapitulo = laminasDe(proyecto);
+  const laminas = [Portada, Indice, ...proyecto.capitulos.flatMap(({ id }) => porCapitulo[id]), Cierre];
   return (
     <>
       {laminas.map((Lamina, i) => {

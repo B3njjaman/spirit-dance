@@ -1,7 +1,9 @@
 import { ruta } from '@/lib/ruta';
 
 // Fotos de las publicaciones de @academiaspiritdance (instagram/completo), de la más nueva a la más antigua,
-// más las de 2019 con la selección de Cheerdance del American British School, que mandó la familia.
+// más las que mandó Paulina por WhatsApp el 23-10-2026 (video-compilado/fotos, con sus leyendas) y las de 2019 con los
+// equipos de Cheerdance del American British School. Las caras de las alumnas van difuminadas
+// (originales en originales-sin-difuminar/).
 // Cada foto tiene versión grande y miniatura en public/img/galeria.
 export const MOMENTOS = ['En clase', 'El equipo', 'Retratos', 'La Gala', 'Al aire libre', 'Competencias'] as const;
 export type Momento = (typeof MOMENTOS)[number];
@@ -21,7 +23,7 @@ const foto = (id: string, ancho: number, alto: number, alt: string, momento: Mom
 });
 
 // Paulina con la copa va primera aunque sea de 2019: es la foto que más queremos que se vea.
-export const FOTO_COPA = foto('paulina-copa-2019', 825, 1280, 'Paulina sonriendo con la copa del Super Nacional 2019 de Bars Classic', 'Competencias', '2019-12-08');
+export const FOTO_COPA = foto('paulina-copa-2019', 825, 1280, 'Paulina sonriendo con la copa del 1° lugar Nacional del Campeonato Intense Chile 2019', 'Competencias', '2019');
 
 export const GALERIA: FotoGaleria[] = [
   FOTO_COPA,
@@ -55,7 +57,7 @@ export const GALERIA: FotoGaleria[] = [
   foto('CmfHqLTv2Gz_01', 1120, 1400, 'La medalla de Spirit Dance', 'La Gala', '2022-12-22', 'CmfHqLTv2Gz'),
   foto('CkUKwULvWQy_01', 1080, 1080, 'Team La Florida sentado en el escenario', 'El equipo', '2022-10-29', 'CkUKwULvWQy'),
   foto('CjwUvuWDOSW_01', 768, 768, 'El Grupo mini ensayando', 'En clase', '2022-10-16', 'CjwUvuWDOSW'),
-  foto('CiDvKAnBSZk_01', 864, 864, 'Elongación sobre las colchonetas', 'En clase', '2022-09-03', 'CiDvKAnBSZk'),
+  foto('CiDvKAnBSZk_01', 864, 864, 'Elongación sobre las colchonetas, en una de las sedes de La Reina y La Florida', 'En clase', '2022-09-03', 'CiDvKAnBSZk'),
   foto('CeG8ARsO00t_01', 768, 768, 'El Team sentado en ronda en la cancha azul', 'El equipo', '2022-05-28', 'CeG8ARsO00t'),
   foto('CeG9lgmOybp_01', 1400, 1050, 'El Team posando en la cancha azul', 'El equipo', '2022-05-28', 'CeG9lgmOybp'),
   foto('CdD4JzwuC_2_01', 810, 810, 'Clase con luces de colores', 'En clase', '2022-05-02', 'CdD4JzwuC_2'),
@@ -67,9 +69,32 @@ export const GALERIA: FotoGaleria[] = [
   foto('CXTogUKM2CC_01', 1120, 1400, 'Calentamiento en la cancha techada', 'Al aire libre', '2021-12-10', 'CXTogUKM2CC'),
   foto('CWb-m-_g4NY_01', 1400, 1050, 'Elongación en la cancha de pasto', 'Al aire libre', '2021-11-19', 'CWb-m-_g4NY'),
   foto('CIau0P7h_Yt_01', 1280, 960, 'El grupo en el parque, cada una con su diploma', 'Al aire libre', '2020-12-05', 'CIau0P7h_Yt'),
-  foto('copa-super-nacional-2019', 1050, 1400, 'La copa del Super Nacional 2019 entre las alumnas de la selección', 'Competencias', '2019-12-08'),
-  foto('seleccion-escenario-2019', 1400, 1050, 'La selección de Cheerdance con vestidos azules sentada en el escenario', 'Competencias', '2019-12-08'),
-  foto('mini-fila-2019', 1050, 1400, 'Las más chicas en fila con vestidos rosados y moños', 'Competencias', '2019-11-30'),
-  foto('mini-pompones-2019', 1050, 1400, 'Las más chicas con pompones fucsia antes de salir a competir', 'Competencias', '2019-11-30'),
-  foto('selecciones-cancha-2019', 1400, 1050, 'Las selecciones juntas en la cancha después de competir', 'Competencias', '2019-08-31'),
+  // Las que mandó Paulina el 23-10-2026.
+  foto('seleccion-nacional-polera-mono', 720, 880, 'Moño y polera de entrenamiento de la Selección Nacional de Dance, Takasaki 2023', 'Competencias', '2023'),
+  foto('masterclass-dance-team-chile', 540, 540, 'Afiche de la masterclass de Dance, Jazz y Freestyle de Paulina como entrenadora de la Selección Nacional (Dance Team Chile), en Santiago, La Serena y Concepción', 'Competencias', 'Selección Nacional'),
+  foto('brs-clase-colchonetas-2023', 1400, 1054, 'Clases de la academia en el British Royal School: taller para alumnas', 'En clase', '2023'),
+  foto('brs-spagat-2023', 1400, 1054, 'Spagat en la colchoneta, en las clases del British Royal School', 'En clase', '2023'),
+  foto('logos-spirit-dance-brs', 614, 617, 'Spirit Dance Academy y el British Royal School, colegio patrocinador de la academia en 2022 y 2023', 'El equipo', '2022 – 2023'),
+  foto('brs-straddle', 1400, 1050, 'Alumna de la academia en clases, en el salón del British Royal School', 'En clase', '2022 – 2023'),
+  foto('brs-elongacion-banda', 1400, 1050, 'Alumna del equipo Senior de la academia elongando con banda elástica', 'En clase', '2022 – 2023'),
+  foto('junior-poms-brs', 1400, 1050, 'Entrenamiento del equipo Junior Poms en el British Royal School', 'En clase', '2022 – 2023'),
+  foto('gala-academia-2022', 1050, 1400, 'Alumnas en la Gala de la academia, con pompones fucsia', 'La Gala', '2022'),
+  foto('parada-de-cabeza', 720, 635, 'Parada de cabeza con split contra la pared, en las sedes de La Reina y La Florida', 'En clase', '2021 – 2024'),
+  foto('uniforme-academia', 1054, 1400, 'Uniforme de clases de la academia: polerón, calzas y pollera', 'Retratos', 'Spirit Dance'),
+  foto('alumna-destacada-profesoras', 948, 1280, 'Alumna destacada de la academia junto a las profesoras asistentes', 'Retratos', 'Spirit Dance'),
+  foto('entrenamiento-equipo-polerones', 1280, 960, 'Entrenamiento de la academia: el equipo con sus polerones negros y Paulina', 'El equipo', 'Spirit Dance'),
+  foto('entrenamiento-sala-madera', 960, 1280, 'Entrenamiento de la academia en la sala de madera: la profesora corrige la postura', 'En clase', 'Spirit Dance'),
+  foto('entrenamiento-sala-madera-b', 960, 1280, 'Entrenamiento de la academia: elongación en el suelo', 'En clase', 'Spirit Dance'),
+  foto('entrenamiento-silla', 1054, 1400, 'Entrenamiento de la academia: arco de espalda apoyada en una silla', 'En clase', 'Spirit Dance'),
+  foto('academia-elongacion-pie', 1054, 1400, 'Alumna de la academia elongando de pie', 'En clase', 'Spirit Dance'),
+  foto('campamento-brs-pompones', 1400, 1054, 'La academia en el Campamento del British Royal School, con pompones rojos', 'El equipo', '2018 – 2019'),
+  foto('campamento-brs-pompones-b', 1400, 1054, 'Esperando su turno en el Campamento del British Royal School', 'El equipo', '2018 – 2019'),
+  foto('campamento-brs-polerones', 1054, 1400, 'Alumnas con los polerones negros de Spirit Dance en el Campamento del British Royal School', 'El equipo', '2018 – 2019'),
+  foto('copa-super-nacional-2019', 1050, 1400, 'Equipo Junior Jazz, campeón nacional del Campeonato Intense Chile 2019: la copa entre las alumnas', 'Competencias', '2019'),
+  foto('junior-jazz-escenario-2019', 1400, 1050, 'Equipo Junior Jazz, campeón nacional del Campeonato Intense Chile 2019, en el escenario', 'Competencias', '2019'),
+  foto('junior-jazz-camarin-2019', 1400, 1050, 'Equipo Junior Jazz antes de salir a competir en el Campeonato Intense Chile 2019', 'Competencias', '2019'),
+  foto('seleccion-escenario-2019', 1400, 1050, 'La selección de Cheerdance con vestidos azules sentada en el escenario', 'Competencias', '2019'),
+  foto('mini-fila-2019', 1050, 1400, 'Equipo Mini Princess, con vestidos rosados y moños', 'El equipo', '2018'),
+  foto('mini-pompones-2019', 1050, 1400, 'Taller del equipo Mini Princess, con pompones fucsia', 'El equipo', '2018'),
+  foto('selecciones-cancha-2019', 1400, 1050, 'Equipo Junior Jazz en la final del Nacional del Campeonato Intense Chile', 'Competencias', '2019'),
 ];

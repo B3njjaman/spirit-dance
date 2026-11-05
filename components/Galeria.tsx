@@ -17,9 +17,12 @@ const COLUMNAS = 7;
 const FILAS = Math.ceil(GALERIA.length / COLUMNAS);
 const MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
 
+// Las fotos de Instagram traen la fecha completa ("2023-04-18"); las que mandó Paulina, a veces solo el año ("2019"),
+// un período ("2021 – 2024") o, si no se sabe, un rótulo ("Spirit Dance"), que se muestra tal cual.
 const fechaLarga = (fecha: string) => {
+  if (!/^\d{4}(-\d{2}){0,2}$/.test(fecha)) return fecha;
   const [anio, mes] = fecha.split('-').map(Number);
-  return `${MESES[mes - 1]} de ${anio}`;
+  return MESES[mes - 1] ? `${MESES[mes - 1]} de ${anio}` : String(anio);
 };
 
 // Azar con semilla: la mesa queda igual en cada visita y entre el servidor y el navegador.

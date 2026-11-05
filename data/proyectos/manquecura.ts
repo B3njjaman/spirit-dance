@@ -1,19 +1,60 @@
-import { cualidades, etapasClase, img, type Proyecto } from '@/data/proyecto';
+import { cualidades, etapasClase, HISTORIA, img, type Proyecto } from '@/data/proyecto';
 import { ruta } from '@/lib/ruta';
 
-// Proyecto "CheerDance Colegios Manquecura": equipos mixtos de 1° básico a IV° medio, para Ciudad del Este (Puente Alto),
-// Valle Lo Campino (Quilicura) y Ñuñoa. Los datos del colegio salen de investigacion-manquecura/INFORME.md (octubre 2026);
-// las categorías, de la División Escolar de DanceClassic (danceclassic.cl/reglamentos).
+// Proyecto "Rama de Cheer Dance" para el Manquecura Ciudad de los Valles, en equipos mixtos desde playgroup hasta IV° medio.
+// Es solo para ese colegio y va dirigido a Héctor Caro, rector de los Colegios Manquecura, que conoció la rama que Paulina
+// llevó en su colegio anterior. Por eso cuenta esa rama (talleres formativos más una selección por audición) sin nombrar
+// ese colegio. Así lo pidió Paulina en sus audios del 23-10-2026 (audios-paulina/). Los datos del colegio salen de
+// investigacion-manquecura/INFORME.md.
+
+// La historia de siempre, pero sin el nombre del colegio anterior: Héctor Caro lo va a reconocer igual.
+const HISTORIA_SIN_COLEGIO: Record<string, string> = {
+  '2003 – 2004': 'Los campeonatos ACDA abren categorías de Pom y Dance, y los equipos de colegios particulares suben al podio.',
+  '2009': 'La International Cheer Union reconoce a FEDECHEER como la federación nacional. Ese año Paulina asume la rama de Cheerdance de su colegio, cuya selección compite en Orlando.',
+  '2019': 'Los equipos dirigidos por Paulina ganan el 1° lugar Nacional del Campeonato Intense Chile en Mini Poms y Junior Jazz.',
+};
 
 export const MANQUECURA: Proyecto = {
-  colegio: { nombre: 'Colegios Manquecura', comuna: 'Puente Alto · Quilicura · Ñuñoa', articulo: 'los' },
+  colegio: { nombre: 'Manquecura Ciudad de los Valles', comuna: 'Pudahuel', articulo: 'el' },
+  destinatario: { nombre: 'Héctor Caro', cargo: 'Rector Colegios Manquecura' },
   pdf: ruta('/proyecto/cheerdance-manquecura.pdf'),
   pdfMovil: ruta('/proyecto/cheerdance-manquecura-movil.pdf'),
+  hitos: [
+    { periodo: '2007 – 2020', texto: 'Profesora de Educación Física y profesora jefe en un colegio particular de Santiago.' },
+    { periodo: '2009 – 2019', texto: 'Profesora de la rama de Cheerdance del colegio: talleres formativos desde playgroup y selección por audición, con cerca de 150 alumnas.' },
+    { periodo: '2009', texto: 'Campeonato internacional en Orlando, Estados Unidos, con la selección del colegio.' },
+    { periodo: '2019', texto: '1° lugar Nacional del Campeonato Intense Chile en las categorías Mini Poms y Junior Jazz, con los equipos del colegio.' },
+    { periodo: '2021 – 2023', texto: 'Docente del electivo "Dance" en la Universidad Diego Portales.' },
+    { periodo: '2021 – 2024', texto: 'Clases de Spirit Dance Academy en sus sedes de La Reina y La Florida; en 2022 y 2023, con el patrocinio del British Royal School.' },
+    { periodo: '2022 – 2023', texto: 'Entrenadora de la Selección Nacional de Dance (Dance Team Chile) para el Mundial de Cheerleading IFC en Takasaki, Japón.' },
+    { periodo: '2023', texto: 'Docente de Acrosport y deportes individuales en AIEP San Joaquín. Coaching y Gestión Deportiva (FIEPS Chile).' },
+    { periodo: '2023 – 2025', texto: 'Coordinadora del programa "Vida Sana" del CESFAM de Lo Espejo, con talleres en colegios y jardines.' },
+  ],
+  historia: HISTORIA.map((hito) => ({ ...hito, texto: HISTORIA_SIN_COLEGIO[hito.anio] ?? hito.texto })),
+  // Los envió Paulina el 23-10-2026. Son del canal del colegio anterior, que los títulos nombran; el texto propio no.
+  videos: [
+    { titulo: 'Galactic Girls', detalle: 'Muestra Artística 2014 · 3 min', url: 'https://youtu.be/UNpA6TcFTkk' },
+    { titulo: 'Angel Girls', detalle: 'Muestra Artística 2014 · 3 min', url: 'https://youtu.be/hDkL5DK2t74' },
+    { titulo: 'Electric Girls', detalle: 'Muestra Artística 2014 · 3 min', url: 'https://youtu.be/KXs8t8BIqGU' },
+    { titulo: 'Galactic Girls', detalle: 'Jazz · Muestra Artística 2017 · 3 min', url: 'https://youtu.be/vy8diGS7Uew' },
+  ],
+  disciplina: {
+    intro:
+      'El cheer dance es la rama de danza del cheerleading: una disciplina deportiva con reglamento, jueces y campeonatos, que se baila en equipo con la energía del cheer y sin acrobacias en altura.',
+    estilos: [
+      { nombre: 'Pom', texto: 'Con pompones: motions precisos, sincronía y efectos visuales de todo el equipo.' },
+      { nombre: 'Jazz', texto: 'Técnica de ballet y jazz: giros, saltos, extensiones y líneas largas.' },
+      { nombre: 'Hip hop', texto: 'Estilo urbano: ritmo, actitud, golpes y grooves.' },
+      { nombre: 'Lírico', texto: 'Movimiento fluido que interpreta la letra y la emoción de la canción.' },
+    ],
+    enLosColegios:
+      'La mayoría de los colegios particulares de Chile tiene su rama de cheer dance. Para sus estudiantes es un estilo de vida: compañerismo, disciplina y el orgullo de pertenecer al equipo que representa al colegio.',
+  },
   capitulos: [
     { id: 'academia', titulo: 'La academia' },
     { id: 'profesora', titulo: 'Profesional a cargo' },
-    { id: 'colegio', titulo: 'Para Manquecura' },
-    { id: 'taller', titulo: 'El programa' },
+    { id: 'colegio', titulo: 'Ciudad de los Valles' },
+    { id: 'taller', titulo: 'La rama' },
     { id: 'cuerpo', titulo: 'Danza y cuerpo' },
     { id: 'clase', titulo: 'Una clase' },
     { id: 'valores', titulo: 'Valores' },
@@ -25,29 +66,30 @@ export const MANQUECURA: Proyecto = {
   ],
   portada: {
     bajada:
-      'Academia de cheerdance para estudiantes de 1° básico a IV° medio, en equipos mixtos. Parte formativa, termina en el escenario y abre la puerta a competir en todo Chile, y más allá.',
-    bajadaLamina: 'Academia de cheerdance para estudiantes de 1° básico a IV° medio, en equipos mixtos. De lo formativo a lo competitivo, con proyección internacional.',
+      'La rama de cheer dance del Manquecura Ciudad de los Valles: talleres formativos desde playgroup hasta 6° básico y una selección por audición que representa al colegio en campeonatos de todo Chile, y más allá.',
+    bajadaLamina: 'Talleres formativos desde playgroup y una selección por audición que representa al colegio, con proyección internacional.',
   },
   enElColegio: {
-    nombre: 'Manquecura',
+    nombre: 'Ciudad de los Valles',
     intro:
-      'El cheerdance ya tiene historia en la red. Esta propuesta lo lleva a Ciudad del Este, Valle Lo Campino y Ñuñoa con el formato de academia que los colegios ya usan, y lo conecta con sus pilares.',
+      'Ciudad de los Valles ya sabe ganar en cheer: su academia de cheerleading fue campeona nacional Junior en 2025. Le falta una rama de cheer dance. Esta propuesta la crea con el formato de academia del colegio, junto a su equipo de cheerleading y conectada con los pilares Manquecura.',
+    tituloRed: 'El cheer en Ciudad de los Valles',
     red: [
       {
-        colegio: 'Ciudad de los Valles',
+        colegio: 'Cheerleading',
         logro: 'Campeón nacional 2025',
-        texto: 'Su academia de cheerleading ganó el 1er lugar Junior y el 3er lugar Youth en el Campeonato Nacional 2025.',
+        texto: 'La academia del colegio ganó el 1er lugar Junior y el 3er lugar Youth en el Campeonato Nacional 2025.',
         destacado: true,
       },
       {
-        colegio: 'Ciudad del Este',
-        logro: 'Academia en 2022',
-        texto: 'Tuvo academia de cheerleaders, que se presentó en un encuentro de siete equipos en enero de 2023.',
+        colegio: 'Cheer dance',
+        logro: 'Lo que suma la rama',
+        texto: 'La danza del cheer: pom, jazz, hip hop y lírico, sin acrobacias en altura. Complementa al cheerleading.',
       },
       {
-        colegio: 'Ñuñoa',
-        logro: 'Taller en 2023 y 2024',
-        texto: 'Tuvo taller de cheerleading, con equipos desde prekínder hasta IV° medio.',
+        colegio: 'Playgroup a IV° medio',
+        logro: 'Una rama completa',
+        texto: 'Los talleres parten con los más chicos y forman a quienes después audicionan para la selección.',
       },
     ],
     pilares: [
@@ -57,7 +99,7 @@ export const MANQUECURA: Proyecto = {
       },
       {
         nombre: 'Salvaguarda',
-        texto: 'La academia trabaja bajo el protocolo de Salvaguarda de cada colegio y en coordinación con su encargada.',
+        texto: 'La academia trabaja bajo el protocolo de Salvaguarda del colegio y en coordinación con su encargada.',
       },
       {
         nombre: 'Perspectiva global',
@@ -76,66 +118,67 @@ export const MANQUECURA: Proyecto = {
       'Aviso inmediato a la encargada de Salvaguarda ante cualquier señal de alerta.',
     ],
     formato: [
-      'Academia del Centro de Extensión, abierta a estudiantes de 1° básico a IV° medio',
+      'Talleres del Centro de Extensión, con cupos por orden de inscripción',
       'Inscripción por SchoolNet, como las demás academias',
-      'Pago directo de las familias, por semestre',
-      'Semestres de abril a junio y de julio a noviembre, con muestra a las familias al cierre',
+      'Pago directo de las familias, por semestre; la selección paga una cuota reducida',
+      'Semestres de abril a junio y de julio a noviembre, con presentación de cierre ante las familias',
     ],
     encuentro: {
-      nombre: 'Encuentro de Cheer Manquecura',
+      etiqueta: 'Una idea para el colegio',
+      nombre: 'Gala de Cheer Ciudad de los Valles',
       texto:
-        'Así como la red ya se junta en el fútbol y la robótica, un encuentro anual de cheer reuniría en un mismo escenario a los equipos de los cuatro colegios Manquecura, incluido el campeón de Ciudad de los Valles, y más adelante a los colegios Pumahue de Cognita.',
+        'Una gala al final de cada año en que los talleres, la selección de cheer dance y la academia de cheerleading comparten el escenario frente a toda la comunidad del colegio.',
     },
   },
   taller: {
-    titulo: ['Academia escolar', 'de Cheerdance.'],
-    caracter: 'De carácter formativo a competitivo, con una muestra frente a la comunidad al cierre de cada semestre.',
-    caracterLamina: 'Formativo a competitivo, con muestra al cierre de cada semestre.',
-    publico: 'Para estudiantes de 1° básico a IV° medio, en equipos mixtos y por categorías según su curso.',
+    titulo: ['Rama de', 'Cheer Dance.'],
+    caracter: 'Talleres formativos abiertos a todos y una selección por audición que representa al colegio. Cada semestre cierra con una presentación frente a la comunidad.',
+    caracterLamina: 'Talleres para todos y selección por audición.',
+    publico: 'Desde playgroup hasta IV° medio, en equipos mixtos y por categorías según el curso.',
     modalidad: [
-      { cifra: '1', unidad: 'sesión semanal', texto: '90 minutos por categoría' },
-      { cifra: '+1', unidad: 'sesión extra', texto: 'semanal, para el equipo competitivo' },
-      { cifra: '3', unidad: 'categorías', texto: 'de 1° básico a IV° medio' },
-      { cifra: '2', unidad: 'muestras al año', texto: 'una al cierre de cada semestre' },
+      { cifra: '2', unidad: 'niveles', texto: 'talleres formativos y selección' },
+      { cifra: '1–2', unidad: 'clases semanales', texto: 'en los talleres; los más chicos, el sábado' },
+      { cifra: '2', unidad: 'entrenamientos', texto: 'semanales para la selección' },
+      { cifra: '2', unidad: 'presentaciones', texto: 'al año, una al cierre de cada semestre' },
     ],
     tituloCategorias: 'Tres categorías, equipos mixtos',
     categorias: [
       {
         nombre: 'Mini',
-        cursos: '1° a 3° básico',
-        edades: '6 a 9 años',
-        foco: 'Juego danzado, ritmo, coordinación y primeros motions con pompones.',
-        foto: img('galeria/mini-fila-2019.jpg'),
+        cursos: 'Playgroup a 2° básico',
+        edades: '2 a 8 años',
+        foco: 'Juego danzado, ritmo, coordinación y primeros motions con pompones. Los más chicos, el sábado.',
+        foto: img('galeria/mini-pompones-2019.jpg'),
       },
       {
-        nombre: 'Youth',
-        cursos: '4° a 6° básico',
-        edades: '9 a 12 años',
-        foco: 'Giros, saltos y kicks con técnica; memoria coreográfica y sincronización.',
+        nombre: 'Junior',
+        cursos: '3° a 6° básico',
+        edades: '8 a 12 años',
+        foco: 'Giros, saltos y kicks con técnica; memoria coreográfica, sincronización y los estilos pom y jazz.',
         foto: img('galeria/seleccion-escenario-2019.jpg'),
       },
       {
-        nombre: 'Varsity',
+        nombre: 'Senior',
         cursos: '7° básico a IV° medio',
         edades: '12 a 18 años',
-        foco: 'Técnica avanzada, tricks y coreografía de competencia, con capitanes y capitanas que lideran al equipo.',
+        foco: 'La selección: técnica avanzada, tricks y coreografía de competencia, con capitanes y capitanas.',
         foto: img('galeria/selecciones-cancha-2019.jpg'),
       },
     ],
     notaCategorias:
-      'Son las categorías de la División Escolar del Classic Super Nationals Dance. El equipo competitivo también puede inscribirse en Junior, que va de 3° a 8° básico.',
+      'En media la rama trabaja como selección. Cada equipo compite en su división del Classic Super Nationals Dance.',
     etapas: [
       {
-        nombre: 'Formativo',
-        texto: 'Todos los estudiantes inscritos en la academia. Técnica, valores y una coreografía para la muestra de cada semestre frente a la comunidad.',
+        nombre: 'Taller formativo',
+        texto: 'Abierto a todos, por orden de inscripción hasta completar los cupos. Técnica, valores y una coreografía para la presentación de cada semestre.',
       },
       {
-        nombre: 'Competitivo',
-        texto: 'Quienes quieren ir más allá forman el equipo que representa al colegio en campeonatos nacionales, con una sesión semanal extra.',
+        nombre: 'Selección',
+        texto: 'Se entra por audición en marzo, después del intensivo de verano de diciembre. Entrena dos veces por semana y representa al colegio en campeonatos.',
       },
     ],
     objetivoGeneral:
-      'Desarrollar en los estudiantes de los Colegios Manquecura las habilidades y técnicas del cheerdance (postura, coordinación, flexibilidad, conciencia corporal y espacial, y manejo del ritmo) mediante una academia formativa, personalizada e inclusiva que fomente el refuerzo positivo, el compañerismo, la autosuperación y el amor por la danza, y que los proyecte a la presentación escénica y a la competencia.',
+      'Desarrollar en los estudiantes del Manquecura Ciudad de los Valles las habilidades y técnicas del cheer dance (postura, coordinación, flexibilidad, conciencia corporal y espacial, y manejo del ritmo) mediante una rama con talleres formativos y una selección, personalizada e inclusiva, que fomente el refuerzo positivo, el compañerismo, la autosuperación y el amor por la danza, y que los proyecte a la presentación escénica y a la competencia.',
     objetivosEspecificos: [
       'Mejorar las cualidades físicas básicas (flexibilidad, fuerza, equilibrio, coordinación y resistencia) de acuerdo con la edad de cada categoría.',
       'Desarrollar la conciencia corporal, la orientación espacial y la propiocepción con ejercicios de postura, alineación y control del movimiento.',
@@ -143,7 +186,7 @@ export const MANQUECURA: Proyecto = {
       'Desarrollar la memoria coreográfica, la musicalidad, la espacialidad y la sincronización grupal mediante el montaje de coreografías.',
       'Fortalecer la expresión corporal, la autoestima y la seguridad escénica a través de las muestras de cada semestre.',
       'Promover habilidades socioemocionales (trabajo en equipo, respeto, responsabilidad, liderazgo y tolerancia a la frustración), en línea con los ejes del programa DLI.',
-      'Conformar un equipo competitivo que represente al colegio en campeonatos nacionales de cheerdance.',
+      'Conformar una selección que represente al colegio en campeonatos nacionales e internacionales de cheer dance.',
     ],
   },
   cuerpo: {
@@ -181,7 +224,7 @@ export const MANQUECURA: Proyecto = {
     intro:
       'Cada clase se trabaja de manera personalizada e inclusiva: la profesora adapta cada ejercicio al nivel de cada estudiante, para que todos avancen y nadie quede atrás.',
     introLamina: 'Clases personalizadas e inclusivas: cada ejercicio se adapta al nivel de cada estudiante.',
-    etapas: etapasClase('Llegan 10 minutos antes, con ropa deportiva, el pelo tomado y su botella de agua.'),
+    etapas: etapasClase('Llegan 10 minutos antes, con el uniforme de la rama (polerón, calzas y pollera), el pelo tomado y su botella de agua.'),
   },
   valores: {
     intro: 'Seis valores guían cada clase de Spirit Dance. Y la disciplina desarrolla habilidades que los estudiantes llevan a la sala de clases y a la vida.',
@@ -208,47 +251,47 @@ export const MANQUECURA: Proyecto = {
       'Autoconfianza',
     ],
   },
-  // Sigue los semestres de las academias del colegio: abril a junio y julio a noviembre.
+  // El año de la rama: intensivo de verano en diciembre, audiciones en marzo y los semestres de las academias del colegio.
   temporada: [
-    { mes: 'Abr', texto: 'Inicio de la academia y formación de categorías' },
-    { mes: 'May – Jun', texto: 'Técnica, selección del equipo competitivo y muestra del 1er semestre' },
-    { mes: 'Jul – Ago', texto: 'Montaje de la coreografía de competencia' },
-    { mes: 'Sep', texto: 'Pulido, uniformes y competencias de fogueo' },
-    { mes: 'Oct – Nov', texto: 'Nacionales: Classic Super Nationals' },
-    { mes: 'Nov', texto: 'Muestra del 2° semestre frente a la comunidad' },
+    { mes: 'Dic', texto: 'Intensivo de verano: dos semanas de clases para preparar la audición' },
+    { mes: 'Mar', texto: 'Audiciones para la selección' },
+    { mes: 'Abr', texto: 'Inicio de los talleres formativos y de la selección' },
+    { mes: 'Jun – Jul', texto: 'Presentación de cierre del 1er semestre' },
+    { mes: 'Ago – Sep', texto: 'Montaje y pulido de la coreografía de competencia' },
+    { mes: 'Oct – Nov', texto: 'Nacionales y presentación de cierre del 2° semestre' },
   ],
   propuesta: {
     intro:
-      'La academia formativa es la base. El equipo competitivo es el producto: se contrata aparte, se trabaja una coreografía propia durante todo el año y se compite a nivel nacional con el nombre de cada colegio.',
+      'Los talleres formativos son la base de la rama y la sostienen: las familias los pagan por semestre, y eso permite que la selección entrene dos veces por semana con una cuota reducida. El colegio suma talleres muy pedidos y un equipo que lo representa.',
     planes: [
       {
-        nombre: 'Academia formativa',
-        bajada: 'Para todos los estudiantes inscritos',
+        nombre: 'Talleres formativos',
+        bajada: 'Para todos, por cupos',
         incluye: [
-          '1 sesión semanal de 90 minutos por categoría',
-          'Categorías Mini, Youth y Varsity, en equipos mixtos',
-          'Inscripción por SchoolNet, como las demás academias',
+          'Desde playgroup hasta 6° básico, en Mini y Junior',
+          '1 o 2 clases semanales; los más chicos, el sábado en la mañana',
+          'Inscripción por SchoolNet, por orden de llegada',
           'Planificación semestral y evaluación de progreso',
-          'Coreografía y muestra al cierre de cada semestre',
+          'Coreografía y presentación al cierre de cada semestre',
           'Informe para apoderados y colegio',
         ],
         venta: false,
       },
       {
-        nombre: 'Equipo competitivo',
-        bajada: 'El producto premium del programa',
+        nombre: 'Selección',
+        bajada: 'El producto premium de la rama',
         incluye: [
-          'Selección de estudiantes desde la academia formativa',
-          '1 sesión semanal extra de entrenamiento',
+          'Audición en marzo, con intensivo de verano en diciembre',
+          '2 entrenamientos semanales',
+          'Cuota reducida para quienes quedan seleccionados',
           'Coreografía original de competencia y música editada',
-          'Inscripción y gestión de campeonatos nacionales',
-          'Acompañamiento de la profesora en cada competencia',
+          'Inscripción y acompañamiento en campeonatos nacionales',
           'Ruta de proyección internacional',
         ],
         venta: true,
       },
     ],
-    cotizacion: 'número de estudiantes y categorías',
+    cotizacion: 'número de estudiantes, categorías y cupos',
   },
   merch: {
     colores: 'de Manquecura.',
@@ -271,5 +314,20 @@ export const MANQUECURA: Proyecto = {
       { id: 'botella', nombre: 'Botella', texto: 'Una para cada estudiante, como pide cada clase.' },
       { id: 'bolso', nombre: 'Bolso deportivo', texto: 'Para llevar zapatillas, pompones y todo el equipo.' },
     ],
+    // Fotos que mandó Paulina el 23-10-2026 (video-compilado/fotos), con las caras de las alumnas difuminadas.
+    vestimenta: {
+      intro:
+        'Hoy las alumnas de la academia entrenan con polerón, calzas y pollera, y se presentan con polera, moño y pompones. La rama tendría lo suyo, en los colores del colegio.',
+      fotos: [
+        { src: img('galeria/uniforme-academia.jpg'), nombre: 'Uniforme de clases', texto: 'Polerón, calzas y pollera de Spirit Dance Academy.' },
+        { src: img('galeria/campamento-brs-polerones.jpg'), nombre: 'Polerón de la academia', texto: 'Negro, con el logo de Spirit Dance, para entrenar y viajar.' },
+        { src: img('galeria/gala-academia-2022.jpg'), nombre: 'Gala 2022', texto: 'Polera, moño y pompones para subir al escenario.' },
+        {
+          src: img('galeria/seleccion-nacional-polera-mono.jpg'),
+          nombre: 'Selección Nacional de Dance',
+          texto: 'Moño y polera de entrenamiento del equipo que Paulina preparó para Takasaki 2023.',
+        },
+      ],
+    },
   },
 };

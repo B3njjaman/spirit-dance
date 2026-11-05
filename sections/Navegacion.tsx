@@ -6,15 +6,48 @@ import { usePathname } from 'next/navigation';
 import { CONTACTO } from '@/data/contacto';
 import { cn } from '@/lib/cn';
 
+// Cada propuesta va dirigida a un colegio, así que "Proyecto" lleva a la última que abrió quien navega
+// (Marta Brunet en /proyecto, Manquecura en /proyecto/manquecura) y, si no abrió ninguna, a la vigente.
+const PROYECTO_VIGENTE = '/proyecto/manquecura';
+const CLAVE_PROYECTO = 'spirit-dance:proyecto';
+
 const ENLACES = [
+  { href: '/', texto: 'Inicio' },
   { href: '/clases', texto: 'Clases' },
   { href: '/galeria', texto: 'Galería' },
   { href: '/videos', texto: 'Videos' },
   { href: '/sobre-nosotros', texto: 'Nosotros' },
+  { href: '/sobre-nosotros#trayectoria', texto: 'Currículum' },
   { href: '/proyecto', texto: 'Proyecto' },
 ];
 
-const esActual = (pagina: string, href: string) => pagina.replace(/\/+$/, '') === href;
+const sinBarra = (ruta: string) => ruta.replace(/\/+$/, '') || '/';
+
+const esActual = (pagina: string, href: string) => {
+  if (href === '/proyecto') return pagina.startsWith('/proyecto');
+  return sinBarra(pagina) === href;
+};
+
+// /proyecto y /proyecto/presentacion son de Marta Brunet; /proyecto/<colegio>/... es de ese colegio.
+const proyectoDe = (pagina: string) => {
+  const [, raiz, colegio] = sinBarra(pagina).split('/');
+  if (raiz !== 'proyecto') return null;
+  return colegio && colegio !== 'presentacion' ? `/proyecto/${colegio}` : '/proyecto';
+};
+
+const useProyecto = (pagina: string) => {
+  const [proyecto, setProyecto] = useState(PROYECTO_VIGENTE);
+  useEffect(() => {
+    try {
+      const actual = proyectoDe(pagina);
+      if (actual) sessionStorage.setItem(CLAVE_PROYECTO, actual);
+      setProyecto(actual ?? sessionStorage.getItem(CLAVE_PROYECTO) ?? PROYECTO_VIGENTE);
+    } catch {
+      setProyecto(proyectoDe(pagina) ?? PROYECTO_VIGENTE);
+    }
+  }, [pagina]);
+  return proyecto;
+};
 
 const Marca = () => {
   return (
@@ -29,6 +62,8 @@ export const Navegacion = () => {
   const [conFondo, setConFondo] = useState(false);
   const [abierto, setAbierto] = useState(false);
   const pagina = usePathname();
+  const proyecto = useProyecto(pagina);
+  const destino = (href: string) => (href === '/proyecto' ? proyecto : href);
 
   useEffect(() => {
     const alBajar = () => setConFondo(window.scrollY > 24);
@@ -47,16 +82,21 @@ export const Navegacion = () => {
   const alternar = useCallback(() => setAbierto((a) => !a), []);
   const cerrar = useCallback(() => setAbierto(false), []);
 
+  // El telón (components/Telon) y las anclas (components/Movimiento) detienen el clic en la captura de document, antes
+  // del onClick del enlace. React escucha también en document y se registró antes, así que onClickCapture sí alcanza
+  // a cerrar el menú (probado: Nosotros → Currículum en la misma página). Al cambiar de página se cierra por si acaso.
+  useEffect(() => setAbierto(false), [pagina]);
+
   return (
     <header className={cn('fixed inset-x-0 top-0 z-40 transition-[background-color,box-shadow] duration-300', (conFondo || abierto) && 'bg-papel/80 shadow-[0_1px_0_rgba(42,33,64,0.06)] backdrop-blur-xl')}>
       <nav aria-label="Principal" className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:h-[72px]">
         <Marca />
-        <ul className="hidden items-center gap-7 text-sm font-medium text-suave lg:flex">
+        <ul className="hidden items-center gap-5 text-sm font-medium text-suave lg:flex xl:gap-7">
           {ENLACES.map((enlace) => {
             return (
               <li key={enlace.href}>
                 <Link
-                  href={enlace.href}
+                  href={destino(enlace.href)}
                   aria-current={esActual(pagina, enlace.href) ? 'page' : undefined}
                   className="relative transition-colors duration-150 hover:text-tinta aria-[current=page]:font-bold aria-[current=page]:text-tinta aria-[current=page]:after:absolute aria-[current=page]:after:-bottom-2 aria-[current=page]:after:left-1/2 aria-[current=page]:after:size-1.5 aria-[current=page]:after:-translate-x-1/2 aria-[current=page]:after:rounded-full aria-[current=page]:after:bg-rosa"
                 >
@@ -96,8 +136,8 @@ export const Navegacion = () => {
               return (
                 <li key={enlace.href}>
                   <Link
-                    href={enlace.href}
-                    onClick={cerrar}
+                    href={destino(enlace.href)}
+                    onClickCapture={cerrar}
                     aria-current={esActual(pagina, enlace.href) ? 'page' : undefined}
                     className="flex h-12 items-center rounded-2xl px-4 text-[17px] font-semibold text-tinta active:bg-white aria-[current=page]:bg-white/80 aria-[current=page]:text-magenta"
                   >

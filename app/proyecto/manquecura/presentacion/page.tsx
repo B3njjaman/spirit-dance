@@ -4,7 +4,7 @@ import { Escalar } from '@/sections/proyecto/presentacion/Escalar';
 import { Laminas } from '@/sections/proyecto/presentacion/Laminas';
 
 export const metadata: Metadata = {
-  title: 'Presentación CheerDance Colegios Manquecura',
+  title: 'Presentación CheerDance Manquecura Ciudad de los Valles',
   robots: { index: false },
 };
 

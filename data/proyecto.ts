@@ -22,6 +22,8 @@ export type IdCapitulo =
   | 'viajes';
 
 type Texto = { nombre: string; texto: string };
+export type Hito = { periodo: string; texto: string };
+export type HitoHistoria = { anio: string; titulo: string; texto: string };
 export type EtapaClase = { minutos: number; nombre: string; texto: string };
 export type Categoria = { nombre: string; cursos: string; edades: string; foco: string; foto: string };
 export type Plan = { nombre: string; bajada: string; incluye: string[]; venta: boolean };
@@ -40,18 +42,43 @@ export type PaletaMerch = {
 export type EnElColegio = {
   nombre: string;
   intro: string;
+  // Lo que el colegio ya tiene de cheer y lo que la rama le suma.
+  tituloRed: string;
   red: { colegio: string; logro: string; texto: string; destacado?: boolean }[];
   pilares: Texto[];
   salvaguarda: string[];
   formato: string[];
-  encuentro: Texto;
+  encuentro: Texto & { etiqueta: string };
+};
+
+// Qué es el cheer dance como disciplina, al abrir el capítulo de historia. Marta Brunet no lo tiene.
+export type Disciplina = { intro: string; estilos: Texto[]; enLosColegios: string };
+
+// Cómo se viste hoy la academia, con fotos reales: lo pidió Paulina el 4-11-2026 para la parte de vestimenta.
+export type Vestimenta = { intro: string; fotos: { src: string; nombre: string; texto: string }[] };
+
+// Un video de sus equipos en YouTube. Va sin miniatura: las fotos del sitio difuminan las caras de las estudiantes.
+export type Video = { titulo: string; detalle: string; url: string };
+
+// Reparte una lista en grupos parejos de hasta `maximo` elementos, uno por lámina: cuatro quedan en dos y dos, no en tres y uno.
+export const enGrupos = <T,>(lista: T[], maximo: number): T[][] => {
+  if (lista.length === 0) return [];
+  const tamano = Math.ceil(lista.length / Math.ceil(lista.length / maximo));
+  return Array.from({ length: Math.ceil(lista.length / tamano) }, (_, i) => lista.slice(i * tamano, (i + 1) * tamano));
 };
 
 export type Proyecto = {
   colegio: { nombre: string; comuna: string; articulo: 'el' | 'los' };
+  // A quién va dirigida la propuesta; aparece en la portada.
+  destinatario?: { nombre: string; cargo: string };
   pdf: string;
-  // Documento vertical para leer en el celular (presentacion-movil). Sin él, la página ofrece solo las láminas.
+  // Láminas horizontales del tamaño de un celular girado (presentacion-movil). Sin ellas, la página ofrece solo las láminas.
   pdfMovil?: string;
+  // Trayectoria e historia contadas para este colegio; sin ellas van las de siempre (PROFESORA.hitos y HISTORIA).
+  hitos?: Hito[];
+  historia?: HitoHistoria[];
+  disciplina?: Disciplina;
+  videos?: Video[];
   capitulos: { id: IdCapitulo; titulo: string }[];
   portada: { bajada: string; bajadaLamina: string };
   enElColegio?: EnElColegio;
@@ -73,7 +100,7 @@ export type Proyecto = {
   valores: { intro: string; lista: Texto[]; transversales: string[] };
   temporada: { mes: string; texto: string }[];
   propuesta: { intro: string; planes: Plan[]; cotizacion: string };
-  merch: { colores: string; equipo: string; paleta: PaletaMerch; piezas: { id: IdMerch; nombre: string; texto: string }[] };
+  merch: { colores: string; equipo: string; paleta: PaletaMerch; piezas: { id: IdMerch; nombre: string; texto: string }[]; vestimenta?: Vestimenta };
 };
 
 export const numeroCapitulo = (proyecto: Proyecto, id: IdCapitulo) => {
@@ -106,7 +133,7 @@ export const ACADEMIA = {
 };
 
 // Profesional a cargo (CV 2026 y protocolo)
-export const PROFESORA = {
+export const PROFESORA: { nombre: string; cargo: string; foto: string; titulos: string[]; hitos: Hito[] } = {
   nombre: 'Paulina Quezada Sepúlveda',
   cargo: 'Directora y fundadora de Spirit Dance Academy',
   foto: img('galeria/paulina-copa-2019.jpg'),
@@ -119,8 +146,7 @@ export const PROFESORA = {
   hitos: [
     { periodo: '2007 – 2020', texto: 'Profesora de Educación Física y profesora jefe en el American British School.' },
     { periodo: '2009 – 2019', texto: 'Entrenadora de la selección de Cheerdance del American British School: coreografías por edad y nivel, técnica y presentación escénica.' },
-    { periodo: '2019', texto: 'Copa del Super Nacional de Bars Classic con la selección del colegio.' },
-    { periodo: '2009 – 2020', texto: 'Directora de la Muestra Artística Internacional del American British School.' },
+    { periodo: '2019', texto: '1° lugar Nacional del Campeonato Intense Chile en las categorías Mini Poms y Junior Jazz, con los equipos del colegio.' },
     { periodo: '2021 – 2023', texto: 'Docente del electivo "Dance" en la Universidad Diego Portales.' },
     { periodo: '2023', texto: 'Docente de Acrosport y deportes individuales en AIEP San Joaquín. Coaching y Gestión Deportiva (FIEPS Chile).' },
     { periodo: '2023 – 2025', texto: 'Coordinadora del programa "Vida Sana" del CESFAM de Lo Espejo, con talleres en colegios y jardines.' },
@@ -193,7 +219,7 @@ export const MOTIONS = [
 ];
 
 // Historia del cheerdance en Chile
-export const HISTORIA = [
+export const HISTORIA: HitoHistoria[] = [
   {
     anio: 'Antes de 1996',
     titulo: 'Las barras escolares',
@@ -237,7 +263,7 @@ export const HISTORIA = [
   {
     anio: '2019',
     titulo: 'La copa de Paulina',
-    texto: 'La selección del American British School, dirigida por Paulina, gana la copa del Super Nacional de Bars Classic.',
+    texto: 'Los equipos de Cheerdance del American British School, dirigidos por Paulina, ganan el 1° lugar Nacional del Campeonato Intense Chile en Mini Poms y Junior Jazz.',
   },
   {
     anio: '2026',
@@ -245,6 +271,9 @@ export const HISTORIA = [
     texto: 'Los Classic Super Nationals celebran 20 años y equipos chilenos compiten en el Panamericano ICU y en el Mundial de Orlando.',
   },
 ];
+
+export const hitosDe = (proyecto: Proyecto) => proyecto.hitos ?? PROFESORA.hitos;
+export const historiaDe = (proyecto: Proyecto) => proyecto.historia ?? HISTORIA;
 
 export const FUENTES_HISTORIA = [
   { texto: 'Historia del cheerleading en Chile (César Aracena)', href: 'http://cesararacenatoro.blogspot.com/2009/10/historia-del-cheerleading-en-chile.html' },
